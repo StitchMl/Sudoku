@@ -43,14 +43,21 @@ fun FirstScreen(){
                     for (state in 1 until diff.size) {
                         Row(modifier = Modifier
                             .clickable { }
-                            .padding(5.dp)) {
-                            Text(text = diff[state], modifier = Modifier.padding(horizontal = 10.dp))
-                            for (i in 1 until state+1) {
-                                Icon(
-                                    imageVector = ImageVector.vectorResource(R.drawable.star),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(12.dp)
-                                )
+                            .padding(3.dp)) {
+                            Column (horizontalAlignment = Alignment.Start) {
+                                Text(text = diff[state], modifier = Modifier.padding(horizontal = 10.dp))
+                            }
+                            Column(horizontalAlignment = Alignment.Start) {
+                                Row(modifier = Modifier
+                                    .padding(3.dp)) {
+                                    for (i in 1 until state + 1) {
+                                        Icon(
+                                            imageVector = ImageVector.vectorResource(R.drawable.star),
+                                            contentDescription = null,
+                                            modifier = Modifier.size(16.dp)
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
@@ -124,7 +131,7 @@ fun FirstScreen(){
                         .width(160.dp)
                         .height(40.dp)
                 ) {
-                    Text(stringResource(R.string.load_game), fontSize = 14.sp)
+                    Text(stringResource(R.string.load_game), fontSize = 13.sp)
                 }
             }
         }
