@@ -1,18 +1,18 @@
 package com.example.sudoku.screen
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.outlined.AccountBox
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,86 +21,58 @@ import androidx.compose.ui.unit.sp
 import com.example.sudoku.R
 import kotlinx.coroutines.launch
 
-//@Preview(device = Devices.DEFAULT, showBackground = true)
-@Composable
-fun FirstScreen(){
-    Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(onClick = { /* ... */ }) {
-                Icon(ImageVector.vectorResource(R.drawable.trophy), "")
-            }
-        },
-        // Defaults to false
-        isFloatingActionButtonDocked = true,
-        bottomBar = {
-            BottomAppBar(
-                // Defaults to null, that is, No cutout
-                cutoutShape = MaterialTheme.shapes.small.copy(
-                    CornerSize(percent = 50)
-                )
-            ) {
-                /* Bottom app bar content */
-            }
-        }
-    ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("Sudoku", fontSize = 70.sp)
-            Text("Il calice di Android", fontSize = 14.sp)
-            Spacer(modifier = Modifier.size(80.dp))
-            Button(
-                onClick = { /* ... */ },
-                // Uses ButtonDefaults.ContentPadding by default
-                contentPadding = PaddingValues(
-                    start = 20.dp,
-                    top = 12.dp,
-                    end = 20.dp,
-                    bottom = 12.dp
-                ),
-                modifier = Modifier
-                    .width(190.dp)
-                    .height(50.dp)
-            ) {
-                Text("Nuova partita", fontSize = 22.sp)
-            }
-            Button(
-                onClick = { /* ... */ },
-                // Uses ButtonDefaults.ContentPadding by default
-                contentPadding = PaddingValues(
-                    start = 20.dp,
-                    top = 12.dp,
-                    end = 20.dp,
-                    bottom = 12.dp
-                ),
-                modifier = Modifier
-                    .padding(10.dp)
-                    .width(160.dp)
-                    .height(40.dp)
-            ) {
-                Text("Continua partita", fontSize = 14.sp)
-            }
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterialApi::class)
 @Preview(device = Devices.DEFAULT, showBackground = true)
 @Composable
-fun FirstScreenProva(){
+fun FirstScreen(){
+    val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val drawerState = rememberBottomDrawerState(BottomDrawerValue.Closed)
+    val diff: Array<String> = context.resources.getStringArray(R.array.difficulty)
     BottomDrawer(
+        modifier = Modifier.background(MaterialTheme.colors.onPrimary),
         drawerState = drawerState,
         drawerContent = {
-            // Drawer content
-        }
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(stringResource(R.string.difficut), fontSize = 40.sp)
+                Column {
+                    for (state in 1 until diff.size) {
+                        Row(modifier = Modifier
+                            .clickable { }
+                            .padding(5.dp)) {
+                            Text(text = diff[state], modifier = Modifier.padding(horizontal = 10.dp))
+                            for (i in 1 until state+1) {
+                                Icon(
+                                    imageVector = ImageVector.vectorResource(R.drawable.star),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(12.dp)
+                                )
+                            }
+                        }
+                    }
+                }
+                Row(modifier = Modifier
+                    .clickable {
+                        scope.launch {
+                            drawerState.apply {
+                                if (isClosed) open() else close()
+                            }
+                        }
+                    }
+                    .padding(5.dp)){
+                    Icon(imageVector = Icons.Rounded.Close, contentDescription = null)
+                }
+            }
+        },
+        gesturesEnabled = false
     ) {
         Scaffold(
             floatingActionButton = {
-                FloatingActionButton(onClick = { /* ... */ }) {
+                FloatingActionButton(onClick = { /*TODO*/ }) {
                     Icon(ImageVector.vectorResource(R.drawable.trophy), "")
                 }
             },
@@ -112,8 +84,8 @@ fun FirstScreenProva(){
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Sudoku", fontSize = 70.sp)
-                Text("Il calice di Android", fontSize = 14.sp)
+                Text(stringResource(R.string.sudoku), fontSize = 70.sp)
+                Text(stringResource(R.string.group), fontSize = 14.sp)
                 Spacer(modifier = Modifier.size(70.dp))
                 Button(
                     onClick = {
@@ -134,29 +106,25 @@ fun FirstScreenProva(){
                         .width(190.dp)
                         .height(50.dp)
                 ) {
-                    Text("Nuova partita", fontSize = 22.sp)
+                    Text(stringResource(R.string.new_game), fontSize = 22.sp)
                 }
                 Button(
                     onClick = {
-                        scope.launch {
-                            drawerState.apply {
-                                if (isClosed) open() else close()
-                            }
-                        }
+                        //TODO
                     },
                     // Uses ButtonDefaults.ContentPadding by default
                     contentPadding = PaddingValues(
                         start = 20.dp,
-                        top = 12.dp,
+                        top = 10.dp,
                         end = 20.dp,
-                        bottom = 12.dp
+                        bottom = 10.dp
                     ),
                     modifier = Modifier
                         .padding(10.dp)
                         .width(160.dp)
                         .height(40.dp)
                 ) {
-                    Text("Continua partita", fontSize = 13.sp)
+                    Text(stringResource(R.string.load_game), fontSize = 14.sp)
                 }
             }
         }

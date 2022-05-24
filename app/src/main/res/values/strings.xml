@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Sudoku e il calice di Android</string>
+    <string name="difficut">Difficoltà</string>
+    <string name="sudoku">Sudoku</string>
+    <string name="group">Il calice di Android</string>
+    <string name="new_game">Nuova partita</string>
+    <string name="load_game">Continua partita</string>
 </resources>
