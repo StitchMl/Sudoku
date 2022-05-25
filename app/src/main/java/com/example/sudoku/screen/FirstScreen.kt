@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -53,7 +54,10 @@ fun DrawerContent(scope: CoroutineScope, drawerState: BottomDrawerState){
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(stringResource(R.string.difficut), fontSize = 40.sp)
-        Column {
+        Column (
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             for (state in 1 until diff.size) {
                 Row(modifier = Modifier
                     .clickable { }
@@ -74,6 +78,10 @@ fun DrawerContent(scope: CoroutineScope, drawerState: BottomDrawerState){
                         }
                     }
                 }
+                Divider(
+                    color = Color.LightGray,
+                    modifier = Modifier.padding(start = 150.dp, end = 150.dp)
+                )
             }
         }
         Row(modifier = Modifier
