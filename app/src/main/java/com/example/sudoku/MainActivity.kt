@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.animation.OvershootInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -53,9 +54,7 @@ fun Navigation() {
 
 @Composable
 fun SplashScreen(navController: NavController) {
-    val scale = remember {
-        androidx.compose.animation.core.Animatable(0f)
-    }
+    val scale = remember { Animatable(0f) }
 
     // AnimationEffect
     LaunchedEffect(key1 = true) {
@@ -67,7 +66,7 @@ fun SplashScreen(navController: NavController) {
                     OvershootInterpolator(4f).getInterpolation(it)
                 })
         )
-        delay(3000L)
+        delay(3000)
         navController.navigate("main_screen")
     }
 

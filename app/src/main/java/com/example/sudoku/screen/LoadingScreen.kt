@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -16,11 +17,10 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.sudoku.R
-import com.example.sudoku.ui.theme.Purple700
 import com.example.sudoku.ui.theme.SudokuEIlCaliceDiAndroidTheme
 import com.example.sudoku.ui.theme.mainTitle
 
-@Preview(device = Devices.PIXEL_3)
+@Preview(device = Devices.DEFAULT, showBackground = true)
 @Composable
 fun LoadingPreview() {
     SudokuEIlCaliceDiAndroidTheme {
@@ -50,7 +50,7 @@ fun LoadingScreen() {
             )
 
             LinearProgressIndicator(
-                color = Purple700,
+                color = Color.Blue,
                 modifier = Modifier
                     .width(128.dp)
                     .padding(bottom = 16.dp)
@@ -58,7 +58,7 @@ fun LoadingScreen() {
 
             Text(
                 text = stringResource(id = R.string.sudoku),
-                style = mainTitle.copy(color = MaterialTheme.colors.primary),
+                style = mainTitle.copy(color = MaterialTheme.colors.onSurface),
                 modifier = Modifier.wrapContentSize()
             )
         }
