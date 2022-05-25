@@ -19,6 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sudoku.R
+import com.example.sudoku.ui.theme.ButtonColor
+import com.example.sudoku.ui.theme.textColorLight
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -122,7 +124,8 @@ fun PrincipalScreen(scope: CoroutineScope, drawerState: BottomDrawerState){
                 ),
                 modifier = Modifier
                     .width(190.dp)
-                    .height(50.dp)
+                    .height(50.dp),
+                colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor, textColorLight)
             ) {
                 Text(stringResource(R.string.new_game), fontSize = 22.sp)
             }
@@ -137,7 +140,8 @@ fun PrincipalScreen(scope: CoroutineScope, drawerState: BottomDrawerState){
                 modifier = Modifier
                     .padding(10.dp)
                     .width(160.dp)
-                    .height(40.dp)
+                    .height(40.dp),
+                colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor, textColorLight)
             ) {
                 Text(stringResource(R.string.load_game), fontSize = 13.sp)
             }
