@@ -3,8 +3,4 @@
     <style name="Theme.SudokuEIlCaliceDiAndroid" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/white</item>
     </style>
-
-    <style name="Theme.SplashScreen" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/white</item>
-    </style>
 </resources>
