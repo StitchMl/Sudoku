@@ -153,6 +153,21 @@ fun PrincipalScreen(scope: CoroutineScope, drawerState: BottomDrawerState){
             ) {
                 Text(stringResource(R.string.load_game), fontSize = 13.sp)
             }
+            Button(
+                onClick = { /*TODO*/ },
+                contentPadding = PaddingValues(
+                    start = 20.dp,
+                    top = 10.dp,
+                    end = 20.dp,
+                    bottom = 10.dp
+                ),
+                modifier = Modifier
+                    .width(160.dp)
+                    .height(40.dp),
+                colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor, textColorLight)
+            ) {
+                Text(stringResource(R.string.rules), fontSize = 13.sp)
+            }
         }
     }
 }

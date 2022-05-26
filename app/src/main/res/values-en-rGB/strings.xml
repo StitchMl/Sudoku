@@ -6,4 +6,5 @@
     <string name="group">The goblet of Android</string>
     <string name="new_game">New game</string>
     <string name="load_game">Load game</string>
+    <string name="rules">Rules</string>
 </resources>
