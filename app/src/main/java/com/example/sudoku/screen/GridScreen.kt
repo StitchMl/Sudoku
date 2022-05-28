@@ -18,7 +18,7 @@ class Grid private constructor(private val grid: Array<Array<Cell?>>) {
     //controllo se il valore immesso è valido e contiene effettivammente una cella
     //un valore è valido se non esiste più volte uguale nella stessa riga, colonnna e nell'intea griglia
     fun isValidValueForCell(cell: Cell, value: Int): Boolean {
-        //parametri: cella da controllare, valore immesso da ocntrollare
+        //parametri: cella da controllare, valore immesso da controllare
         return isValidInRow(cell, value) && isValidInColumn(cell, value) && isValidInBox(
             cell,
             value
@@ -68,8 +68,8 @@ class Grid private constructor(private val grid: Array<Array<Cell?>>) {
     //ritorna la seconda cella vuota successiva a quella di prima
     //parametri: cella di cui si dovrebbe ottenere la successiva vuota
     //ritorna un valore (non nullo) contenete la successiva cella vuota, se presente
-    fun getNextEmptyCellOf(cell: Cell?): Cell? {
-        var cell = cell
+    private fun getNextEmptyCellOf(cellValue: Cell?): Cell? {
+        var cell = cellValue
         var nextEmptyCell: Cell? = null
         while (cell!!.nextCell.also { cell = it } != null) {
             if (!cell!!.isEmpty) {
@@ -88,7 +88,7 @@ class Grid private constructor(private val grid: Array<Array<Cell?>>) {
 
     //classe che rappresenta una cella nella griglia.
     class Cell(
-        //uso questo metodo perche mi permette di cambiare il valore della cella
+        //uso questo metodo perchè mi permette di cambiare il valore della cella
         //il parametro è il valore della cella
         var value: Int
     ) {
@@ -250,11 +250,10 @@ class Grid private constructor(private val grid: Array<Array<Cell?>>) {
 //genera griglie random
 class Generator {
     //ritorna griglie riempite a caso con il numero specificato di celle vuote
-    //il numero di celle vuore aumenta all'aumentare della difficoltà
+    //il numero di celle vuote aumenta all'aumentare della difficoltà
     //
-    fun generate(numberOfEmptyCells: Int): Grid {
-        val grid = generate(5) //messo a caso, va creata funzione per generare automaticamente
-        return grid
+    private fun generate(numberOfEmptyCells: Int): Grid {
+        return generate(5) //messo a caso, va creata funzione per generare automaticamente
     }
 
     fun generateFullSolution(): Grid {

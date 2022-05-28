@@ -60,7 +60,7 @@ fun DrawerContent(scope: CoroutineScope, drawerState: BottomDrawerState){
         ) {
             for (state in 1 until diff.size) {
                 Row(modifier = Modifier
-                    .clickable { }
+                    .clickable { /* TODO */ }
                     .padding(3.dp)) {
                     Column (horizontalAlignment = Alignment.Start) {
                         Text(text = diff[state],

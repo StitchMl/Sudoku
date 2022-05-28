@@ -10,7 +10,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import com.example.sudoku.R
 
 enum class GameInputMode {
@@ -21,7 +20,7 @@ enum class GameInputMode {
 data class GameState(
     val board: Board = List(9) { row -> List(9) { col -> Cell(row, col, 0) } },
     val selection: CellCoordinates? = null,
-    val context: Context = LocalContext.current,
+    val context: Context /*= LocalContext.current*/,
     val diff: Array<String> = context.resources.getStringArray(R.array.difficulty),
     val mistakes: Int = 0,
     val elapsedTime: Long = 0,
@@ -30,10 +29,10 @@ data class GameState(
 
     val elapsedTimeString: String
         get() {
-            val secs = elapsedTime / 1000 % 60
-            val mins = elapsedTime / 1000 / 60
+            val sec = elapsedTime / 1000 % 60
+            val min = elapsedTime / 1000 / 60
 
-            return "${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}"
+            return "${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}"
         }
 
     val isGameOver: Boolean
@@ -84,6 +83,19 @@ fun GameInformationRow(state: GameState) {
         }
     }
 }
+
+    override fun hashCode(): Int {
+        var result = board.hashCode()
+        result = 31 * result + (selection?.hashCode() ?: 0)
+        result = 31 * result + context.hashCode()
+        result = 31 * result + diff.contentHashCode()
+        result = 31 * result + mistakes
+        result = 31 * result + elapsedTime.hashCode()
+        result = 31 * result + inputMode.hashCode()
+        result = 31 * result + isGameComplete.hashCode()
+        result = 31 * result + missingNumbers.hashCode()
+        return result
+    }
 }
 
 
