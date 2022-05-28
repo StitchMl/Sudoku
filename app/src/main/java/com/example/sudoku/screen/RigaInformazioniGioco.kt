@@ -1,0 +1,89 @@
+package com.example.sudoku.screen
+
+import android.content.Context
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.LocalTextStyle
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import com.example.sudoku.R
+
+enum class GameInputMode {
+    Selection,
+    NoteTaking
+}
+
+data class GameState(
+    val board: Board = List(9) { row -> List(9) { col -> Cell(row, col, 0) } },
+    val selection: CellCoordinates? = null,
+    val context: Context = LocalContext.current,
+    val diff: Array<String> = context.resources.getStringArray(R.array.difficulty),
+    val mistakes: Int = 0,
+    val elapsedTime: Long = 0,
+    val inputMode: GameInputMode = GameInputMode.Selection,
+){
+
+    val elapsedTimeString: String
+        get() {
+            val secs = elapsedTime / 1000 % 60
+            val mins = elapsedTime / 1000 / 60
+
+            return "${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}"
+        }
+
+    val isGameOver: Boolean
+        get() = mistakes >= 3
+
+    val isGameComplete: Boolean = board.flatten().all { it.correctValue == it.selection }
+
+    val missingNumbers: Set<Int> = board
+        .flatten()
+        .filter { it.correctValue == it.selection }
+        .groupBy { it.selection }
+        .mapValues { it.value.size }
+        .filter { it.value < 9 }
+        .map { (key, _) -> key }
+        .filterNotNull()
+        .toSet()
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as GameState
+
+        if (board != other.board) return false
+        if (selection != other.selection) return false
+        if (context != other.context) return false
+        if (!diff.contentEquals(other.diff)) return false
+        if (mistakes != other.mistakes) return false
+        if (elapsedTime != other.elapsedTime) return false
+        if (inputMode != other.inputMode) return false
+        if (elapsedTimeString != other.elapsedTimeString) return false
+        if (isGameOver != other.isGameOver) return false
+        if (isGameComplete != other.isGameComplete) return false
+        if (missingNumbers != other.missingNumbers) return false
+
+        return true
+    }
+
+
+
+@Composable
+fun GameInformationRow(state: GameState) {
+    CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.caption) {
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            // Difficoltà (?)
+            Text(text = "Mistakes ${state.mistakes}/3")
+            Text(text = state.elapsedTimeString)
+        }
+    }
+}
+}
+
+
