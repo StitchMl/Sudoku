@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.composable
 import com.example.sudoku.R
 import com.example.sudoku.ui.theme.ButtonColor
 import com.example.sudoku.ui.theme.textColorLight
@@ -100,7 +101,7 @@ fun DrawerContent(scope: CoroutineScope, drawerState: BottomDrawerState){
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun PrincipalScreen(scope: CoroutineScope, drawerState: BottomDrawerState){
+fun PrincipalScreen(scope: CoroutineScope, drawerState: BottomDrawerState ){
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = { /*TODO*/ }) {
@@ -150,7 +151,8 @@ fun PrincipalScreen(scope: CoroutineScope, drawerState: BottomDrawerState){
                     .width(160.dp)
                     .height(40.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor, textColorLight)
-            ) {
+            )
+            {
                 Text(stringResource(R.string.load_game), fontSize = 13.sp)
             }
             Button(
@@ -171,3 +173,5 @@ fun PrincipalScreen(scope: CoroutineScope, drawerState: BottomDrawerState){
         }
     }
 }
+
+
