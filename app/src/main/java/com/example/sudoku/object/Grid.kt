@@ -1,4 +1,4 @@
-package com.example.sudoku.`class`
+package com.example.sudoku.`object`
 
 //La classe rappresenta una griglia sudoku  ovvero una matrice 9x9 contenente 9 celle di dim. 3x3
 class Grid private constructor(private val grid: Array<Array<Cell?>>) {

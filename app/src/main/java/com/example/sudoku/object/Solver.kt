@@ -1,4 +1,4 @@
-package com.example.sudoku.`class`
+package com.example.sudoku.`object`
 
 import kotlin.random.Random
 

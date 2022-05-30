@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import com.example.sudoku.R
+import com.example.sudoku.model.Cell
 
 enum class GameInputMode {
     Selection,

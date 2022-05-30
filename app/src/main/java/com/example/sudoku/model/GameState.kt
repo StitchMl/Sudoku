@@ -1,11 +1,13 @@
-package com.example.sudoku.`class`
+package com.example.sudoku.model
 
+import androidx.room.Entity
 import com.example.sudoku.screen.Board
 import com.example.sudoku.screen.GameInputMode
 
+@Entity
 data class GameState(
     val board: Board = List(9) { row -> List(9) { col -> Cell(row, col, 0) } },
-   // val selection: CellCoordinates? = null,
+    //val selection: CellCoordinates? = null,
     //val difficulty: GameDifficulty = GameDifficulty.Medium,
     val mistakes: Int = 0,
     val elapsedTime: Long = 0,
@@ -36,10 +38,4 @@ data class GameState(
         .map { (key, _) -> key }
         .filterNotNull()
         .toSet()*/
-}
-
-
-enum class GameInputMode {
-    Selection,
-    NoteTaking
 }

@@ -1,4 +1,4 @@
-package com.example.sudoku.`class`
+package com.example.sudoku.modelview
 
 //Crea lo screen che verrà visualizzato dall'utente durante il gioco
 // da modificare per integrarlo al nostro

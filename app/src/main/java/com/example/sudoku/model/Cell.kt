@@ -1,5 +1,8 @@
-package com.example.sudoku.`class`
+package com.example.sudoku.model
 
+import androidx.room.Entity
+
+@Entity
 data class Cell(
     val row: Int,
     val col: Int,

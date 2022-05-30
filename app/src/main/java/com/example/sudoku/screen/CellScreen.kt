@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
+import com.example.sudoku.model.Cell
 
 @Preview(device = Devices.DEFAULT, showBackground = true)
 @Composable
