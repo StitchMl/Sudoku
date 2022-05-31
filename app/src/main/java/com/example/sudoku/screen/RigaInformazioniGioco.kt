@@ -1,17 +1,6 @@
 package com.example.sudoku.screen
 
-import android.content.Context
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.Modifier
-import com.example.sudoku.R
-
+/*
 enum class GameInputMode {
     Selection,
     NoteTaking
@@ -20,7 +9,9 @@ enum class GameInputMode {
 data class GameState(
     //val board: Board = List(9) { row -> List(9) { col -> Cell(row, col, 0) } },
     // val selection: CellCoordinates? = null,
-    val context: Context /*= LocalContext.current*/,
+    val context: Context */
+/*= LocalContext.current*//*
+,
     val diff: Array<String> = context.resources.getStringArray(R.array.difficulty),
     val mistakes: Int = 0,
     val elapsedTime: Long = 0,
@@ -99,3 +90,4 @@ fun GameInformationRow(state: GameState) {
 }
 
 
+*/

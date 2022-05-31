@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun NumberSelection(
-    missingNumbers: Set<Int>,
     onClicked: (Int) -> Unit
 ) {
     BoxWithConstraints {
@@ -29,34 +28,30 @@ fun NumberSelection(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             (1..9).forEach {
-                val isMissing = it in missingNumbers
-
                 Box(
                     modifier = Modifier
                         .size(itemSize)
                         .run {
-                            if (isMissing) clickable { onClicked(it) } else this
+                           clickable { onClicked(it) }
                         },
                     contentAlignment = Alignment.Center
                 ) {
-                    if (isMissing) {
-                        Text(
-                            text = it.toString(),
-                            style = TextStyle(
-                                fontSize = 22.sp,
-                                fontWeight = FontWeight.Medium,
-                               // color = SudokuColors.NumberSelectionColor
-                            )
+                    Text(
+                        text = it.toString(),
+                        style = TextStyle(
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Medium,
+                           // color = SudokuColors.NumberSelectionColor
                         )
-                    }
+                    )
                 }
             }
         }
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun ShowPreview() {
-    NumberSelection(missingNumbers = setOf(3)){ /*TODO*/ }
+    NumberSelection { /*TODO*/ }
 }
