@@ -1,5 +1,6 @@
 package com.example.sudoku.computation
 
+import androidx.compose.runtime.Composable
 import com.example.sudoku.model.Cell
 import kotlin.math.floor
 import kotlin.math.sqrt
@@ -13,9 +14,10 @@ class Sudoku internal constructor(
     private var srn: Int // square root of N
 
     // Sudoku Generator
-    fun fillValues() {
+    @Composable
+    fun FillValues() {
         // Fill the diagonal of SRN x SRN matrices
-        fillDiagonal()
+        FillDiagonal()
 
         // Fill remaining blocks
         fillRemaining(0, srn)
@@ -25,11 +27,12 @@ class Sudoku internal constructor(
     }
 
     // Fill the diagonal SRN number of SRN x SRN matrices
-    private fun fillDiagonal() {
+    @Composable
+    private fun FillDiagonal() {
         var i = 0
         while (i < N) {
             // for diagonal box, start coordinates->i==j
-            fillBox(i, i)
+            FillBox(i, i)
             i += srn
         }
     }
@@ -41,7 +44,8 @@ class Sudoku internal constructor(
     }
 
     // Fill a 3 x 3 matrix.
-    private fun fillBox(row: Int, col: Int) {
+    @Composable
+    private fun FillBox(row: Int, col: Int) {
         var num: Int
         for (i in 0 until srn) {
             for (j in 0 until srn) {
@@ -49,6 +53,8 @@ class Sudoku internal constructor(
                     num = randomGenerator(N)
                 } while (!unUsedInBox(row, col, num))
                 solution[row + i][col + j] = num
+                //val val1 = rememberSaveable { mutableStateOf(num) }
+                mat[row + i][col + j] = Cell(num, i, j, num)
             }
         }
     }
@@ -79,6 +85,7 @@ class Sudoku internal constructor(
 
     // A recursive function to fill remaining
     // matrix
+    @Composable
     private fun fillRemaining(n: Int, m: Int): Boolean {
         // System.out.println(i+" "+j);
         var i = n
@@ -102,9 +109,11 @@ class Sudoku internal constructor(
         for (num in 1..N) {
             if (checkIfSafe(i, j, num)) {
                 solution[i][j] = num
+                //val val1 = rememberSaveable { mutableStateOf(num) }
                 mat[i][j] = Cell(num, i, j, num)
                 if (fillRemaining(i, j + 1)) return true
                 solution[i][j] = 0
+                //val val2 = rememberSaveable { mutableStateOf(0) }
                 mat[i][j] = Cell(0, i, j, 0)
             }
         }
@@ -151,7 +160,7 @@ class Sudoku internal constructor(
         return solution
     }
 
-    companion object {
+    /*companion object {
         // Driver code
         @JvmStatic
         fun main(args: Array<String>) {
@@ -161,7 +170,7 @@ class Sudoku internal constructor(
             sudoku.fillValues()
             sudoku.printSudoku()
         }
-    }
+    }*/
 
     // Constructor
     init {

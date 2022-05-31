@@ -9,6 +9,7 @@ data class Cell(
     val row: Int,
     val col: Int,
     val sol: Int,
+    var mutableValue: MutableState<Int>? = null,
     var click: MutableState<Boolean>? = null,
     val note: Set<Int> = emptySet()
 )

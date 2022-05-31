@@ -34,7 +34,7 @@ private fun ShowNUmberSelection(){
         R.array.difficulty)[3]
     Setting(context).setDifficult(diff, d)
     val s = Sudoku(9, d.value)
-    s.fillValues()
+    s.FillValues()
     Column {
         Text(
             "$diff ${d.value}",
@@ -72,8 +72,8 @@ fun CreateBoard(
                                     (0..2).forEach { j ->
                                         val row = i + (n * 3)
                                         val col = j + (m * 3)
-                                        val isMissing = sudoku[row][col].value
                                         sudoku[row][col].click = remember { mutableStateOf(false) }
+                                        sudoku[row][col].mutableValue = rememberSaveable { mutableStateOf(sudoku[row][col].value) }
                                         Box(
                                             modifier = Modifier
                                                 .border(
@@ -83,22 +83,20 @@ fun CreateBoard(
                                                 .background(if (sudoku[row][col].click?.value!!) Color.Gray else Color.White)
                                                 .size(itemSize)
                                                 .run {
-                                                    if (isMissing == 0) clickable {
+                                                    if (sudoku[row][col].mutableValue?.value == 0) clickable {
                                                         cellSelect(sudoku, row, col, game)
                                                     } else this
                                                 },
                                             contentAlignment = Alignment.Center
                                         ) {
-                                            if (isMissing != 0) {
-                                                Text(
-                                                    text = isMissing.toString(),
-                                                    style = TextStyle(
-                                                        fontSize = 22.sp,
-                                                        fontWeight = FontWeight.Medium,
-                                                        color = Color.Black
-                                                    )
+                                            Text(
+                                                text = if (sudoku[row][col].mutableValue?.value != 0) sudoku[row][col].mutableValue?.value.toString() else "",
+                                                style = TextStyle(
+                                                    fontSize = 22.sp,
+                                                    fontWeight = FontWeight.Medium,
+                                                    color = Color.Black
                                                 )
-                                            }
+                                            )
                                         }
                                     }
                                 }
