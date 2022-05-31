@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.sudoku.R
 import com.example.sudoku.model.Setting
 import com.example.sudoku.ui.theme.ButtonColor
@@ -32,20 +33,14 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun FirstScreen(navController: NavController, diff: MutableState<Int>){
+fun FirstScreen(navController: NavController, empty: MutableState<Int>, diff: MutableState<String>){
     val scope = rememberCoroutineScope()
-    when (diff.value) {
-        0 -> { Screen(scope, diff) }
-        61 -> { navController.navigate("load_game_screen") }
-        62 -> { navController.navigate("rules_screen") }
-        63 -> { navController.navigate("result_screen") }
-        else -> { navController.navigate("new_game_screen") }
-    }
+    Screen(scope, empty, diff, navController)
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun Screen(scope: CoroutineScope, diff: MutableState<Int>){
+fun Screen(scope: CoroutineScope, empty: MutableState<Int>, diff: MutableState<String>, navController: NavController){
     val drawerState = rememberBottomDrawerState(BottomDrawerValue.Closed)
     val context = LocalContext.current
     val set = Setting(context)
@@ -53,18 +48,19 @@ fun Screen(scope: CoroutineScope, diff: MutableState<Int>){
         modifier = Modifier.background(MaterialTheme.colors.onPrimary),
         drawerState = drawerState,
         drawerContent = {
-            DrawerContent(scope, drawerState, diff, set)
+            DrawerContent(scope, drawerState, empty, set, diff, navController)
         },
         gesturesEnabled = false
     ) {
-        PrincipalScreen(scope, drawerState, diff, set)
+        PrincipalScreen(scope, drawerState, empty, set, navController)
     }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DrawerContent(scope: CoroutineScope, drawerState: BottomDrawerState,
-                  d: MutableState<Int>, set: Setting){
+                  e: MutableState<Int>, set: Setting, d: MutableState<String>,
+                  navController: NavController){
     val diff: Array<String> = set.DIFFICULTY
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -78,7 +74,9 @@ fun DrawerContent(scope: CoroutineScope, drawerState: BottomDrawerState,
             for (state in diff.indices) {
                 Row(modifier = Modifier
                     .clickable {
-                        set.setDifficult(diff[state], d)
+                        d.value = diff[state]
+                        set.setDifficult(d.value, e)
+                        navController.navigate("new_game_screen")
                     }
                     .padding(3.dp)) {
                     Column (horizontalAlignment = Alignment.Start) {
@@ -87,7 +85,7 @@ fun DrawerContent(scope: CoroutineScope, drawerState: BottomDrawerState,
                     }
                     Column(horizontalAlignment = Alignment.Start) {
                         Row(modifier = Modifier.padding(3.dp)) {
-                            for (i in 1 until state + 1) {
+                            for (i in 0 until state + 1) {
                                 Icon(
                                     imageVector = ImageVector.vectorResource(R.drawable.star),
                                     contentDescription = null,
@@ -119,11 +117,13 @@ fun DrawerContent(scope: CoroutineScope, drawerState: BottomDrawerState,
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun PrincipalScreen(scope: CoroutineScope, drawerState: BottomDrawerState,
-                    diff: MutableState<Int>, set: Setting){
+fun PrincipalScreen(
+    scope: CoroutineScope, drawerState: BottomDrawerState,
+    empty: MutableState<Int>, set: Setting, navController: NavController
+){
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = { set.setDifficult("Result", diff) }) {
+            FloatingActionButton(onClick = { navController.navigate("result_screen") }) {
                 Icon(ImageVector.vectorResource(R.drawable.trophy),
                     "") } },
         isFloatingActionButtonDocked = true
@@ -158,7 +158,7 @@ fun PrincipalScreen(scope: CoroutineScope, drawerState: BottomDrawerState,
                 Text(stringResource(R.string.new_game), fontSize = 22.sp)
             }
             Button(
-                onClick = { set.setDifficult("Continue", diff) },
+                onClick = { navController.navigate("load_game_screen") },
                 contentPadding = PaddingValues(
                     start = 20.dp,
                     top = 10.dp,
@@ -175,7 +175,7 @@ fun PrincipalScreen(scope: CoroutineScope, drawerState: BottomDrawerState,
                 Text(stringResource(R.string.load_game), fontSize = 13.sp)
             }
             Button(
-                onClick = { set.setDifficult("Rules", diff) },
+                onClick = { navController.navigate("rules_screen") },
                 contentPadding = PaddingValues(
                     start = 20.dp,
                     top = 10.dp,
@@ -197,6 +197,7 @@ fun PrincipalScreen(scope: CoroutineScope, drawerState: BottomDrawerState,
 @Composable
 fun FirstScreenPreview(){
     val scope = rememberCoroutineScope()
-    val diff = rememberSaveable { mutableStateOf(0) }
-    Screen(scope, diff)
+    val empty = rememberSaveable { mutableStateOf(0) }
+    val diff = rememberSaveable { mutableStateOf("") }
+    Screen(scope, empty, diff, rememberNavController())
 }

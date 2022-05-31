@@ -14,12 +14,6 @@ class Setting(context: Context) {
             when (d) {
                 // Number of Empty Cell on all Sudoku
                 DIFFICULTY[i] -> { diff.value = Random.nextInt((i * 10) + 20, (i * 10) + 30) }
-                // Code for Continue Game
-                "Continue" -> { diff.value = 61 }
-                // Code for Rules
-                "Rules" -> { diff.value = 62 }
-                // Code for Result
-                "Result" -> { diff.value = 63 }
             }
         }
     }
