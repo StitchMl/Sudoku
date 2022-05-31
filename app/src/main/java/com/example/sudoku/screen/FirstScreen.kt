@@ -75,7 +75,7 @@ fun DrawerContent(scope: CoroutineScope, drawerState: BottomDrawerState,
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            for (state in 1 until diff.size) {
+            for (state in diff.indices) {
                 Row(modifier = Modifier
                     .clickable {
                         set.setDifficult(diff[state], d)

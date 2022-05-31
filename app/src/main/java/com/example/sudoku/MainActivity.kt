@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.sudoku.screen.FirstScreen
+import com.example.sudoku.screen.NewGameScreen
 import com.example.sudoku.screen.SplashScreen
 import com.example.sudoku.ui.theme.SudokuEIlCaliceDiAndroidTheme
 
@@ -47,7 +48,7 @@ fun Navigation(diff: MutableState<Int>) {
         }
         // Game Screen
         composable("new_game_screen"){
-            /*TODO NewGameScreen(navController, diff)*/
+            NewGameScreen(navController, diff)
         }
         composable("load_game_screen"){
             /*TODO LoadGameScreen(navController)*/

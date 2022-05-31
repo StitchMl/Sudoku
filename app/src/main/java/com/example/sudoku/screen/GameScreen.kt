@@ -1,7 +1,6 @@
 package com.example.sudoku.screen
 
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
@@ -16,23 +15,12 @@ fun NewGameScreen(navController: NavHostController, diff: MutableState<Int>){
     s.fillValues()
     ConstraintLayout {
         // Create references for the composable to constrain
-        val (button, text) = createRefs()
+        val (sudoku) = createRefs()
 
-        Button(
-            onClick = { /* Do something */ },
-            // Assign reference "button" to the Button composable
-            // and constrain it to the top of the ConstraintLayout
-            modifier = Modifier.constrainAs(button) {
-                top.linkTo(parent.top, margin = 16.dp)
-            }
-        ) {
-            Text("Button")
+        Box(modifier = Modifier.constrainAs(sudoku){
+            top.linkTo(parent.top, margin = 8.dp)
+        }) {
+            CreateBoard(s.get()){ /*TODO*/ }
         }
-
-        // Assign reference "text" to the Text composable
-        // and constrain it to the bottom of the Button composable
-        Text("Text", Modifier.constrainAs(text) {
-            top.linkTo(button.bottom, margin = 16.dp)
-        })
     }
 }
