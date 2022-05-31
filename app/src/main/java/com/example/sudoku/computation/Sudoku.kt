@@ -22,7 +22,7 @@ class Sudoku internal constructor(
         //Set solution
         solution = mat
 
-        // Remove Randomly K digits to make game
+        // Remove Randomly K digits to make Game
         removeKDigits()
     }
 
@@ -112,7 +112,7 @@ class Sudoku internal constructor(
     }
 
     // Remove the K no. of digits to
-    // complete game
+    // complete Game
     private fun removeKDigits() {
         var count = K
         while (count != 0) {

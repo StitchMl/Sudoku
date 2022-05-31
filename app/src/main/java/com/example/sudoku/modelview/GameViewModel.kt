@@ -18,8 +18,8 @@ class GameViewModel(
             .launchIn(viewModelScope)
 
         viewModelScope.launch(Dispatchers.Default) {
-            val game = SudokuGameGenerator().generateBoard(gameDifficulty.missingCellCount)
-            setState { copy(board = game) }
+            val Game = SudokuGameGenerator().generateBoard(gameDifficulty.missingCellCount)
+            setState { copy(board = Game) }
         }
     }
 
@@ -52,7 +52,7 @@ class GameViewModel(
     }
 
     fun undoLastStep() {
-        // TODO: find a good way to keep track of game state
+        // TODO: find a good way to keep track of Game state
     }
 
     fun eraseField() = setState {

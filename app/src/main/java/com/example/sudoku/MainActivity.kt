@@ -23,10 +23,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val diff = rememberSaveable{ mutableStateOf(0) }
+            val empty = rememberSaveable{ mutableStateOf(0) }
+            val diff = rememberSaveable { mutableStateOf("") }
             SudokuEIlCaliceDiAndroidTheme {
                 Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
-                    Navigation(diff)
+                    Navigation(empty, diff)
                 }
 
             }
@@ -35,7 +36,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Navigation(diff: MutableState<Int>) {
+fun Navigation(empty: MutableState<Int>, diff: MutableState<String>) {
     val navController = rememberNavController()
     NavHost(navController = navController,
         startDestination = "splash_screen") {
@@ -44,11 +45,12 @@ fun Navigation(diff: MutableState<Int>) {
         }
         // Main Screen
         composable("main_screen") {
-            FirstScreen(navController, diff)
+            FirstScreen(navController, empty, diff)
         }
         // Game Screen
         composable("new_game_screen"){
-            NewGameScreen(navController, diff)
+            println("NEW GAME")
+            NewGameScreen(navController, empty, diff)
         }
         composable("load_game_screen"){
             /*TODO LoadGameScreen(navController)*/
