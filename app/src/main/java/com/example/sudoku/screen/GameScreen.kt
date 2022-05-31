@@ -1,22 +1,23 @@
 package com.example.sudoku.screen
 
+import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.model.Game
 
 @Composable
-fun NewGameScreen(navController: NavHostController, empty: MutableState<Int>, diff: MutableState<String>){
+fun NewGameScreen(
+    navController: NavHostController,
+    empty: MutableState<Int>,
+    diff: MutableState<String>,
+    context: Context
+){
     val s = Sudoku(9, empty.value)
     s.FillValues()
     s.printSudoku()
@@ -33,15 +34,16 @@ fun NewGameScreen(navController: NavHostController, empty: MutableState<Int>, di
         Box(modifier = Modifier.constrainAs(number){
             top.linkTo(sudoku.bottom, margin = 10.dp)
         }) {
-            NumberSelection(g)
+            NumberSelection(g, context)
         }
     }
 }
 
+/*
 @Preview(device = Devices.DEFAULT, showBackground = true)
 @Composable
 fun NewGameScreenPreview(){
     val empty = rememberSaveable { mutableStateOf(20) }
     val diff = rememberSaveable { mutableStateOf("") }
-    NewGameScreen(rememberNavController(), empty, diff)
-}
+    NewGameScreen(rememberNavController(), empty, diff, context)
+}*/

@@ -1,5 +1,6 @@
 package com.example.sudoku
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,9 +26,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             val empty = rememberSaveable{ mutableStateOf(0) }
             val diff = rememberSaveable { mutableStateOf("") }
+            val context = applicationContext
             SudokuEIlCaliceDiAndroidTheme {
                 Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
-                    Navigation(empty, diff)
+                    Navigation(empty, diff, context)
                 }
 
             }
@@ -36,7 +38,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Navigation(empty: MutableState<Int>, diff: MutableState<String>) {
+fun Navigation(empty: MutableState<Int>, diff: MutableState<String>, context: Context) {
     val navController = rememberNavController()
     NavHost(navController = navController,
         startDestination = "splash_screen") {
@@ -49,8 +51,7 @@ fun Navigation(empty: MutableState<Int>, diff: MutableState<String>) {
         }
         // Game Screen
         composable("new_game_screen"){
-            println("NEW GAME")
-            NewGameScreen(navController, empty, diff)
+            NewGameScreen(navController, empty, diff, context)
         }
         composable("load_game_screen"){
             /*TODO LoadGameScreen(navController)*/

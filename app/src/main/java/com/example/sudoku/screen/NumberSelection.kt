@@ -1,5 +1,7 @@
 package com.example.sudoku.screen
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -15,7 +17,7 @@ import com.example.sudoku.model.Game
 //funzione per i numeri sotto la griglia
 
 @Composable
-fun NumberSelection(g: Game) {
+fun NumberSelection(g: Game, context: Context) {
     BoxWithConstraints {
         val itemSize = maxWidth / 9
 
@@ -31,8 +33,14 @@ fun NumberSelection(g: Game) {
                         .size(itemSize)
                         .run {
                            clickable {
-                               g.sudoku[g.i_Select!!][g.j_Select!!].mutableValue?.value = it
-                               g.sudoku[g.i_Select!!][g.j_Select!!].value = it
+                               if(g.solution[g.i_Select!!][g.j_Select!!] == it) {
+                                   g.sudoku[g.i_Select!!][g.j_Select!!].mutableValue?.value = it
+                                   g.sudoku[g.i_Select!!][g.j_Select!!].value = it
+                               } else {
+                                   Toast.makeText(context,
+                                       "Sbagliato",
+                                       Toast.LENGTH_LONG).show()
+                               }
                            }
                         },
                     contentAlignment = Alignment.Center
