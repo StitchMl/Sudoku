@@ -27,7 +27,7 @@ private fun ShowNUmberSelection(){
     val d = rememberSaveable { mutableStateOf(0) }
     val context = LocalContext.current
     val diff = context.resources.getStringArray(
-        R.array.difficulty)[0]
+        R.array.difficulty)[3]
     Setting(context).setDifficult(diff, d)
     val s = Sudoku(9, d.value)
     s.fillValues()

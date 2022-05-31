@@ -8,6 +8,7 @@ class Sudoku internal constructor(
     private var K: Int /** No. Of missing digits**/
 ) {
     private var mat: Array<IntArray>
+    private lateinit var solution: Array<IntArray>
     private var srn: Int // square root of N
 
     // Sudoku Generator
@@ -17,6 +18,9 @@ class Sudoku internal constructor(
 
         // Fill remaining blocks
         fillRemaining(0, srn)
+
+        //Set solution
+        solution = mat
 
         // Remove Randomly K digits to make game
         removeKDigits()
@@ -137,8 +141,14 @@ class Sudoku internal constructor(
         println()
     }
 
+    // Get Sudoku
     fun get(): Array<IntArray> {
         return mat
+    }
+
+    // Get solution
+    fun getSolution(): Array<IntArray> {
+        return solution
     }
 
     companion object {
