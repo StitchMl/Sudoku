@@ -41,7 +41,7 @@ fun NewGameScreen(navController: NavHostController, empty: MutableState<Int>, di
 @Preview(device = Devices.DEFAULT, showBackground = true)
 @Composable
 fun NewGameScreenPreview(){
-    val empty = rememberSaveable { mutableStateOf(0) }
+    val empty = rememberSaveable { mutableStateOf(20) }
     val diff = rememberSaveable { mutableStateOf("") }
     NewGameScreen(rememberNavController(), empty, diff)
 }
