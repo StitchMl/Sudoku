@@ -10,7 +10,7 @@ class Setting(context: Context) {
         context.resources.getStringArray(R.array.difficulty)
 
     fun setDifficult(d: String, diff: MutableState<Int>) {
-        for(i in 1 until DIFFICULTY.size) {
+        for(i in DIFFICULTY.indices) {
             when (d) {
                 // Number of Empty Cell on all Sudoku
                 DIFFICULTY[i] -> { diff.value = Random.nextInt((i * 10) + 20, (i * 10) + 30) }
