@@ -1,44 +1,31 @@
 package com.example.sudoku
 
 import android.os.Bundle
-import android.view.animation.OvershootInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.booleanResource
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.sudoku.screen.FirstScreen
-import com.example.sudoku.screen.LoadingScreen
+import com.example.sudoku.screen.SplashScreen
 import com.example.sudoku.ui.theme.SudokuEIlCaliceDiAndroidTheme
-import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val diff = rememberSaveable{ mutableStateOf(0) }
             SudokuEIlCaliceDiAndroidTheme {
-                //variabile booleana per connessione bottone
-                val change = rememberSaveable { mutableStateOf(false) }
-
                 Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
-                    Navigation()
-
-                   // if (change == true) { /*todo*/ }
+                    Navigation(diff)
                 }
 
             }
@@ -47,42 +34,32 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Navigation() {
+fun Navigation(diff: MutableState<Int>) {
     val navController = rememberNavController()
     NavHost(navController = navController,
         startDestination = "splash_screen") {
         composable("splash_screen") {
-            SplashScreen(navController = navController)
+            SplashScreen(navController)
         }
         // Main Screen
         composable("main_screen") {
-            FirstScreen()
+            FirstScreen(navController, diff)
         }
-    }
-}
-
-@Composable
-fun SplashScreen(navController: NavController) {
-    val scale = remember { Animatable(0f) }
-
-    // AnimationEffect
-    LaunchedEffect(key1 = true) {
-        scale.animateTo(
-            targetValue = 0.7f,
-            animationSpec = tween(
-                durationMillis = 800,
-                easing = {
-                    OvershootInterpolator(4f).getInterpolation(it)
-                })
-        )
-        delay(3000)
-        navController.navigate("main_screen")
-    }
-
-    // Image
-    Box(contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()) {
-        LoadingScreen()
+        // Game Screen
+        composable("new_game_screen"){
+            /*TODO NewGameScreen(navController, diff)*/
+        }
+        composable("load_game_screen"){
+            /*TODO LoadGameScreen(navController)*/
+        }
+        // Rules Screen
+        composable("rules_screen"){
+            /*TODO RulesScreen(navController)*/
+        }
+        // Result Screen
+        composable("result_screen"){
+            /*TODO ResultScreen(navController)*/
+        }
     }
 }
 
