@@ -5,7 +5,7 @@ import androidx.room.Entity
 @Entity
 data class Game(
     val difficult: String,
-    val sudoku: Array<IntArray>,
+    val sudoku: Array<Array<Cell>>,
     val solution: Array<IntArray>
 ) {
     override fun equals(other: Any?): Boolean {

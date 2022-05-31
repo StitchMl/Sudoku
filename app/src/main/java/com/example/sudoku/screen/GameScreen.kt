@@ -28,7 +28,7 @@ fun NewGameScreen(navController: NavHostController, empty: MutableState<Int>, di
         Box(modifier = Modifier.constrainAs(sudoku){
             top.linkTo(parent.top, margin = 8.dp)
         }) {
-            CreateBoard(g.sudoku){ /*TODO*/ }
+            CreateBoard(g.sudoku)
         }
         Box(modifier = Modifier.constrainAs(number){
             top.linkTo(sudoku.bottom, margin = 10.dp)

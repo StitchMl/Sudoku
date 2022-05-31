@@ -1,5 +1,6 @@
 package com.example.sudoku.computation
 
+import com.example.sudoku.model.Cell
 import kotlin.math.floor
 import kotlin.math.sqrt
 
@@ -7,8 +8,8 @@ class Sudoku internal constructor(
     private var N: Int,/** number of columns/rows.**/
     private var K: Int /** No. Of missing digits**/
 ) {
-    private var mat: Array<IntArray>
-    private lateinit var solution: Array<IntArray>
+    private var solution: Array<IntArray>
+    private var mat: Array<Array<Cell>>
     private var srn: Int // square root of N
 
     // Sudoku Generator
@@ -18,9 +19,6 @@ class Sudoku internal constructor(
 
         // Fill remaining blocks
         fillRemaining(0, srn)
-
-        //Set solution
-        solution = mat
 
         // Remove Randomly K digits to make Game
         removeKDigits()
@@ -38,7 +36,7 @@ class Sudoku internal constructor(
 
     // Returns false if given 3 x 3 block contains num.
     private fun unUsedInBox(rowStart: Int, colStart: Int, num: Int): Boolean {
-        for (i in 0 until srn) for (j in 0 until srn) if (mat[rowStart + i][colStart + j] == num) return false
+        for (i in 0 until srn) for (j in 0 until srn) if (solution[rowStart + i][colStart + j] == num) return false
         return true
     }
 
@@ -50,7 +48,7 @@ class Sudoku internal constructor(
                 do {
                     num = randomGenerator(N)
                 } while (!unUsedInBox(row, col, num))
-                mat[row + i][col + j] = num
+                solution[row + i][col + j] = num
             }
         }
     }
@@ -69,13 +67,13 @@ class Sudoku internal constructor(
 
     // check in the row for existence
     private fun unUsedInRow(i: Int, num: Int): Boolean {
-        for (j in 0 until N) if (mat[i][j] == num) return false
+        for (j in 0 until N) if (solution[i][j] == num) return false
         return true
     }
 
     // check in the row for existence
     private fun unUsedInCol(j: Int, num: Int): Boolean {
-        for (i in 0 until N) if (mat[i][j] == num) return false
+        for (i in 0 until N) if (solution[i][j] == num) return false
         return true
     }
 
@@ -103,9 +101,11 @@ class Sudoku internal constructor(
         }
         for (num in 1..N) {
             if (checkIfSafe(i, j, num)) {
-                mat[i][j] = num
+                solution[i][j] = num
+                mat[i][j] = Cell(num, i, j, num)
                 if (fillRemaining(i, j + 1)) return true
-                mat[i][j] = 0
+                solution[i][j] = 0
+                mat[i][j] = Cell(0, i, j, 0)
             }
         }
         return false
@@ -125,9 +125,9 @@ class Sudoku internal constructor(
             if (j != 0) j -= 1
 
             // System.out.println(i+" "+j);
-            if (mat[i][j] != 0) {
+            if (mat[i][j].value != 0) {
                 count--
-                mat[i][j] = 0
+                mat[i][j].value = 0
             }
         }
     }
@@ -135,14 +135,14 @@ class Sudoku internal constructor(
     // Print sudoku
     fun printSudoku() {
         for (i in 0 until N) {
-            for (j in 0 until N) print(mat[i][j].toString() + " ")
+            for (j in 0 until N) print(solution[i][j].toString() + " ")
             println()
         }
         println()
     }
 
     // Get Sudoku
-    fun get(): Array<IntArray> {
+    fun get(): Array<Array<Cell>> {
         return mat
     }
 
@@ -168,6 +168,7 @@ class Sudoku internal constructor(
         // Compute square root of N
         val srn = sqrt(N.toDouble())
         this.srn = srn.toInt()
-        mat = Array(N) { IntArray(N) }
+        solution = Array(N) { IntArray(N) }
+        mat = Array(N) { Array(N){Cell(0,0,0,0)} }
     }
 }
