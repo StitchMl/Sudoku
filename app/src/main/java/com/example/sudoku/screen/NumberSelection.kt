@@ -39,7 +39,7 @@ fun NumberSelection(g: Game, context: Context) {
                                } else {
                                    Toast.makeText(context,
                                        "Sbagliato",
-                                       Toast.LENGTH_LONG).show()
+                                       Toast.LENGTH_SHORT).show()
                                }
                            }
                         },
