@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import com.example.sudoku.R
-import com.example.sudoku.model.Cell
 
 enum class GameInputMode {
     Selection,
@@ -19,8 +18,8 @@ enum class GameInputMode {
 }
 
 data class GameState(
-    val board: Board = List(9) { row -> List(9) { col -> Cell(row, col, 0) } },
-    val selection: CellCoordinates? = null,
+    //val board: Board = List(9) { row -> List(9) { col -> Cell(row, col, 0) } },
+    // val selection: CellCoordinates? = null,
     val context: Context /*= LocalContext.current*/,
     val diff: Array<String> = context.resources.getStringArray(R.array.difficulty),
     val mistakes: Int = 0,
@@ -39,7 +38,7 @@ data class GameState(
     val isGameOver: Boolean
         get() = mistakes >= 3
 
-    val isGameComplete: Boolean = board.flatten().all { it.correctValue == it.selection }
+    //val isGameComplete: Boolean = board.flatten().all { it.correctValue == it.selection }
 
     val missingNumbers: Set<Int> = board
         .flatten()
