@@ -4,7 +4,7 @@ import com.example.sudoku.computation.eraseCells
 import com.example.sudoku.computation.generateFullSolution
 import com.example.sudoku.model.Cell
 
-fun generateBoard(emptyCells: Int = 42): List<List<Cell>> {
+fun generateSudoku(emptyCells: Int = 42): List<List<Cell>> {
     val grid = generateFullSolution()
 
     val solution = List(9) { row ->

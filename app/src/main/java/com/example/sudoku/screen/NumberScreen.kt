@@ -1,12 +1,13 @@
 package com.example.sudoku.screen
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
@@ -17,42 +18,59 @@ import androidx.compose.ui.unit.sp
 @Preview(device = Devices.DEFAULT, showBackground = true)
 @Composable
 private fun ShowNUmberSelection(){
-    NumberSelection(GameState(context = LocalContext.current).missingNumbers){ /*TODO*/ }
+    CreateBoard(List(9) { row ->
+        List(9) { col ->
+            1
+        }
+    }){ /*TODO*/ }
 }
 
 @Composable
-fun NumberSelection(
-    missingNumbers: Set<Int>,
+fun CreateBoard(
+    sudoku: List<List<Int>>,
     onClicked: (Int) -> Unit
 ) {
     BoxWithConstraints {
         val itemSize = maxWidth / 9
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 4.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            (1..9).forEach {
-                val isMissing = it in missingNumbers
-
-                Box(
-                    modifier = Modifier
-                        .size(itemSize)
-                        .run {
-                            if (isMissing) clickable { onClicked(it) } else this
-                        },
-                    contentAlignment = Alignment.Center
+        Column (modifier = Modifier.padding(4.dp)) {
+            (0..2).forEach { n ->
+                Row (modifier = Modifier
+                    .border(1.dp, Color.Black)
                 ) {
-                    if (isMissing) {
-                        Text(
-                            text = it.toString(),
-                            style = TextStyle(
-                                fontSize = 22.sp,
-                                fontWeight = FontWeight.Medium,
-                            )
-                        )
+                    (0..2).forEach { m ->
+                        Column (modifier = Modifier
+                            .border(1.dp, Color.Black)) {
+                            (0..2).forEach { i ->
+                                Row {
+                                    (0..2).forEach { j ->
+                                        val isMissing = sudoku[i+(n*3)][j+(m*3)]
+                                        Box(
+                                            modifier = Modifier
+                                                .border(
+                                                    1.dp,
+                                                    Color.LightGray
+                                                )
+                                                .size(itemSize)
+                                                .run {
+                                                    if (isMissing == 0) clickable { onClicked(j) } else this
+                                                },
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            if (isMissing != 0) {
+                                                Text(
+                                                    text = isMissing.toString(),
+                                                    style = TextStyle(
+                                                        fontSize = 22.sp,
+                                                        fontWeight = FontWeight.Medium,
+                                                    )
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
