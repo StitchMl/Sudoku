@@ -1,4 +1,4 @@
-package com.example.sudoku.`class`
+package com.example.sudoku.computation
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

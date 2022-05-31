@@ -4,12 +4,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester.Companion.createRefs
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.example.sudoku.computation.Sudoku
-import kotlinx.coroutines.NonDisposableHandle.parent
 
 @Composable
 fun NewGameScreen(navController: NavHostController, diff: MutableState<Int>){
