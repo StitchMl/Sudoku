@@ -6,7 +6,10 @@ import androidx.room.Entity
 data class Game(
     val difficult: String,
     val sudoku: Array<Array<Cell>>,
-    val solution: Array<IntArray>
+    val solution: Array<IntArray>,
+    var oneSelect: Boolean = false,
+    var i_Select: Int? = null,
+    var j_Select: Int? = null
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -1,5 +1,6 @@
 package com.example.sudoku.model
 
+import androidx.compose.runtime.MutableState
 import androidx.room.Entity
 
 @Entity
@@ -8,6 +9,6 @@ data class Cell(
     val row: Int,
     val col: Int,
     val sol: Int,
-    var click: Boolean = false,
+    var click: MutableState<Boolean>? = null,
     val note: Set<Int> = emptySet()
 )
