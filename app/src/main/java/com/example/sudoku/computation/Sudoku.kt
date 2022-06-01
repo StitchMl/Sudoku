@@ -2,6 +2,7 @@ package com.example.sudoku.computation
 
 import androidx.compose.runtime.Composable
 import com.example.sudoku.model.Cell
+import com.example.sudoku.model.Game
 import kotlin.math.floor
 import kotlin.math.sqrt
 
@@ -151,26 +152,22 @@ class Sudoku internal constructor(
     }
 
     // Get Sudoku
-    fun get(): Array<Array<Cell>> {
+    @Composable
+    fun getGame(): Game {
+        FillValues()
+        val g = Game("", getSudoku(), getSolution())
+        return g
+    }
+
+    // Get Sudoku
+    private fun getSudoku(): Array<Array<Cell>> {
         return mat
     }
 
     // Get solution
-    fun getSolution(): Array<IntArray> {
+    private fun getSolution(): Array<IntArray> {
         return solution
     }
-
-    /*companion object {
-        // Driver code
-        @JvmStatic
-        fun main(args: Array<String>) {
-            val n = 9
-            val k = 20
-            val sudoku = Sudoku(n, k)
-            sudoku.fillValues()
-            sudoku.printSudoku()
-        }
-    }*/
 
     // Constructor
     init {

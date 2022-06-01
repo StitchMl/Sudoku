@@ -4,7 +4,7 @@ import androidx.room.Entity
 
 @Entity
 data class Game(
-    val difficult: String,
+    var difficult: String,
     val sudoku: Array<Array<Cell>>,
     val solution: Array<IntArray>,
     var oneSelect: Boolean = false,

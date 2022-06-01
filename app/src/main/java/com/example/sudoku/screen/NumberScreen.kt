@@ -12,20 +12,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.sudoku.R
-import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.model.Cell
 import com.example.sudoku.model.Game
-import com.example.sudoku.model.Setting
 
-@Preview(device = Devices.DEFAULT, showBackground = true)
+/*@Preview(device = Devices.DEFAULT, showBackground = true)
 @Composable
 private fun ShowNUmberSelection(){
     val d = rememberSaveable { mutableStateOf(0) }
@@ -46,7 +40,7 @@ private fun ShowNUmberSelection(){
         )
         CreateBoard(s.get(), Game(diff,s.get(),s.getSolution()))
     }
-}
+}*/
 
 @Composable
 fun CreateBoard(
