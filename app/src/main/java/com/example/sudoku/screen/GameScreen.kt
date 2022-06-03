@@ -1,12 +1,15 @@
 package com.example.sudoku.screen
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
+import com.example.sudoku.R
 import com.example.sudoku.model.Game
 
 @Composable
@@ -29,6 +32,13 @@ fun NewGameScreen(
         }) {
             NumberSelection(g, context)
         }
+    }
+    if (g.counter.value == (9*9)){
+        val str = stringResource(R.string.won)
+        Toast.makeText(context,
+            str,
+            Toast.LENGTH_SHORT).show()
+        navController.navigate("main_screen")
     }
 }
 

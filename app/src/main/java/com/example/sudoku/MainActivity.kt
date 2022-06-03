@@ -49,8 +49,7 @@ fun Navigation(s: Sudoku, empty: MutableState<Int>, diff: MutableState<String>, 
         }
         // Main Screen
         composable("main_screen") {
-            s.changeGame()
-            FirstScreen(navController, empty, diff)
+            FirstScreen(navController, empty, diff, s)
         }
         // Game Screen
         composable("new_game_screen"){

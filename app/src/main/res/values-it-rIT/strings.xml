@@ -8,4 +8,5 @@
     <string name="load_game">Continua partita</string>
     <string name="rules">Regole</string>
     <string name="wrong">Sbagliato</string>
+    <string name="won">Hai vinto!</string>
 </resources>

@@ -42,7 +42,6 @@ fun NumberSelection(g: Game, context: Context) {
             (1..9).forEach {
                 val str = stringResource(R.string.wrong)
                 val clicked = rememberSaveable { mutableStateOf(false) }
-                println("<-- ${it-1} -->")
                 g.bar.bar[it-1] = clicked
                 Box(
                     modifier = Modifier
@@ -73,6 +72,12 @@ fun clickAction(str: String, it: Int, g: Game, context: Context){
     if(g.i_Select != null && g.j_Select != null){
         if(g.sudoku[g.i_Select!!][g.j_Select!!].sol == it) {
             g.sudoku[g.i_Select!!][g.j_Select!!].value?.value = it
+            g.sudoku[g.i_Select!!][g.j_Select!!].click?.value = 0
+            g.oneSelect = false
+            g.i_Select = null
+            g.j_Select = null
+            g.counter.value += 1
+            println("${g.counter.value} - ${9*9}")
         } else {
             Toast.makeText(context,
                 str,

@@ -10,7 +10,8 @@ data class Game(
     val bar: NumberBar,
     var oneSelect: Boolean = false,
     var i_Select: Int? = null,
-    var j_Select: Int? = null
+    var j_Select: Int? = null,
+    var counter: MutableState<Int>
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

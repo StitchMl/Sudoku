@@ -79,7 +79,6 @@ fun CreateBoard(
                                                 .background(if (click.value == 1) Color.Gray else if (click.value == 2) Color.LightGray else Color.White)
                                                 .size(itemSize)
                                                 .run {
-                                                    println("-> $row - $col <-")
                                                     if (game.sudoku[row][col].value?.value == 0) clickable {
                                                         cellSelect(row, col, game)
                                                     } else this
