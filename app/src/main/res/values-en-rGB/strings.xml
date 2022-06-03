@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Sudoku and the goblet of Android</string>
-    <string name="difficut">Difficulty</string>
+    <string name="difficulty">Difficulty</string>
     <string name="sudoku">Sudoku</string>
     <string name="group">The goblet of Android</string>
     <string name="new_game">New game</string>
     <string name="load_game">Load game</string>
     <string name="rules">Rules</string>
+    <string name="wrong">Wrong</string>
 </resources>

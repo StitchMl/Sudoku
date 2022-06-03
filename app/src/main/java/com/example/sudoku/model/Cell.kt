@@ -5,11 +5,10 @@ import androidx.room.Entity
 
 @Entity
 data class Cell(
-    var value: Int,
-    val row: Int,
-    val col: Int,
-    val sol: Int,
-    var mutableValue: MutableState<Int>? = null,
-    var click: MutableState<Boolean>? = null,
+    var row: Int,
+    var col: Int,
+    var sol: Int,
+    var value: MutableState<Int>?,
+    var click: MutableState<Int>?,
     val note: Set<Int> = emptySet()
 )

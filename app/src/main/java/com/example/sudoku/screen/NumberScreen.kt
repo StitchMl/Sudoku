@@ -7,44 +7,46 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.sudoku.model.Cell
+import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.model.Game
+import com.example.sudoku.model.Setting
 
-/*@Preview(device = Devices.DEFAULT, showBackground = true)
+@Preview(device = Devices.DEFAULT, showBackground = true)
 @Composable
 private fun ShowNUmberSelection(){
     val d = rememberSaveable { mutableStateOf(0) }
     val context = LocalContext.current
-    val diff = context.resources.getStringArray(
-        R.array.difficulty)[3]
-    Setting(context).setDifficult(diff, d)
-    val s = Sudoku(9, d.value)
-    s.FillValues()
+    val set = Setting(context)
+    val diff = rememberSaveable { mutableStateOf(set.DIFFICULTY[0]) }
+    set.setDifficult(diff.value, d)
+    val s = Sudoku(9, d, diff)
+    val game = s.getGame()
     Column {
         Text(
-            "$diff ${d.value}",
+            "${diff.value} ${d.value}",
             style = TextStyle(
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Medium,
                 color = Color.Black
             )
         )
-        CreateBoard(s.get(), Game(diff,s.get(),s.getSolution()))
+        CreateBoard(game)
     }
-}*/
+}
 
 @Composable
 fun CreateBoard(
-    sudoku: Array<Array<Cell>>,
     game: Game
 ) {
     BoxWithConstraints {
@@ -66,25 +68,26 @@ fun CreateBoard(
                                     (0..2).forEach { j ->
                                         val row = i + (n * 3)
                                         val col = j + (m * 3)
-                                        sudoku[row][col].click = remember { mutableStateOf(false) }
-                                        sudoku[row][col].mutableValue = rememberSaveable { mutableStateOf(sudoku[row][col].value) }
+                                        val click = rememberSaveable { mutableStateOf(0) }
+                                        game.sudoku[row][col].click = click
                                         Box(
                                             modifier = Modifier
                                                 .border(
                                                     1.dp,
                                                     Color.LightGray
                                                 )
-                                                .background(if (sudoku[row][col].click?.value!!) Color.Gray else Color.White)
+                                                .background(if (click.value == 1) Color.Gray else if (click.value == 2) Color.LightGray else Color.White)
                                                 .size(itemSize)
                                                 .run {
-                                                    if (sudoku[row][col].mutableValue?.value == 0) clickable {
-                                                        cellSelect(sudoku, row, col, game)
+                                                    println("-> $row - $col <-")
+                                                    if (game.sudoku[row][col].value?.value == 0) clickable {
+                                                        cellSelect(row, col, game)
                                                     } else this
                                                 },
                                             contentAlignment = Alignment.Center
                                         ) {
                                             Text(
-                                                text = if (sudoku[row][col].mutableValue?.value != 0) sudoku[row][col].mutableValue?.value.toString() else "",
+                                                text = if (game.sudoku[row][col].value?.value != 0) game.sudoku[row][col].value?.value.toString() else "",
                                                 style = TextStyle(
                                                     fontSize = 22.sp,
                                                     fontWeight = FontWeight.Medium,
@@ -103,21 +106,30 @@ fun CreateBoard(
     }
 }
 
-fun cellSelect(sudoku: Array<Array<Cell>>, i: Int, j: Int, g: Game){
-    if(sudoku[i][j].click?.value!!){
+fun cellSelect(i: Int, j: Int, g: Game){
+    if(g.sudoku[i][j].click?.value == 1){
         g.j_Select = null
         g.i_Select = null
         g.oneSelect = false
-        sudoku[i][j].click?.value = false
+        g.sudoku[i][j].click?.value = 0
     } else if (g.oneSelect){
-        sudoku[g.i_Select!!][g.j_Select!!].click?.value = false
+        g.sudoku[g.i_Select!!][g.j_Select!!].click?.value = 0
         g.i_Select = i
         g.j_Select = j
-        sudoku[i][j].click?.value = true
+        g.sudoku[i][j].click?.value = 1
     } else {
         g.oneSelect = true
         g.i_Select = i
         g.j_Select = j
-        sudoku[i][j].click?.value = true
+        for (row in 0 until g.sudoku.size){
+            for (col in 0 until g.sudoku[row].size){
+                    g.sudoku[row][col].click?.value = 0
+            }
+        }
+        g.sudoku[i][j].click?.value = 1
+        if (g.bar.select != 0) {
+            g.bar.bar[g.bar.select-1]?.value = false
+            g.bar.select = 0
+        }
     }
 }

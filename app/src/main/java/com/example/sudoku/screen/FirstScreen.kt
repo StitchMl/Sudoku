@@ -52,7 +52,7 @@ fun Screen(scope: CoroutineScope, empty: MutableState<Int>, diff: MutableState<S
         },
         gesturesEnabled = false
     ) {
-        PrincipalScreen(scope, drawerState, empty, set, navController)
+        PrincipalScreen(scope, drawerState, navController)
     }
 }
 
@@ -66,7 +66,7 @@ fun DrawerContent(scope: CoroutineScope, drawerState: BottomDrawerState,
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(stringResource(R.string.difficut), fontSize = 40.sp)
+        Text(stringResource(R.string.difficulty), fontSize = 40.sp)
         Column (
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -119,7 +119,7 @@ fun DrawerContent(scope: CoroutineScope, drawerState: BottomDrawerState,
 @Composable
 fun PrincipalScreen(
     scope: CoroutineScope, drawerState: BottomDrawerState,
-    empty: MutableState<Int>, set: Setting, navController: NavController
+    navController: NavController
 ){
     Scaffold(
         floatingActionButton = {

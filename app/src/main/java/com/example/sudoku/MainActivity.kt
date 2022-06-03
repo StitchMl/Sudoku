@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.screen.FirstScreen
 import com.example.sudoku.screen.NewGameScreen
 import com.example.sudoku.screen.SplashScreen
@@ -25,11 +26,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val empty = rememberSaveable{ mutableStateOf(0) }
-            val diff = rememberSaveable { mutableStateOf("") }
+            val diff = rememberSaveable{ mutableStateOf("") }
+            val sudo = Sudoku(9, empty, diff)
             val context = applicationContext
             SudokuEIlCaliceDiAndroidTheme {
                 Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
-                    Navigation(empty, diff, context)
+                    Navigation(sudo, empty, diff, context)
                 }
 
             }
@@ -38,7 +40,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Navigation(empty: MutableState<Int>, diff: MutableState<String>, context: Context) {
+fun Navigation(s: Sudoku, empty: MutableState<Int>, diff: MutableState<String>, context: Context) {
     val navController = rememberNavController()
     NavHost(navController = navController,
         startDestination = "splash_screen") {
@@ -47,11 +49,12 @@ fun Navigation(empty: MutableState<Int>, diff: MutableState<String>, context: Co
         }
         // Main Screen
         composable("main_screen") {
+            s.changeGame()
             FirstScreen(navController, empty, diff)
         }
         // Game Screen
         composable("new_game_screen"){
-            NewGameScreen(navController, empty, diff, context)
+            NewGameScreen(navController, s.getGame(), context)
         }
         composable("load_game_screen"){
             /*TODO LoadGameScreen(navController)*/
