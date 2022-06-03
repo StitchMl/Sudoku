@@ -51,7 +51,7 @@ fun CreateBoard(
     game: Game
 ) {
     BoxWithConstraints {
-        val itemSize = maxWidth / 9
+        val itemSize = (maxWidth-8.dp) / 9
 
         Column(modifier = Modifier.padding(4.dp)) {
             (0..2).forEach { n ->
