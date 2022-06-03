@@ -127,8 +127,7 @@ fun PrincipalScreen(
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = { navController.navigate("result_screen") }) {
-                Icon(ImageVector.vectorResource(R.drawable.trophy),
-                    "") } },
+                Icon(ImageVector.vectorResource(R.drawable.trophy), "") } },
         isFloatingActionButtonDocked = true
     ) {
         Column(

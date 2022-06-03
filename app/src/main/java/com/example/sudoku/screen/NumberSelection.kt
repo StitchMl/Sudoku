@@ -24,15 +24,14 @@ import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.model.Game
 import com.example.sudoku.model.Setting
 
-//funzione per i numeri sotto la griglia
-
+/** Create the board of number to insert **/
 @Composable
 fun NumberSelection(g: Game, context: Context) {
     val tempVal = rememberSaveable { mutableStateOf(false) }
+    val str = stringResource(R.string.wrong)
     g.bar.bar = Array(9){tempVal}
     BoxWithConstraints {
         val itemSize = maxWidth / 9
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -40,26 +39,20 @@ fun NumberSelection(g: Game, context: Context) {
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             (1..9).forEach {
-                val str = stringResource(R.string.wrong)
                 val clicked = rememberSaveable { mutableStateOf(false) }
                 g.bar.bar[it-1] = clicked
                 Box(
                     modifier = Modifier
                         .size(itemSize)
                         .background(if (clicked.value) Color.Gray else Color.White)
-                        .run {
-                           clickable {
-                               clickAction(str, it, g, context)
-                           }
-                        },
+                        .run { clickable { clickAction(str, it, g, context) } },
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = it.toString(),
                         style = TextStyle(
                             fontSize = 22.sp,
-                            fontWeight = FontWeight.Medium,
-                           // color = SudokuColors.NumberSelectionColor
+                            fontWeight = FontWeight.Medium
                         )
                     )
                 }
@@ -77,7 +70,6 @@ fun clickAction(str: String, it: Int, g: Game, context: Context){
             g.i_Select = null
             g.j_Select = null
             g.counter.value += 1
-            println("${g.counter.value} - ${9*9}")
         } else {
             Toast.makeText(context,
                 str,

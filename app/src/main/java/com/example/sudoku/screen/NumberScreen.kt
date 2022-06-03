@@ -16,6 +16,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sudoku.computation.Sudoku
@@ -54,47 +55,15 @@ fun CreateBoard(
 
         Column(modifier = Modifier.padding(4.dp)) {
             (0..2).forEach { n ->
-                Row(
-                    modifier = Modifier
-                        .border(1.dp, Color.Black)
-                ) {
-                    (0..2).forEach { m ->
-                        Column(
-                            modifier = Modifier
+                Row(modifier = Modifier.border(1.dp, Color.Black)
+                ) { (0..2).forEach { m ->
+                        Column(modifier = Modifier
                                 .border(1.dp, Color.Black)
-                        ) {
-                            (0..2).forEach { i ->
-                                Row {
-                                    (0..2).forEach { j ->
-                                        val row = i + (n * 3)
-                                        val col = j + (m * 3)
-                                        val click = rememberSaveable { mutableStateOf(0) }
-                                        game.sudoku[row][col].click = click
-                                        Box(
-                                            modifier = Modifier
-                                                .border(
-                                                    1.dp,
-                                                    Color.LightGray
-                                                )
-                                                .background(if (click.value == 1) Color.Gray else if (click.value == 2) Color.LightGray else Color.White)
-                                                .size(itemSize)
-                                                .run {
-                                                    if (game.sudoku[row][col].value?.value == 0) clickable {
-                                                        cellSelect(row, col, game)
-                                                    } else this
-                                                },
-                                            contentAlignment = Alignment.Center
-                                        ) {
-                                            Text(
-                                                text = if (game.sudoku[row][col].value?.value != 0) game.sudoku[row][col].value?.value.toString() else "",
-                                                style = TextStyle(
-                                                    fontSize = 22.sp,
-                                                    fontWeight = FontWeight.Medium,
-                                                    color = Color.Black
-                                                )
-                                            )
-                                        }
-                                    }
+                        ) { (0..2).forEach { i ->
+                                Row { (0..2).forEach { j ->
+                                    val row = i + (n * 3)
+                                    val col = j + (m * 3)
+                                    CreateCell(row, col, game, itemSize) }
                                 }
                             }
                         }
@@ -130,5 +99,32 @@ fun cellSelect(i: Int, j: Int, g: Game){
             g.bar.bar[g.bar.select-1]?.value = false
             g.bar.select = 0
         }
+    }
+}
+
+@Composable
+fun CreateCell(row:Int, col:Int, game:Game, itemSize: Dp){
+    val click = rememberSaveable { mutableStateOf(0) }
+    game.sudoku[row][col].click = click
+    Box(
+        modifier = Modifier
+            .border(1.dp, Color.LightGray)
+            .background(if (click.value == 1) Color.Gray else if (click.value == 2) Color.LightGray else Color.White)
+            .size(itemSize)
+            .run {
+                if (game.sudoku[row][col].value?.value == 0) clickable {
+                    cellSelect(row, col, game)
+                } else this
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = if (game.sudoku[row][col].value?.value != 0) game.sudoku[row][col].value?.value.toString() else "",
+            style = TextStyle(
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.Black
+            )
+        )
     }
 }

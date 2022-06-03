@@ -4,13 +4,21 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.sudoku.R
+import com.example.sudoku.model.Cell
 import com.example.sudoku.model.Game
+import com.example.sudoku.model.NumberBar
 
 @Composable
 fun NewGameScreen(
@@ -35,18 +43,18 @@ fun NewGameScreen(
     }
     if (g.counter.value == (9*9)){
         val str = stringResource(R.string.won)
-        Toast.makeText(context,
-            str,
+        Toast.makeText(context, str,
             Toast.LENGTH_SHORT).show()
         navController.navigate("main_screen")
     }
 }
 
-/*
 @Preview(device = Devices.DEFAULT, showBackground = true)
 @Composable
 fun NewGameScreenPreview(){
-    val empty = rememberSaveable { mutableStateOf(20) }
+    val counter = rememberSaveable { mutableStateOf(81) }
     val diff = rememberSaveable { mutableStateOf("") }
-    NewGameScreen(rememberNavController(), empty, diff, context)
-}*/
+    NewGameScreen(rememberNavController(), Game(diff,
+        Array(9){ Array(9){ Cell(0,0,0,null, null) } },
+        NumberBar(), counter = counter), LocalContext.current)
+}
