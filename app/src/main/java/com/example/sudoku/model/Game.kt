@@ -8,11 +8,21 @@ data class Game(
     var difficult: MutableState<String>,
     val sudoku: Array<Array<Cell>>,
     val bar: NumberBar,
+    val mistakes: Int = 0,
+    val elapsedTime: Long = 0,
     var oneSelect: Boolean = false,
     var i_Select: Int? = null,
     var j_Select: Int? = null,
     var counter: MutableState<Int>
 ) {
+    val elapsedTimeString: String
+        get() {
+            val secs = elapsedTime / 1000 % 60
+            val mins = elapsedTime / 1000 / 60
+
+            return "${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}"
+        }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

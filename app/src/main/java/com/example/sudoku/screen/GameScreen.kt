@@ -37,10 +37,10 @@ fun NewGameScreen(
 ){
     ConstraintLayout {
         // Create references for the composable to constrain
-        val (sudoku, number) = createRefs()
+        val (sudoku, number,infoBar) = createRefs()
 
         Box(modifier = Modifier.constrainAs(sudoku){
-            top.linkTo(parent.top, margin = 8.dp)
+            top.linkTo(infoBar.bottom, margin = 8.dp)
         }) {
             CreateBoard(g)
         }
@@ -48,6 +48,11 @@ fun NewGameScreen(
             top.linkTo(sudoku.bottom, margin = 10.dp)
         }) {
             NumberSelection(g, context)
+        }
+        Box(modifier = Modifier.constrainAs(infoBar){
+            top.linkTo(parent.top, margin = 10.dp)
+        }) {
+            CurrentInfoBar(g, context)
         }
     }
     if (g.counter.value == (9*9)){
