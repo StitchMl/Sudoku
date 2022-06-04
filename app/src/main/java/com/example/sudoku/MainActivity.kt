@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.screen.FirstScreen
 import com.example.sudoku.screen.NewGameScreen
+import com.example.sudoku.screen.RulesScreen
 import com.example.sudoku.screen.SplashScreen
 import com.example.sudoku.ui.theme.SudokuEIlCaliceDiAndroidTheme
 
@@ -60,7 +61,7 @@ fun Navigation(s: Sudoku, empty: MutableState<Int>, diff: MutableState<String>, 
         }
         // Rules Screen
         composable("rules_screen"){
-            /*TODO RulesScreen(navController)*/
+            RulesScreen(navController)
         }
         // Result Screen
         composable("result_screen"){
