@@ -1,7 +1,6 @@
 package com.example.sudoku.screen
 
 import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -21,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sudoku.R
 import com.example.sudoku.computation.Sudoku
+import com.example.sudoku.computation.makeShortToast
 import com.example.sudoku.model.Game
 import com.example.sudoku.model.Setting
 
@@ -71,9 +71,7 @@ fun clickAction(str: String, it: Int, g: Game, context: Context){
             g.j_Select = null
             g.counter.value += 1
         } else {
-            Toast.makeText(context,
-                str,
-                Toast.LENGTH_SHORT).show()
+            context.makeShortToast(str)
         }
     } else {
         if (g.bar.select != 0) {

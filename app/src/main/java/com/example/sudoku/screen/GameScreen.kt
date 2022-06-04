@@ -1,11 +1,11 @@
 package com.example.sudoku.screen
 
 import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -23,6 +23,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.sudoku.R
 import com.example.sudoku.computation.Sudoku
+import com.example.sudoku.computation.makeLongToast
 import com.example.sudoku.model.Game
 import com.example.sudoku.model.Setting
 
@@ -30,6 +31,8 @@ import com.example.sudoku.model.Setting
 fun NewGameScreen(
     navController: NavHostController,
     g: Game,
+    timer: MutableState<Long>,
+    newRecord: MutableState<Boolean>,
     context: Context
 ){
     ConstraintLayout {
@@ -49,8 +52,7 @@ fun NewGameScreen(
     }
     if (g.counter.value == (9*9)){
         val str = stringResource(R.string.won)
-        Toast.makeText(context, str,
-            Toast.LENGTH_SHORT).show()
+        context.makeLongToast(str)
         navController.navigate("main_screen")
     }
 }
@@ -61,6 +63,8 @@ fun NewGameScreenPreview(){
     val context = LocalContext.current
     val set = Setting(context)
     val k = rememberSaveable { mutableStateOf(0) }
+    val t = rememberSaveable { mutableStateOf(0L) }
+    val b = rememberSaveable { mutableStateOf(false) }
     val diff = rememberSaveable { mutableStateOf(set.DIFFICULTY[1]) }
     set.setDifficult(diff.value, k)
     val s = Sudoku(9, k, diff)
@@ -73,6 +77,6 @@ fun NewGameScreenPreview(){
                 color = Color.Black
             )
         )
-        NewGameScreen(rememberNavController(), s.getGame(), context)
+        NewGameScreen(rememberNavController(), s.getGame(), t, b, context)
     }
 }
