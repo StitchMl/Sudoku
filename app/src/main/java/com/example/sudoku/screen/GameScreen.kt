@@ -62,6 +62,11 @@ fun NewGameScreen(
         g.elapsedTime = timer.value
         context.makeShortToast(str)
         navController.navigate("victory")
+    } else if (g.counter.value == 0){
+        val str = stringResource(R.string.game_over)
+        g.elapsedTime = timer.value
+        context.makeShortToast(str)
+        navController.navigate("fail")
     }
 }
 

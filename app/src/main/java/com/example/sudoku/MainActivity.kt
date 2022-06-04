@@ -16,11 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.sudoku.computation.Sudoku
-import com.example.sudoku.screen.FirstScreen
-import com.example.sudoku.screen.NewGameScreen
-import com.example.sudoku.screen.RulesScreen
-import com.example.sudoku.screen.SplashScreen
-import com.example.sudoku.screen.VictoryScreen
+import com.example.sudoku.screen.*
 import com.example.sudoku.ui.theme.SudokuEIlCaliceDiAndroidTheme
 
 class MainActivity : ComponentActivity() {
@@ -62,6 +58,9 @@ fun Navigation(s: Sudoku, empty: MutableState<Int>, diff: MutableState<String>,
         }
         composable("victory"){
             VictoryScreen(navController, timer, newRecord)
+        }
+        composable("fail"){
+            FailureScreen(navController, timer, newRecord)
         }
         composable("load_game_screen"){
             /*TODO LoadGameScreen(navController)*/

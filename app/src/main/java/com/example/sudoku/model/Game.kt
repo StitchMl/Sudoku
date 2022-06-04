@@ -8,7 +8,7 @@ data class Game(
     var difficult: MutableState<String>,
     val sudoku: Array<Array<Cell>>,
     val bar: NumberBar,
-    val mistakes: Int = 0,
+    var mistakes: Int = 0,
     var elapsedTime: Long = 0L,
     var oneSelect: Boolean = false,
     var i_Select: Int? = null,

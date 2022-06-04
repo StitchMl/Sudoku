@@ -71,6 +71,7 @@ fun clickAction(str: String, it: Int, g: Game, context: Context){
             g.j_Select = null
             g.counter.value += 1
         } else {
+            g.mistakes++
             context.makeShortToast(str)
         }
     } else {
@@ -91,6 +92,9 @@ fun clickAction(str: String, it: Int, g: Game, context: Context){
                 }
             }
         }
+    }
+    if(g.mistakes == 3){
+        g.counter.value = 0
     }
 }
 
