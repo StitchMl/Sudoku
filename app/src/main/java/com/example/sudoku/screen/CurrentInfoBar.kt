@@ -1,6 +1,5 @@
 package com.example.sudoku.screen
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,7 +26,7 @@ import com.example.sudoku.model.Setting
 
 /** Insert difficulty, mistakes and timer*/
 @Composable
-fun CurrentInfoBar(g: Game, timer:MutableState<Long>, context: Context) {
+fun CurrentInfoBar(g: Game, timer: MutableState<Long>) {
     CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.caption) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(text = g.difficult.value,
@@ -53,5 +52,5 @@ fun CurrentInfoBarPreview(){
     val diff = rememberSaveable { mutableStateOf(set.DIFFICULTY[1]) }
     set.setDifficult(diff.value, k)
     val s = Sudoku(9, k, diff)
-    CurrentInfoBar(s.getGame(), t, context)
+    CurrentInfoBar(s.getGame(), t)
 }

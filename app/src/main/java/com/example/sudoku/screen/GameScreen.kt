@@ -47,7 +47,7 @@ fun NewGameScreen(
         Box(modifier = Modifier.constrainAs(infoBar){
             top.linkTo(parent.top, margin = 10.dp)
         }) {
-            CurrentInfoBar(g, timer, context)
+            CurrentInfoBar(g, timer)
         }
     }
     start.value = true

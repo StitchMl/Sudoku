@@ -19,12 +19,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sudoku.R
-import com.example.sudoku.computation.Navigation
 import com.example.sudoku.computation.Sudoku
 
 
 @Composable
-fun RulesScreen (navController: Navigation)
+fun RulesScreen()
 {
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -71,5 +70,5 @@ fun RulesScreenPreview(){
     val start = rememberSaveable{ mutableStateOf(false) }
     val sudo = Sudoku(9, empty, diff)
     val context = LocalContext.current
-    RulesScreen(Navigation(sudo, empty, diff, timer, newRecord, screen, start, context))
+    RulesScreen()
 }

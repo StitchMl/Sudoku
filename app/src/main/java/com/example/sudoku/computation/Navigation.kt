@@ -53,7 +53,7 @@ class Navigation(
     /** 06 */
     @Composable
     fun Rules_screen(){
-        RulesScreen(this)
+        RulesScreen()
     }
     // Result Screen
     /** 07 */
