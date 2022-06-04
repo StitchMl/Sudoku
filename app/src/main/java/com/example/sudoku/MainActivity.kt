@@ -19,6 +19,7 @@ import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.screen.FirstScreen
 import com.example.sudoku.screen.NewGameScreen
 import com.example.sudoku.screen.SplashScreen
+import com.example.sudoku.screen.VictoryScreen
 import com.example.sudoku.ui.theme.SudokuEIlCaliceDiAndroidTheme
 
 class MainActivity : ComponentActivity() {
@@ -27,11 +28,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             val empty = rememberSaveable{ mutableStateOf(0) }
             val diff = rememberSaveable{ mutableStateOf("") }
+            val timer = rememberSaveable{ mutableStateOf(0L) }
+            val newRecord = rememberSaveable{ mutableStateOf(false) }
             val sudo = Sudoku(9, empty, diff)
             val context = applicationContext
             SudokuEIlCaliceDiAndroidTheme {
                 Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
-                    Navigation(sudo, empty, diff, context)
+                    Navigation(sudo, empty, diff, timer, newRecord, context)
                 }
 
             }
@@ -40,7 +43,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Navigation(s: Sudoku, empty: MutableState<Int>, diff: MutableState<String>, context: Context) {
+fun Navigation(s: Sudoku, empty: MutableState<Int>, diff: MutableState<String>,
+               timer: MutableState<Long>, newRecord: MutableState<Boolean>, context: Context) {
     val navController = rememberNavController()
     NavHost(navController = navController,
         startDestination = "splash_screen") {
@@ -53,7 +57,10 @@ fun Navigation(s: Sudoku, empty: MutableState<Int>, diff: MutableState<String>, 
         }
         // Game Screen
         composable("new_game_screen"){
-            NewGameScreen(navController, s.getGame(), context)
+            NewGameScreen(navController, s.getGame(), timer, newRecord, context)
+        }
+        composable("victory"){
+            VictoryScreen(navController, timer, newRecord)
         }
         composable("load_game_screen"){
             /*TODO LoadGameScreen(navController)*/

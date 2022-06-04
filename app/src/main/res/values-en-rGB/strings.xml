@@ -9,4 +9,6 @@
     <string name="rules">Rules</string>
     <string name="wrong">Wrong</string>
     <string name="won">You won!</string>
+    <string name="game_complete">Game Complete!</string>
+    <string name="total_time">"Total Time: "</string>
 </resources>
