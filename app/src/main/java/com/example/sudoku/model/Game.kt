@@ -14,6 +14,7 @@ data class Game(
     var i_Select: Int? = null,
     var j_Select: Int? = null,
     var counter: MutableState<Int>
+
 ) {
     val elapsedTimeString: String
         get() {
