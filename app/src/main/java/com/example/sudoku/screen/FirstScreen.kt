@@ -22,9 +22,8 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.sudoku.R
+import com.example.sudoku.computation.Navigation
 import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.model.Setting
 import com.example.sudoku.ui.theme.ButtonColor
@@ -34,7 +33,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun FirstScreen(navController: NavController, empty: MutableState<Int>, diff: MutableState<String>, s: Sudoku){
+fun FirstScreen(navController: Navigation, empty: MutableState<Int>, diff: MutableState<String>, s: Sudoku){
     val scope = rememberCoroutineScope()
     Screen(scope, empty, diff, navController, s)
 }
@@ -42,7 +41,7 @@ fun FirstScreen(navController: NavController, empty: MutableState<Int>, diff: Mu
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Screen(scope: CoroutineScope, empty: MutableState<Int>,
-           diff: MutableState<String>, navController: NavController, s: Sudoku){
+           diff: MutableState<String>, navController: Navigation, s: Sudoku){
     val drawerState = rememberBottomDrawerState(BottomDrawerValue.Closed)
     val context = LocalContext.current
     val set = Setting(context)
@@ -62,7 +61,7 @@ fun Screen(scope: CoroutineScope, empty: MutableState<Int>,
 @Composable
 fun DrawerContent(scope: CoroutineScope, drawerState: BottomDrawerState,
                   e: MutableState<Int>, set: Setting, d: MutableState<String>,
-                  navController: NavController, s: Sudoku){
+                  navController: Navigation, s: Sudoku){
     val diff: Array<String> = set.DIFFICULTY
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -79,7 +78,7 @@ fun DrawerContent(scope: CoroutineScope, drawerState: BottomDrawerState,
                         d.value = diff[state]
                         set.setDifficult(d.value, e)
                         s.changeGame()
-                        navController.navigate("new_game_screen")
+                        navController.setScreen(2)
                     }
                     .padding(3.dp)) {
                     Column (horizontalAlignment = Alignment.Start) {
@@ -122,11 +121,11 @@ fun DrawerContent(scope: CoroutineScope, drawerState: BottomDrawerState,
 @Composable
 fun PrincipalScreen(
     scope: CoroutineScope, drawerState: BottomDrawerState,
-    navController: NavController
+    navController: Navigation
 ){
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = { navController.navigate("result_screen") }) {
+            FloatingActionButton(onClick = { navController.setScreen(7) }) {
                 Icon(ImageVector.vectorResource(R.drawable.trophy), "") } },
         isFloatingActionButtonDocked = true
     ) {
@@ -160,7 +159,9 @@ fun PrincipalScreen(
                 Text(stringResource(R.string.new_game), fontSize = 22.sp)
             }
             Button(
-                onClick = { navController.navigate("load_game_screen") },
+                onClick = {
+                    navController.setScreen(5)
+                          },
                 contentPadding = PaddingValues(
                     start = 20.dp,
                     top = 10.dp,
@@ -177,7 +178,7 @@ fun PrincipalScreen(
                 Text(stringResource(R.string.load_game), fontSize = 13.sp)
             }
             Button(
-                onClick = { navController.navigate("rules_screen") },
+                onClick = { navController.setScreen(6) },
                 contentPadding = PaddingValues(
                     start = 20.dp,
                     top = 10.dp,
@@ -200,6 +201,14 @@ fun PrincipalScreen(
 fun FirstScreenPreview(){
     val scope = rememberCoroutineScope()
     val empty = rememberSaveable { mutableStateOf(0) }
+    val screen = rememberSaveable { mutableStateOf(0) }
     val diff = rememberSaveable { mutableStateOf("") }
-    Screen(scope, empty, diff, rememberNavController(), Sudoku(9, empty, diff))
+    val timer = rememberSaveable{ mutableStateOf(0L) }
+    val newRecord = rememberSaveable{ mutableStateOf(false) }
+    val start = rememberSaveable{ mutableStateOf(false) }
+    val sudo = Sudoku(9, empty, diff)
+    val context = LocalContext.current
+    Screen(scope, empty, diff,
+        Navigation(sudo, empty, diff, timer, newRecord, screen, start, context),
+        Sudoku(9, empty, diff))
 }

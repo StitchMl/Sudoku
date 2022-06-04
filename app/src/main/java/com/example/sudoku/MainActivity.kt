@@ -1,23 +1,20 @@
 package com.example.sudoku
 
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.addCallback
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import com.example.sudoku.computation.MyTimerTask
+import com.example.sudoku.computation.Navigation
 import com.example.sudoku.computation.Sudoku
-import com.example.sudoku.screen.*
 import com.example.sudoku.ui.theme.SudokuEIlCaliceDiAndroidTheme
+import java.util.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,11 +24,29 @@ class MainActivity : ComponentActivity() {
             val diff = rememberSaveable{ mutableStateOf("") }
             val timer = rememberSaveable{ mutableStateOf(0L) }
             val newRecord = rememberSaveable{ mutableStateOf(false) }
+            val start = rememberSaveable{ mutableStateOf(false) }
+            val screen = rememberSaveable{ mutableStateOf(0) }
             val sudo = Sudoku(9, empty, diff)
             val context = applicationContext
+            val nav = Navigation(sudo, empty, diff, timer, newRecord, screen, start, context)
+            val t = Timer()
+            val task = MyTimerTask(timer, start)
+            t.scheduleAtFixedRate(task, 1000, 1000)
+            onBackPressedDispatcher.addCallback(this) {
+                screen.value = 1
+            }
             SudokuEIlCaliceDiAndroidTheme {
                 Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
-                    Navigation(sudo, empty, diff, timer, newRecord, context)
+                    when (screen.value) {
+                        0 -> { nav.Start() }
+                        1 -> { nav.Main_screen() }
+                        2 -> { nav.New_game_screen() }
+                        3 -> { nav.Victory() }
+                        4 -> { nav.Fail() }
+                        5 -> { nav.Load_game_screen() }
+                        6 -> { nav.Rules_screen() }
+                        7 -> { nav.Result_screen() }
+                    }
                 }
 
             }
@@ -39,7 +54,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
+/*@Composable
 fun Navigation(s: Sudoku, empty: MutableState<Int>, diff: MutableState<String>,
                timer: MutableState<Long>, newRecord: MutableState<Boolean>, context: Context) {
     val navController = rememberNavController()
@@ -74,5 +89,5 @@ fun Navigation(s: Sudoku, empty: MutableState<Int>, diff: MutableState<String>,
             /*TODO ResultScreen(navController)*/
         }
     }
-}
+}*/
 

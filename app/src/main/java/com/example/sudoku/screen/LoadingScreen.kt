@@ -21,13 +21,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.sudoku.R
+import com.example.sudoku.computation.Navigation
 import com.example.sudoku.ui.theme.mainTitle
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(navController: NavController) {
+fun SplashScreen(navController: Navigation) {
     val scale = remember { Animatable(0f) }
 
     // AnimationEffect
@@ -41,7 +41,7 @@ fun SplashScreen(navController: NavController) {
                 })
         )
         delay(3000)
-        navController.navigate("main_screen")
+        navController.setScreen(1)
     }
 
     // Image

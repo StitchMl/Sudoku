@@ -23,8 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.sudoku.R
+import com.example.sudoku.computation.Navigation
 import com.example.sudoku.computation.toTime
 import com.example.sudoku.ui.theme.mainTitle
 import com.example.sudoku.ui.theme.newGameSubtitle
@@ -32,7 +32,7 @@ import com.example.sudoku.ui.theme.textColorLight
 import kotlinx.coroutines.delay
 
 @Composable
-fun FailureScreen(navController: NavController,
+fun FailureScreen(navController: Navigation,
                   timerState: MutableState<Long>,
                   isNewRecordState: MutableState<Boolean>
 ) {
@@ -51,7 +51,7 @@ fun FailureScreen(navController: NavController,
         delay(3000)
         timerState.value = 0L
         isNewRecordState.value = false
-        navController.navigate("main_screen")
+        navController.setScreen(1)
     }
 
     // Image

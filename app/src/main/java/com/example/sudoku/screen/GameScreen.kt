@@ -13,22 +13,21 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.sudoku.R
+import com.example.sudoku.computation.Navigation
 import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.computation.makeShortToast
 import com.example.sudoku.model.Game
 import com.example.sudoku.model.Setting
-import java.util.*
 
 
 @Composable
 fun NewGameScreen(
-    navController: NavHostController,
+    navController: Navigation,
     g: Game,
     timer: MutableState<Long>,
     newRecord: MutableState<Boolean>,
+    start: MutableState<Boolean>,
     context: Context
 ){
     ConstraintLayout {
@@ -51,22 +50,19 @@ fun NewGameScreen(
             CurrentInfoBar(g, timer, context)
         }
     }
-    val t = Timer()
-    t.scheduleAtFixedRate(object : TimerTask() {
-        override fun run() {
-            timer.value++
-        }
-    }, 1000, 1000)
+    start.value = true
     if (g.counter.value == (9*9)){
+        start.value = false
         val str = stringResource(R.string.won)
         g.elapsedTime = timer.value
         context.makeShortToast(str)
-        navController.navigate("victory")
+        navController.setScreen(3)
     } else if (g.counter.value == 0){
+        start.value = false
         val str = stringResource(R.string.game_over)
         g.elapsedTime = timer.value
         context.makeShortToast(str)
-        navController.navigate("fail")
+        navController.setScreen(4)
     }
 }
 
@@ -76,10 +72,16 @@ fun NewGameScreenPreview(){
     val context = LocalContext.current
     val set = Setting(context)
     val k = rememberSaveable { mutableStateOf(0) }
+    val empty = rememberSaveable { mutableStateOf(0) }
     val t = rememberSaveable { mutableStateOf(0L) }
     val b = rememberSaveable { mutableStateOf(false) }
+    val start = rememberSaveable { mutableStateOf(false) }
+    val screen = rememberSaveable { mutableStateOf(0) }
+    val timer = rememberSaveable{ mutableStateOf(0L) }
+    val newRecord = rememberSaveable{ mutableStateOf(false) }
     val diff = rememberSaveable { mutableStateOf(set.DIFFICULTY[1]) }
     set.setDifficult(diff.value, k)
     val s = Sudoku(9, k, diff)
-    NewGameScreen(rememberNavController(), s.getGame(), t, b, context)
+    NewGameScreen(Navigation(s, empty, diff, timer, newRecord, screen, start, context),
+        s.getGame(), t, b, start, context)
 }
