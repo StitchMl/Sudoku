@@ -10,4 +10,6 @@
     <string name="won">You won!</string>
     <string name="game_complete">Game Complete!</string>
     <string name="total_time">"Total Time: "</string>
+    <string name="mistakes">"Mistakes: "</string>
+    <string name="rules01">The rule: never the same number.</string>
 </resources>

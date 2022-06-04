@@ -11,4 +11,6 @@
     <string name="won">Hai vinto!</string>
     <string name="game_complete">Gioco Completo!</string>
     <string name="total_time">"Tempo Totale: "</string>
+    <string name="mistakes">"Errori: "</string>
+    <string name="rules01">La regola: mai lo stesso numero.</string>
 </resources>

@@ -9,7 +9,7 @@ data class Game(
     val sudoku: Array<Array<Cell>>,
     val bar: NumberBar,
     val mistakes: Int = 0,
-    val elapsedTime: Long = 0,
+    var elapsedTime: Long = 0L,
     var oneSelect: Boolean = false,
     var i_Select: Int? = null,
     var j_Select: Int? = null,
