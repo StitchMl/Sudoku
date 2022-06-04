@@ -1,6 +1,7 @@
 package com.example.sudoku.screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -13,6 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
 
 import com.example.sudoku.R
@@ -22,11 +24,13 @@ import com.example.sudoku.R
 fun RulesScreen (navController: NavController)
 {
     Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
            .fillMaxHeight()
            .fillMaxWidth()
             .fillMaxSize()
-    ) {
+    )
+    {
         Image(
             painter = painterResource(id = R.drawable.sudoku),
             contentDescription = "sudoku",
@@ -35,7 +39,6 @@ fun RulesScreen (navController: NavController)
                 .width(170.dp),
             alignment = Alignment.CenterEnd
         )
-
         Text(
             text = "La regola: mai lo stesso numero. \n" +
                     "Esiste una sola regola per giocare a Sudoku: bisogna riempire la scacchiera in modo tale che ogni riga, ogni colonna e ogni riquadro contengano i numeri dall’1 al 9. La condizione è che nessuna riga, nessuna colonna o riquadro presentino due volte lo stesso numero.\n" +
