@@ -154,7 +154,7 @@ fun PrincipalScreen(
                 ),
                 modifier = Modifier
                     .width(190.dp)
-                    .height(50.dp),
+                    .height(53.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor, textColorLight)
             ) {
                 Text(stringResource(R.string.new_game), fontSize = 22.sp)
