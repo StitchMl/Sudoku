@@ -47,7 +47,7 @@ import com.example.sudoku.model.ScoreViewModel
 }*/
 
 @Composable
-fun ScoreScreen( score: ScoreViewModel)
+fun ScoreScreen(score: ScoreViewModel)
 {
     val list = score.realTimeUpdateItem.collectAsState()
     //val mistake = rememberSaveable{ mutableStateOf(score.mistakes) }
@@ -62,11 +62,9 @@ fun ScoreScreen( score: ScoreViewModel)
 }
 
 @Composable
-fun RealTimeUpdateItemCard(
-    score: Score
-) {
+fun RealTimeUpdateItemCard(score: Score) {
     val time = remember { score.time }
-    val black = Color.Black
+    //val black = Color.Black
     val white = Color.White
    /* val green = Color(
         ContextCompat.getColor(

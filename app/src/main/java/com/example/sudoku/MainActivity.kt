@@ -23,7 +23,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val score: ScoreViewModel by viewModels()
             val empty = rememberSaveable{ mutableStateOf(0) }
             val diff = rememberSaveable{ mutableStateOf("") }
             val timer = rememberSaveable{ mutableStateOf(0L) }
@@ -32,10 +31,11 @@ class MainActivity : ComponentActivity() {
             val screen = rememberSaveable{ mutableStateOf(Screen.SPLASH_SCREEN) }
             val sudo = Sudoku(9, empty, diff)
             val context = applicationContext
-            val nav = Navigation(sudo, empty, diff, timer, newRecord, screen, start, score, context)
             val t = Timer()
             val task = MyTimerTask(timer, start)
             t.scheduleAtFixedRate(task, 1000, 1000)
+            val score: ScoreViewModel by viewModels()
+            val nav = Navigation(sudo, empty, diff, timer, newRecord, screen, start, score, context)
             onBackPressedDispatcher.addCallback(this) {
                 screen.value = Screen.MAIN_SCREEN
             }
