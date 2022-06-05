@@ -38,16 +38,7 @@ class MainActivity : ComponentActivity() {
             }
             SudokuEIlCaliceDiAndroidTheme {
                 Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
-                    when (screen.value) {
-                        Screen.SPLASH_SCREEN -> { nav.Start() }
-                        Screen.MAIN_SCREEN -> { nav.Main_screen() }
-                        Screen.NEW_GAME_SCREEN -> { nav.New_game_screen() }
-                        Screen.VICTORY -> { nav.Victory() }
-                        Screen.FAIL -> { nav.Fail() }
-                        Screen.LOAD_GAME_SCREEN -> { nav.Load_game_screen() }
-                        Screen.RULES_SCREEN -> { nav.Rules_screen() }
-                        Screen.RESULT_SCREEN -> { nav.Result_screen() }
-                    }
+                    nav.GetScreen()
                 }
 
             }

@@ -13,50 +13,42 @@ class Navigation(
 ) {
     private var g: Game? = null
 
-    /** 00 */
     @Composable
     fun Start(){
         SplashScreen(this)
     }
 
     // Main Screen
-    /** 01 */
     @Composable
     fun Main_screen() {
         timer.value = 0L
         FirstScreen(this, empty, diff, s)
     }
     // Game Screen
-    /** 02 */
     @Composable
     fun New_game_screen() {
         g = s.getGame()
         timer.value = 0L
         NewGameScreen(this, g!!, timer, newRecord, start, context)
     }
-    /** 03 */
     @Composable
     fun Victory() {
         VictoryScreen(this, timer, newRecord)
     }
-    /** 04 */
     @Composable
     fun Fail() {
         FailureScreen(this, timer, newRecord)
     }
-    /** 05 */
     @Composable
     fun Load_game_screen(){
         /*TODO LoadGameScreen(this)*/
     }
     // Rules Screen
-    /** 06 */
     @Composable
     fun Rules_screen(){
         RulesScreen()
     }
     // Result Screen
-    /** 07 */
     @Composable
     fun Result_screen() {
         /*TODO ResultScreen(this)*/
@@ -66,7 +58,17 @@ class Navigation(
         screen.value = n
     }
 
-    fun getScreen(): Screen{
-        return screen.value
+    @Composable
+    fun GetScreen() {
+        return when (screen.value) {
+            Screen.SPLASH_SCREEN -> { Start() }
+            Screen.MAIN_SCREEN -> { Main_screen() }
+            Screen.NEW_GAME_SCREEN -> { New_game_screen() }
+            Screen.VICTORY -> { Victory() }
+            Screen.FAIL -> { Fail() }
+            Screen.LOAD_GAME_SCREEN -> { Load_game_screen() }
+            Screen.RULES_SCREEN -> { Rules_screen() }
+            Screen.RESULT_SCREEN -> { Result_screen() }
+        }
     }
 }
