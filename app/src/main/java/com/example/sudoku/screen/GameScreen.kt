@@ -16,6 +16,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.sudoku.R
 import com.example.sudoku.computation.*
 import com.example.sudoku.model.Game
+import com.example.sudoku.model.ScoreViewModel
 
 
 @Composable
@@ -79,6 +80,6 @@ fun NewGameScreenPreview(){
     val diff = rememberSaveable { mutableStateOf(set.DIFFICULTY[1]) }
     set.setDifficult(diff.value, k)
     val s = Sudoku(9, k, diff)
-    NewGameScreen(Navigation(s, empty, diff, timer, newRecord, screen, start, context),
+    NewGameScreen(Navigation(s, empty, diff, timer, newRecord, screen, start, ScoreViewModel(), context),
         s.getGame(), t, b, start, context)
 }

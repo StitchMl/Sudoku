@@ -27,6 +27,7 @@ import com.example.sudoku.computation.Navigation
 import com.example.sudoku.computation.Screen
 import com.example.sudoku.computation.Setting
 import com.example.sudoku.computation.Sudoku
+import com.example.sudoku.model.ScoreViewModel
 import com.example.sudoku.ui.theme.ButtonColor
 import com.example.sudoku.ui.theme.textColorLight
 import kotlinx.coroutines.CoroutineScope
@@ -210,6 +211,6 @@ fun FirstScreenPreview(){
     val sudo = Sudoku(9, empty, diff)
     val context = LocalContext.current
     Screen(scope, empty, diff,
-        Navigation(sudo, empty, diff, timer, newRecord, screen, start, context),
+        Navigation(sudo, empty, diff, timer, newRecord, screen, start, ScoreViewModel(), context),
         Sudoku(9, empty, diff))
 }

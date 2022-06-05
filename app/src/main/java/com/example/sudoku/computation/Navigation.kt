@@ -1,7 +1,6 @@
 package com.example.sudoku.computation
 
 import android.content.Context
-import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import com.example.sudoku.model.Game
@@ -11,10 +10,10 @@ import com.example.sudoku.screen.*
 class Navigation(
     private val s: Sudoku, private val empty: MutableState<Int>, private val diff: MutableState<String>,
     private val timer: MutableState<Long>, private val newRecord: MutableState<Boolean>,
-    private val screen: MutableState<Screen>, private val start: MutableState<Boolean>, private val context: Context
+    private val screen: MutableState<Screen>, private val start: MutableState<Boolean>,
+    private val score: ScoreViewModel, private val context: Context
 ) {
     private var g: Game? = null
-    private val score: ScoreViewModel by viewModels()
 
     @Composable
     fun Start(){
@@ -66,14 +65,12 @@ class Navigation(
         return when (screen.value) {
             Screen.SPLASH_SCREEN -> { Start() }
             Screen.MAIN_SCREEN -> { MainScreen() }
-            Screen.NEW_GAME_SCREEN -> {
-                NewGameScreen()
-            }
+            Screen.NEW_GAME_SCREEN -> { NewGameScreen() }
             Screen.VICTORY -> { Victory() }
             Screen.FAIL -> { Fail() }
             Screen.LOAD_GAME_SCREEN -> { LoadGameScreen() }
             Screen.RULES_SCREEN -> { LoadRulesScreen() }
-            Screen.RESULT_SCREEN -> { ScoreScreen(score) }
+            Screen.RESULT_SCREEN -> { LoadScoreScreen() }
         }
     }
 }
