@@ -98,40 +98,51 @@ class Sudoku internal constructor(
     /** A recursive function to fill remaining **/
     @Composable
     private fun fillRemaining(n: Int, m: Int): Boolean {
-        var i = n
-        var j = m
-        if (j >= this.n && i < this.n - 1) {
-            i += 1
-            j = 0
+        val i = rememberSaveable { mutableStateOf(n) }
+        val j = rememberSaveable { mutableStateOf(m) }
+        val bool = rememberSaveable { mutableStateOf(false) }
+        if (j.value >= this.n && i.value < this.n - 1) {
+            i.value += 1
+            j.value = 0
         }
-        if (i >= this.n && j >= this.n) return true
-        if (i < srn) {
-            if (j < srn) j = srn
-        } else if (i < this.n - srn) {
-            if (j == (i / srn) * srn) j += srn
+        if (i.value >= this.n && j.value >= this.n) bool.value = true
+        checkNumInBox(i, j, bool)
+        SetNumInSudo(i, j, bool)
+        bool.value = false
+        return bool.value
+    }
+
+    private fun checkNumInBox(i: MutableState<Int>, j: MutableState<Int>, bool: MutableState<Boolean>){
+        if (i.value < srn) {
+            if (j.value < srn) j.value = srn
+        } else if (i.value < this.n - srn) {
+            if (j.value == (i.value / srn) * srn) j.value += srn
         } else {
-            if (j == this.n - srn) {
-                i += 1
-                j = 0
-                if (i >= this.n) return true
+            if (j.value == this.n - srn) {
+                i.value += 1
+                j.value = 0
+                if (i.value >= this.n) bool.value = true
             }
         }
+    }
+
+    @Composable
+    private fun SetNumInSudo(i: MutableState<Int>, j: MutableState<Int>, bool: MutableState<Boolean>){
         for (num in 1..this.n) {
-            if (checkIfSafe(i, j, num)) {
-                mat[i][j].row = i
-                mat[i][j].col = j
+            if (checkIfSafe(i.value, j.value, num)) {
+                mat[i.value][j.value].row = i.value
+                mat[i.value][j.value].col = j.value
                 val value = rememberSaveable { mutableStateOf(num) }
-                solution[i][j] = num
-                mat[i][j].sol = num
-                mat[i][j].value = value
-                if (fillRemaining(i, j + 1)) return true
+                solution[i.value][j.value] = num
+                mat[i.value][j.value].sol = num
+                mat[i.value][j.value].value = value
+                if (fillRemaining(i.value, j.value + 1)) bool.value = true
                 val value1 = rememberSaveable { mutableStateOf(0) }
-                solution[i][j] = 0
-                mat[i][j].sol = 0
-                mat[i][j].value = value1
+                solution[i.value][j.value] = 0
+                mat[i.value][j.value].sol = 0
+                mat[i.value][j.value].value = value1
             }
         }
-        return false
     }
 
     // complete Game
