@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="difficulty">
-        <item>Facile</item>
-        <item>Normale</item>
-        <item>Difficile</item>
-        <item>Esperto</item>
-    </string-array>
-</resources>
