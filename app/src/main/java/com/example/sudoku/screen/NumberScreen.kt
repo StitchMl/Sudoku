@@ -76,19 +76,19 @@ fun CreateBoard(
 
 fun cellSelect(i: Int, j: Int, g: Game){
     if(g.sudoku[i][j].click?.value == 1){
-        g.j_Select = null
-        g.i_Select = null
+        g.jSelect = null
+        g.iSelect = null
         g.oneSelect = false
         g.sudoku[i][j].click?.value = 0
     } else if (g.oneSelect){
-        g.sudoku[g.i_Select!!][g.j_Select!!].click?.value = 0
-        g.i_Select = i
-        g.j_Select = j
+        g.sudoku[g.iSelect!!][g.jSelect!!].click?.value = 0
+        g.iSelect = i
+        g.jSelect = j
         g.sudoku[i][j].click?.value = 1
     } else {
         g.oneSelect = true
-        g.i_Select = i
-        g.j_Select = j
+        g.iSelect = i
+        g.jSelect = j
         for (row in 0 until g.sudoku.size){
             for (col in 0 until g.sudoku[row].size){
                     g.sudoku[row][col].click?.value = 0

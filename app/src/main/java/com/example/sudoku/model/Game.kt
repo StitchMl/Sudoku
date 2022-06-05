@@ -9,8 +9,8 @@ data class Game(
     var mistakes: Int = 0,
     var elapsedTime: Long = 0L,
     var oneSelect: Boolean = false,
-    var i_Select: Int? = null,
-    var j_Select: Int? = null,
+    var iSelect: Int? = null,
+    var jSelect: Int? = null,
     var counter: MutableState<Int>
 
 ) {
@@ -24,8 +24,8 @@ data class Game(
         if (!sudoku.contentDeepEquals(other.sudoku)) return false
         if (bar != other.bar) return false
         if (oneSelect != other.oneSelect) return false
-        if (i_Select != other.i_Select) return false
-        if (j_Select != other.j_Select) return false
+        if (iSelect != other.iSelect) return false
+        if (jSelect != other.jSelect) return false
 
         return true
     }
@@ -35,8 +35,12 @@ data class Game(
         result = 31 * result + sudoku.contentDeepHashCode()
         result = 31 * result + bar.hashCode()
         result = 31 * result + oneSelect.hashCode()
-        result = 31 * result + (i_Select ?: 0)
-        result = 31 * result + (j_Select ?: 0)
+        result = 31 * result + (iSelect ?: 0)
+        result = 31 * result + (jSelect ?: 0)
         return result
+    }
+
+    override fun toString(): String {
+        return super.toString()
     }
 }

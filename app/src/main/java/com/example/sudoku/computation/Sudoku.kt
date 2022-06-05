@@ -11,8 +11,8 @@ import kotlin.math.floor
 import kotlin.math.sqrt
 
 class Sudoku internal constructor(
-    private var N: Int,/** number of columns/rows.**/
-    private val K: MutableState<Int>, /** No. Of missing digits**/
+    private var n: Int,/** number of columns/rows.**/
+    private val k: MutableState<Int>,/** No. Of missing digits**/
     private val diff: MutableState<String>, /** Difficulty **/
 ) {
     private var solution: Array<IntArray>
@@ -39,7 +39,7 @@ class Sudoku internal constructor(
     @Composable
     private fun FillDiagonal() {
         var i = 0
-        while (i < N) {
+        while (i < n) {
             // for diagonal box, start coordinates->i==j
             FillBox(i, i)
             i += srn
@@ -59,7 +59,7 @@ class Sudoku internal constructor(
         for (i in 0 until srn) {
             for (j in 0 until srn) {
                 do {
-                    num = randomGenerator(N)
+                    num = randomGenerator(n)
                 } while (!unUsedInBox(row, col, num))
                 solution[row + i][col + j] = num
                 val value = rememberSaveable { mutableStateOf(num) }
@@ -85,13 +85,13 @@ class Sudoku internal constructor(
 
     /** check in the row for existence **/
     private fun unUsedInRow(i: Int, num: Int): Boolean {
-        for (j in 0 until N) if (solution[i][j] == num) return false
+        for (j in 0 until n) if (solution[i][j] == num) return false
         return true
     }
 
     /** check in the row for existence **/
     private fun unUsedInCol(j: Int, num: Int): Boolean {
-        for (i in 0 until N) if (solution[i][j] == num) return false
+        for (i in 0 until n) if (solution[i][j] == num) return false
         return true
     }
 
@@ -100,23 +100,23 @@ class Sudoku internal constructor(
     private fun fillRemaining(n: Int, m: Int): Boolean {
         var i = n
         var j = m
-        if (j >= N && i < N - 1) {
+        if (j >= this.n && i < this.n - 1) {
             i += 1
             j = 0
         }
-        if (i >= N && j >= N) return true
+        if (i >= this.n && j >= this.n) return true
         if (i < srn) {
             if (j < srn) j = srn
-        } else if (i < N - srn) {
+        } else if (i < this.n - srn) {
             if (j == (i / srn) * srn) j += srn
         } else {
-            if (j == N - srn) {
+            if (j == this.n - srn) {
                 i += 1
                 j = 0
-                if (i >= N) return true
+                if (i >= this.n) return true
             }
         }
-        for (num in 1..N) {
+        for (num in 1..this.n) {
             if (checkIfSafe(i, j, num)) {
                 mat[i][j].row = i
                 mat[i][j].col = j
@@ -137,12 +137,12 @@ class Sudoku internal constructor(
     // complete Game
     /** Remove the K no. of digits to **/
     private fun removeKDigits() {
-        var count = K.value
+        var count = k.value
         while (count != 0) {
-            val cellId = randomGenerator(N * N) - 1
+            val cellId = randomGenerator(n * n) - 1
 
             // extract coordinates i and j
-            val i = cellId / N
+            val i = cellId / n
             var j = cellId % 9
             if (j != 0) j -= 1
 
@@ -155,8 +155,8 @@ class Sudoku internal constructor(
 
     /** Print solution **/
     fun printSolution() {
-        for (i in 0 until N) {
-            for (j in 0 until N) print(solution[i][j].toString() + " ")
+        for (i in 0 until n) {
+            for (j in 0 until n) print(solution[i][j].toString() + " ")
             println()
         }
         println()
@@ -164,8 +164,8 @@ class Sudoku internal constructor(
 
     /** Print sudoku **/
     fun printSudoku() {
-        for (i in 0 until N) {
-            for (j in 0 until N) print(mat[i][j].value.toString() + " ")
+        for (i in 0 until n) {
+            for (j in 0 until n) print(mat[i][j].value.toString() + " ")
             println()
         }
         println()
@@ -176,7 +176,7 @@ class Sudoku internal constructor(
     fun getGame(): Game {
         FillValues()
         bool = false
-        val counter = rememberSaveable { mutableStateOf((N*N)-K.value) }
+        val counter = rememberSaveable { mutableStateOf((n*n)-k.value) }
         return Game(diff, getSudoku(), NumberBar(), counter = counter)
     }
 
@@ -185,24 +185,19 @@ class Sudoku internal constructor(
         return mat
     }
 
-    /** Get solution **/
-    private fun getSolution(): Array<IntArray> {
-        return solution
-    }
-
     /** Activate change game **/
     fun changeGame(){
         bool = true
-        solution = Array(N) { IntArray(N) }
-        mat = Array(N) { Array(N){Cell(0,0,0, null, null)} }
+        solution = Array(n) { IntArray(n) }
+        mat = Array(n) { Array(n){Cell(0,0,0, null, null)} }
     }
 
     /** Constructor **/
     init {
         // Compute square root of N
-        val srn = sqrt(N.toDouble())
+        val srn = sqrt(n.toDouble())
         this.srn = srn.toInt()
-        solution = Array(N) { IntArray(N) }
-        mat = Array(N) { Array(N){Cell(0,0,0, null, null)} }
+        solution = Array(n) { IntArray(n) }
+        mat = Array(n) { Array(n){Cell(0,0,0, null, null)} }
     }
 }

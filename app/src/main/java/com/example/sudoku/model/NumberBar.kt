@@ -24,4 +24,8 @@ data class NumberBar(
         result = 31 * result + select
         return result
     }
+
+    override fun toString(): String {
+        return super.toString()
+    }
 }

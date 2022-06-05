@@ -62,27 +62,10 @@ fun NumberSelection(g: Game, context: Context) {
 }
 
 fun clickAction(str: String, it: Int, g: Game, context: Context){
-    if(g.i_Select != null && g.j_Select != null){
-        if(g.sudoku[g.i_Select!!][g.j_Select!!].sol == it) {
-            g.sudoku[g.i_Select!!][g.j_Select!!].value?.value = it
-            g.sudoku[g.i_Select!!][g.j_Select!!].click?.value = 0
-            g.oneSelect = false
-            g.i_Select = null
-            g.j_Select = null
-            g.counter.value += 1
-        } else {
-            g.mistakes++
-            context.makeShortToast(str)
-        }
+    if(g.iSelect != null && g.jSelect != null){
+        oneIsSelect(str, it, g, context)
     } else {
-        if (g.bar.select != 0) {
-            g.bar.bar[g.bar.select-1]?.value = false
-            g.bar.bar[it - 1]?.value = true
-            g.bar.select = it
-        } else {
-            g.bar.bar[it - 1]?.value = true
-            g.bar.select = it
-        }
+        selectNumOnBar(it, g)
         for (i in 0 until g.sudoku.size) {
             for (j in 0 until g.sudoku[i].size) {
                 if (g.sudoku[i][j].value?.value == it) {
@@ -95,6 +78,31 @@ fun clickAction(str: String, it: Int, g: Game, context: Context){
     }
     if(g.mistakes == 3){
         g.counter.value = 0
+    }
+}
+
+fun oneIsSelect(str: String, it: Int, g: Game, context: Context){
+    if(g.sudoku[g.iSelect!!][g.jSelect!!].sol == it) {
+        g.sudoku[g.iSelect!!][g.jSelect!!].value?.value = it
+        g.sudoku[g.iSelect!!][g.jSelect!!].click?.value = 0
+        g.oneSelect = false
+        g.iSelect = null
+        g.jSelect = null
+        g.counter.value += 1
+    } else {
+        g.mistakes++
+        context.makeShortToast(str)
+    }
+}
+
+fun selectNumOnBar(it: Int, g: Game){
+    if (g.bar.select != 0) {
+        g.bar.bar[g.bar.select-1]?.value = false
+        g.bar.bar[it - 1]?.value = true
+        g.bar.select = it
+    } else {
+        g.bar.bar[it - 1]?.value = true
+        g.bar.select = it
     }
 }
 
