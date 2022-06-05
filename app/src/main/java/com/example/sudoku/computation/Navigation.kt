@@ -14,6 +14,7 @@ class Navigation(
     private val screen: MutableState<Screen>, private val start: MutableState<Boolean>, private val context: Context
 ) {
     private var g: Game? = null
+    private val score: ScoreViewModel by viewModels()
 
     @Composable
     fun Start(){
@@ -53,7 +54,6 @@ class Navigation(
     // Result Screen
     @Composable
     fun LoadScoreScreen() {
-        val score: ScoreViewModel by viewModels()
         ScoreScreen(score)
     }
 
@@ -63,7 +63,6 @@ class Navigation(
 
     @Composable
     fun GetScreen() {
-        val score: ScoreViewModel by viewModels()
         return when (screen.value) {
             Screen.SPLASH_SCREEN -> { Start() }
             Screen.MAIN_SCREEN -> { MainScreen() }
