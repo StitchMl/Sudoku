@@ -1,9 +1,11 @@
 package com.example.sudoku.computation
 
 import android.content.Context
+import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import com.example.sudoku.model.Game
+import com.example.sudoku.model.ScoreViewModel
 import com.example.sudoku.screen.*
 
 class Navigation(
@@ -50,8 +52,9 @@ class Navigation(
     }
     // Result Screen
     @Composable
-    fun ResultScreen() {
-        /*TODO ResultScreen(this)*/
+    fun LoadScoreScreen() {
+        val score: ScoreViewModel by viewModels()
+        ScoreScreen(score)
     }
 
     fun setScreen(n: Screen){
@@ -60,6 +63,7 @@ class Navigation(
 
     @Composable
     fun GetScreen() {
+        val score: ScoreViewModel by viewModels()
         return when (screen.value) {
             Screen.SPLASH_SCREEN -> { Start() }
             Screen.MAIN_SCREEN -> { MainScreen() }
@@ -70,7 +74,7 @@ class Navigation(
             Screen.FAIL -> { Fail() }
             Screen.LOAD_GAME_SCREEN -> { LoadGameScreen() }
             Screen.RULES_SCREEN -> { LoadRulesScreen() }
-            Screen.RESULT_SCREEN -> { ResultScreen() }
+            Screen.RESULT_SCREEN -> { ScoreScreen(score) }
         }
     }
 }
