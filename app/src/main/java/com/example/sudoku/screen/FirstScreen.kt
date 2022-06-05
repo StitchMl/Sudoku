@@ -24,8 +24,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sudoku.R
 import com.example.sudoku.computation.Navigation
+import com.example.sudoku.computation.Screen
+import com.example.sudoku.computation.Setting
 import com.example.sudoku.computation.Sudoku
-import com.example.sudoku.model.Setting
 import com.example.sudoku.ui.theme.ButtonColor
 import com.example.sudoku.ui.theme.textColorLight
 import kotlinx.coroutines.CoroutineScope
@@ -78,7 +79,7 @@ fun DrawerContent(scope: CoroutineScope, drawerState: BottomDrawerState,
                         d.value = diff[state]
                         set.setDifficult(d.value, e)
                         s.changeGame()
-                        navController.setScreen(2)
+                        navController.setScreen(Screen.NEW_GAME_SCREEN)
                     }
                     .padding(3.dp)) {
                     Column (horizontalAlignment = Alignment.Start) {
@@ -125,7 +126,7 @@ fun PrincipalScreen(
 ){
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = { navController.setScreen(7) }) {
+            FloatingActionButton(onClick = { navController.setScreen(Screen.RESULT_SCREEN) }) {
                 Icon(ImageVector.vectorResource(R.drawable.trophy), "") } },
         isFloatingActionButtonDocked = true
     ) {
@@ -160,7 +161,7 @@ fun PrincipalScreen(
             }
             Button(
                 onClick = {
-                    navController.setScreen(5)
+                    navController.setScreen(Screen.LOAD_GAME_SCREEN)
                           },
                 contentPadding = PaddingValues(
                     start = 20.dp,
@@ -178,7 +179,7 @@ fun PrincipalScreen(
                 Text(stringResource(R.string.load_game), fontSize = 13.sp)
             }
             Button(
-                onClick = { navController.setScreen(6) },
+                onClick = { navController.setScreen(Screen.RULES_SCREEN) },
                 contentPadding = PaddingValues(
                     start = 20.dp,
                     top = 10.dp,
@@ -201,7 +202,7 @@ fun PrincipalScreen(
 fun FirstScreenPreview(){
     val scope = rememberCoroutineScope()
     val empty = rememberSaveable { mutableStateOf(0) }
-    val screen = rememberSaveable { mutableStateOf(0) }
+    val screen = rememberSaveable { mutableStateOf(Screen.SPLASH_SCREEN) }
     val diff = rememberSaveable { mutableStateOf("") }
     val timer = rememberSaveable{ mutableStateOf(0L) }
     val newRecord = rememberSaveable{ mutableStateOf(false) }

@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.sudoku.R
 import com.example.sudoku.computation.Navigation
+import com.example.sudoku.computation.Screen
 import com.example.sudoku.computation.toTime
 import com.example.sudoku.ui.theme.mainTitle
 import com.example.sudoku.ui.theme.newGameSubtitle
@@ -51,7 +52,7 @@ fun FailureScreen(navController: Navigation,
         delay(3000)
         timerState.value = 0L
         isNewRecordState.value = false
-        navController.setScreen(1)
+        navController.setScreen(Screen.MAIN_SCREEN)
     }
 
     // Image

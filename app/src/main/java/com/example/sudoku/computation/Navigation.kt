@@ -9,7 +9,7 @@ import com.example.sudoku.screen.*
 class Navigation(
     private val s: Sudoku, private val empty: MutableState<Int>, private val diff: MutableState<String>,
     private val timer: MutableState<Long>, private val newRecord: MutableState<Boolean>,
-    private val screen: MutableState<Int>, private val start: MutableState<Boolean>, private val context: Context
+    private val screen: MutableState<Screen>, private val start: MutableState<Boolean>, private val context: Context
 ) {
     private var g: Game? = null
 
@@ -62,11 +62,11 @@ class Navigation(
         /*TODO ResultScreen(this)*/
     }
 
-    fun setScreen(n: Int){
+    fun setScreen(n: Screen){
         screen.value = n
     }
 
-    fun getScreen(): Int{
+    fun getScreen(): Screen{
         return screen.value
     }
 }

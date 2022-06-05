@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.sudoku.R
 import com.example.sudoku.computation.Navigation
+import com.example.sudoku.computation.Screen
 import com.example.sudoku.ui.theme.mainTitle
 import kotlinx.coroutines.delay
 
@@ -41,7 +42,7 @@ fun SplashScreen(navController: Navigation) {
                 })
         )
         delay(3000)
-        navController.setScreen(1)
+        navController.setScreen(Screen.MAIN_SCREEN)
     }
 
     // Image

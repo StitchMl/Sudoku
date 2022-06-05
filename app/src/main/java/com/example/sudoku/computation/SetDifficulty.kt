@@ -1,13 +1,21 @@
-package com.example.sudoku.model
+package com.example.sudoku.computation
 
 import android.content.Context
 import androidx.compose.runtime.MutableState
-import com.example.sudoku.R
 import kotlin.random.Random
 
 class Setting(context: Context) {
-    val DIFFICULTY: Array<String> =
-        context.resources.getStringArray(R.array.difficulty)
+    val DIFFICULTY: Array<String> = getDifficult(context)
+
+    private fun getDifficult(context: Context) : Array<String>{
+        val arr = Array(Difficulty.values().size){""}
+
+        for (i in 0 until Difficulty.values().size){
+            arr[i] = context.getString(Difficulty.values()[i].s)
+        }
+
+        return arr
+    }
 
     fun setDifficult(d: String, diff: MutableState<Int>) {
         for(i in DIFFICULTY.indices) {

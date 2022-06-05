@@ -14,11 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.sudoku.R
-import com.example.sudoku.computation.Navigation
-import com.example.sudoku.computation.Sudoku
-import com.example.sudoku.computation.makeShortToast
+import com.example.sudoku.computation.*
 import com.example.sudoku.model.Game
-import com.example.sudoku.model.Setting
 
 
 @Composable
@@ -56,13 +53,13 @@ fun NewGameScreen(
         val str = stringResource(R.string.won)
         g.elapsedTime = timer.value
         context.makeShortToast(str)
-        navController.setScreen(3)
+        navController.setScreen(Screen.VICTORY)
     } else if (g.counter.value == 0){
         start.value = false
         val str = stringResource(R.string.game_over)
         g.elapsedTime = timer.value
         context.makeShortToast(str)
-        navController.setScreen(4)
+        navController.setScreen(Screen.FAIL)
     }
 }
 
@@ -76,7 +73,7 @@ fun NewGameScreenPreview(){
     val t = rememberSaveable { mutableStateOf(0L) }
     val b = rememberSaveable { mutableStateOf(false) }
     val start = rememberSaveable { mutableStateOf(false) }
-    val screen = rememberSaveable { mutableStateOf(0) }
+    val screen = rememberSaveable { mutableStateOf(Screen.SPLASH_SCREEN) }
     val timer = rememberSaveable{ mutableStateOf(0L) }
     val newRecord = rememberSaveable{ mutableStateOf(false) }
     val diff = rememberSaveable { mutableStateOf(set.DIFFICULTY[1]) }

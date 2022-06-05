@@ -19,10 +19,10 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.sudoku.R
+import com.example.sudoku.computation.Setting
 import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.computation.toTime
 import com.example.sudoku.model.Game
-import com.example.sudoku.model.Setting
 
 /** Insert difficulty, mistakes and timer*/
 @Composable
