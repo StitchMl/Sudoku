@@ -100,20 +100,18 @@ class Sudoku internal constructor(
     private fun fillRemaining(n: Int, m: Int): Boolean {
         val i = rememberSaveable { mutableStateOf(n) }
         val j = rememberSaveable { mutableStateOf(m) }
-        val bool = rememberSaveable { mutableStateOf(false) }
         if (j.value >= this.n && i.value < this.n - 1) {
             i.value += 1
             j.value = 0
         }
-        if (i.value >= this.n && j.value >= this.n) bool.value = true
-        CheckNumInBox(i, j, bool)
-        SetNumInSudo(i, j, bool)
-        bool.value = false
-        return bool.value
+        if (i.value >= this.n && j.value >= this.n) return true
+        if(checkNumInBox(i, j)) return true
+        if(setNumInSudo(i, j)) return true
+        return false
     }
 
     @Composable
-    private fun CheckNumInBox(i: MutableState<Int>, j: MutableState<Int>, bool: MutableState<Boolean>){
+    private fun checkNumInBox(i: MutableState<Int>, j: MutableState<Int>): Boolean{
         if (i.value < srn) {
             if (j.value < srn) j.value = srn
         } else if (i.value < this.n - srn) {
@@ -122,13 +120,14 @@ class Sudoku internal constructor(
             if (j.value == this.n - srn) {
                 i.value += 1
                 j.value = 0
-                if (i.value >= this.n) bool.value = true
+                if (i.value >= this.n) return true
             }
         }
+        return false
     }
 
     @Composable
-    private fun SetNumInSudo(i: MutableState<Int>, j: MutableState<Int>, bool: MutableState<Boolean>){
+    private fun setNumInSudo(i: MutableState<Int>, j: MutableState<Int>): Boolean{
         for (num in 1..this.n) {
             if (checkIfSafe(i.value, j.value, num)) {
                 mat[i.value][j.value].row = i.value
@@ -137,13 +136,14 @@ class Sudoku internal constructor(
                 solution[i.value][j.value] = num
                 mat[i.value][j.value].sol = num
                 mat[i.value][j.value].value = value
-                if (fillRemaining(i.value, j.value + 1)) bool.value = true
+                if (fillRemaining(i.value, j.value + 1)) return true
                 val value1 = rememberSaveable { mutableStateOf(0) }
                 solution[i.value][j.value] = 0
                 mat[i.value][j.value].sol = 0
                 mat[i.value][j.value].value = value1
             }
         }
+        return false
     }
 
     // complete Game
