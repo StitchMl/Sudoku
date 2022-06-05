@@ -106,13 +106,14 @@ class Sudoku internal constructor(
             j.value = 0
         }
         if (i.value >= this.n && j.value >= this.n) bool.value = true
-        checkNumInBox(i, j, bool)
+        CheckNumInBox(i, j, bool)
         SetNumInSudo(i, j, bool)
         bool.value = false
         return bool.value
     }
 
-    private fun checkNumInBox(i: MutableState<Int>, j: MutableState<Int>, bool: MutableState<Boolean>){
+    @Composable
+    private fun CheckNumInBox(i: MutableState<Int>, j: MutableState<Int>, bool: MutableState<Boolean>){
         if (i.value < srn) {
             if (j.value < srn) j.value = srn
         } else if (i.value < this.n - srn) {
