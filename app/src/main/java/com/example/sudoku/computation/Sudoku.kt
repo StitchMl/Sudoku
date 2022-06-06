@@ -189,7 +189,11 @@ class Sudoku internal constructor(
         FillValues()
         bool = false
         val counter = rememberSaveable { mutableStateOf((n*n)-k.value) }
-        return Game(diff, getSudoku(), NumberBar(), counter = counter)
+        val game = Game(diff.value)
+        game.sudoku = getSudoku()
+        game.bar = NumberBar()
+        game.counter = counter
+        return game
     }
 
     /** Get Sudoku **/

@@ -8,15 +8,15 @@ import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.sudoku.computation.toTime
+import com.example.sudoku.database.ScoreViewModel
 import com.example.sudoku.model.Score
-import com.example.sudoku.model.ScoreViewModel
 
 
 /*fun ScoreScreen(navController: NavController, list: List<Score>) {
@@ -49,21 +49,28 @@ import com.example.sudoku.model.ScoreViewModel
 @Composable
 fun ScoreScreen(score: ScoreViewModel)
 {
-    val list = score.realTimeUpdateItem.collectAsState()
+    //val list = score.realTimeUpdateItem.collectAsState()
+    val list = score.allScore
     //val mistake = rememberSaveable{ mutableStateOf(score.mistakes) }
     //val time = rememberSaveable{ mutableStateOf(score.time) }
-    LazyColumn {
-        itemsIndexed(list.value) { _, item ->
-            RealTimeUpdateItemCard(
-                score = item
-            )
+    if(list.value != null) {
+        LazyColumn {
+            itemsIndexed(list.value!!) { _, item ->
+                RealTimeUpdateItemCard(
+                    score = item
+                )
+            }
         }
+    } else {
+        Text(text = "There's not any result yet")
     }
 }
 
 @Composable
 fun RealTimeUpdateItemCard(score: Score) {
-    val time = remember { score.time }
+    val time = remember { score.time.toTime() }
+    val diff = remember { score.diff }
+    val mistakes = remember { score.mistakes }
     //val black = Color.Black
     val white = Color.White
    /* val green = Color(
@@ -82,7 +89,7 @@ fun RealTimeUpdateItemCard(score: Score) {
     ) {
         Row {
             Text(
-                text = "$time",
+                text = "$diff $mistakes $time",
                 modifier = Modifier.padding(16.dp),
                 color = Color.Black,
                 textAlign = TextAlign.Center

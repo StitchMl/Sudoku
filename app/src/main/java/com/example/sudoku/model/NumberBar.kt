@@ -1,12 +1,22 @@
 package com.example.sudoku.model
 
+import androidx.annotation.NonNull
 import androidx.compose.runtime.MutableState
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity(tableName = "numberBar")
 data class NumberBar(
     var bar: Array<MutableState<Boolean>?> = Array(9){null},
     var select: Int = 0
 
 ) {
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    @ColumnInfo(name = "barId")
+    var id: Int = 0
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

@@ -8,9 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,8 +16,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sudoku.R
@@ -27,7 +23,6 @@ import com.example.sudoku.computation.Navigation
 import com.example.sudoku.computation.Screen
 import com.example.sudoku.computation.Setting
 import com.example.sudoku.computation.Sudoku
-import com.example.sudoku.model.ScoreViewModel
 import com.example.sudoku.ui.theme.ButtonColor
 import com.example.sudoku.ui.theme.textColorLight
 import kotlinx.coroutines.CoroutineScope
@@ -198,6 +193,7 @@ fun PrincipalScreen(
     }
 }
 
+/*
 @Preview(device = Devices.DEFAULT, showBackground = true)
 @Composable
 fun FirstScreenPreview(){
@@ -211,6 +207,6 @@ fun FirstScreenPreview(){
     val sudo = Sudoku(9, empty, diff)
     val context = LocalContext.current
     Screen(scope, empty, diff,
-        Navigation(sudo, empty, diff, timer, newRecord, screen, start, ScoreViewModel(), context),
+        Navigation(sudo, empty, diff, timer, newRecord, screen, start, ScoreViewModel(LocalContext.current.applicationContext as Application), context),
         Sudoku(9, empty, diff))
-}
+}*/

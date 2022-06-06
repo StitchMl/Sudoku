@@ -4,19 +4,15 @@ import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.sudoku.R
-import com.example.sudoku.computation.*
+import com.example.sudoku.computation.Navigation
+import com.example.sudoku.computation.Screen
+import com.example.sudoku.computation.makeShortToast
 import com.example.sudoku.model.Game
-import com.example.sudoku.model.ScoreViewModel
 
 
 @Composable
@@ -64,7 +60,7 @@ fun NewGameScreen(
     }
 }
 
-@Preview(device = Devices.DEFAULT, showBackground = true)
+/*@Preview(device = Devices.DEFAULT, showBackground = true)
 @Composable
 fun NewGameScreenPreview(){
     val context = LocalContext.current
@@ -80,6 +76,6 @@ fun NewGameScreenPreview(){
     val diff = rememberSaveable { mutableStateOf(set.DIFFICULTY[1]) }
     set.setDifficult(diff.value, k)
     val s = Sudoku(9, k, diff)
-    NewGameScreen(Navigation(s, empty, diff, timer, newRecord, screen, start, ScoreViewModel(), context),
+    NewGameScreen(Navigation(empty, diff, timer, newRecord, screen, start, ScoreViewModel(LocalContext.current.applicationContext as Application), context),
         s.getGame(), t, b, start, context)
-}
+}*/
