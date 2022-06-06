@@ -19,6 +19,12 @@ class GameRepository(private val gameDao: GameDao) {
         }
     }
 
+    fun insertScore(newScore: Score) {
+        coroutineScope.launch(Dispatchers.IO) {
+            gameDao.insertScore(newScore)
+        }
+    }
+
     fun deleteGame(id: Int) {
         coroutineScope.launch(Dispatchers.IO) {
             gameDao.deleteGame(id)

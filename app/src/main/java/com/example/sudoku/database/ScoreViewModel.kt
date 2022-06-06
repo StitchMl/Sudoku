@@ -21,9 +21,9 @@ class ScoreViewModel(application: Application): ViewModel() {
     val searchResults: MutableLiveData<List<Game>>
 
     init {
-        val gameDb = GameRoomDatabase.getInstance(application)
-        val gameDao = gameDb.gameDao()
-        repository = GameRepository(gameDao)
+        val gameDb = GameDatabase.getInstance(application)
+        val gameDao = gameDb?.gameDao()
+        repository = GameRepository(gameDao!!)
 
         allGames = repository.allGames
         allScore = repository.allScore
@@ -47,6 +47,10 @@ class ScoreViewModel(application: Application): ViewModel() {
 
     fun insertGame(game: Game) {
         repository.insertGame(game)
+    }
+
+    fun insertGame(score: Score) {
+        repository.insertScore(score)
     }
 
     fun findGame(id: Int) {

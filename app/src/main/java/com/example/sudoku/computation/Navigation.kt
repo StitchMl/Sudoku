@@ -39,7 +39,7 @@ class Navigation(
     fun NewGameScreen() {
         g = s.getGame()
         timer.value = 0L
-        NewGameScreen(this, g!!, timer, newRecord, start, context)
+        NewGameScreen(this, g!!, timer, newRecord, start, score, context)
     }
     @Composable
     fun Victory() {

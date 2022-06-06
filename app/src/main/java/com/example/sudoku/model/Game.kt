@@ -3,51 +3,36 @@ package com.example.sudoku.model
 import androidx.annotation.NonNull
 import androidx.compose.runtime.MutableState
 import androidx.room.*
-import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "games",
     indices = [
         Index(
             value = ["gameId", "diff", "mistakes", "time"],
-            unique = true
-        ),
+            unique = true),
         Index(
             value = ["gameId"],
-            unique = true
-        ),
+            unique = true),
         Index(
             value = ["diff"],
-            unique = true
-        ),
+            unique = true),
         Index(
             value = ["mistakes"],
-            unique = true
-        ),
+            unique = true),
         Index(
             value = ["time"],
-            unique = true
-        )
+            unique = true)
     ]
 )
 data class Game(
     @ColumnInfo(name = "diff")
-    @SerializedName("diff")
     var difficult: String = "",
-    @SerializedName("mistakes")
     @ColumnInfo(name = "mistakes")
     var mistakes: Int = 0,
-    @SerializedName("time")
     @ColumnInfo(name = "time")
     var elapsedTime: Long = 0L,
-    var oneSelect: Boolean = false,
-    @Ignore
-    var iSelect: Int? = null,
-    @Ignore
-    var jSelect: Int? = null,
 ) {
     @PrimaryKey(autoGenerate = true)
     @NonNull
-    @SerializedName("gameId")
     @ColumnInfo(name = "gameId")
     var id: Int = 0
 
@@ -57,6 +42,11 @@ data class Game(
     lateinit var bar: NumberBar
     @Ignore
     lateinit var counter: MutableState<Int>
+    var oneSelect: Boolean = false
+    @Ignore
+    var iSelect: Int? = null
+    @Ignore
+    var jSelect: Int? = null
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

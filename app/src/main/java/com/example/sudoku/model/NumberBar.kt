@@ -10,7 +10,6 @@ import androidx.room.PrimaryKey
 data class NumberBar(
     var bar: Array<MutableState<Boolean>?> = Array(9){null},
     var select: Int = 0
-
 ) {
     @PrimaryKey(autoGenerate = true)
     @NonNull

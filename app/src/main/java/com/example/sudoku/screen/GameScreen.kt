@@ -12,6 +12,7 @@ import com.example.sudoku.R
 import com.example.sudoku.computation.Navigation
 import com.example.sudoku.computation.Screen
 import com.example.sudoku.computation.makeShortToast
+import com.example.sudoku.database.ScoreViewModel
 import com.example.sudoku.model.Game
 
 
@@ -22,6 +23,7 @@ fun NewGameScreen(
     timer: MutableState<Long>,
     newRecord: MutableState<Boolean>,
     start: MutableState<Boolean>,
+    model: ScoreViewModel,
     context: Context
 ){
     ConstraintLayout {
@@ -50,6 +52,7 @@ fun NewGameScreen(
         val str = stringResource(R.string.won)
         g.elapsedTime = timer.value
         context.makeShortToast(str)
+        model.insertGame(g)
         navController.setScreen(Screen.VICTORY)
     } else if (g.counter.value == 0){
         start.value = false

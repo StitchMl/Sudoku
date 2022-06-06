@@ -13,6 +13,9 @@ interface GameDao {
     @Insert
     fun insertGame(game: Game)
 
+    @Insert
+    fun insertScore(score: Score)
+
     @Query("SELECT * FROM games WHERE gameId = :id")
     fun findGame(id: Int): List<Game>
 
