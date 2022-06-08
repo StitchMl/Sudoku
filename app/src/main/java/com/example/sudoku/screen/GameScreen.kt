@@ -28,12 +28,17 @@ fun NewGameScreen(
 ){
     ConstraintLayout {
         // Create references for the composable to constrain
-        val (sudoku, number,infoBar) = createRefs()
+        val (sudoku, number,infoBar,actionBar) = createRefs()
 
         Box(modifier = Modifier.constrainAs(sudoku){
             top.linkTo(infoBar.bottom, margin = 8.dp)
         }) {
             CreateBoard(g)
+        }
+        Box(modifier = Modifier.constrainAs(actionBar){
+            top.linkTo(number.bottom, margin = 10.dp)
+        }) {
+            GameActionBar(g, context)
         }
         Box(modifier = Modifier.constrainAs(number){
             top.linkTo(sudoku.bottom, margin = 10.dp)
