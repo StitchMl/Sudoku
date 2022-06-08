@@ -1,16 +1,27 @@
 package com.example.sudoku.screen
 
+import android.app.Application
 import android.content.Context
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.sudoku.R
-import com.example.sudoku.computation.Navigation
-import com.example.sudoku.computation.Screen
+import com.example.sudoku.computation.*
 import com.example.sudoku.computation.makeShortToast
 import com.example.sudoku.database.ScoreViewModel
 import com.example.sudoku.model.Game
@@ -26,6 +37,15 @@ fun NewGameScreen(
     model: ScoreViewModel,
     context: Context
 ){
+    //TITOLO
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(stringResource(R.string.sudoku), fontSize = 70.sp)
+        Spacer(modifier = Modifier.size(70.dp))
+
     ConstraintLayout {
         // Create references for the composable to constrain
         val (sudoku, number,infoBar,actionBar) = createRefs()
@@ -64,7 +84,7 @@ fun NewGameScreen(
         val str = stringResource(R.string.game_over)
         g.elapsedTime = timer.value
         context.makeShortToast(str)
-        navController.setScreen(Screen.FAIL)
+        navController.setScreen(Screen.FAIL) }
     }
 }
 
@@ -84,6 +104,6 @@ fun NewGameScreenPreview(){
     val diff = rememberSaveable { mutableStateOf(set.DIFFICULTY[1]) }
     set.setDifficult(diff.value, k)
     val s = Sudoku(9, k, diff)
-    NewGameScreen(Navigation(empty, diff, timer, newRecord, screen, start, ScoreViewModel(LocalContext.current.applicationContext as Application), context),
+    NewGameScreen(Navigation(empty, diff, timer, newRecord, screen, start, allGames = List<Game> , ScoreViewModel(LocalContext.current.applicationContext as Application), context),
         s.getGame(), t, b, start, context)
 }*/
