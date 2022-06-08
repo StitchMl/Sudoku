@@ -9,10 +9,15 @@ import com.example.sudoku.screen.*
 import java.util.*
 
 class Navigation(
-    private val empty: MutableState<Int>, private val diff: MutableState<String>,
-    private val timer: MutableState<Long>, private val newRecord: MutableState<Boolean>,
-    private val screen: MutableState<Screen>, private val start: MutableState<Boolean>,
-    private val allGames: List<Game>, private val score: ScoreViewModel, private val context: Context
+    private val empty: MutableState<Int>,
+    private val diff: MutableState<String>,
+    private val timer: MutableState<Long>,
+    private val newRecord: MutableState<Boolean>,
+    private val screen: MutableState<Screen>,
+    private val start: MutableState<Boolean>,
+    private val allGames: List<Game>,
+    private val score: ScoreViewModel,
+    private val context: Context
 ) {
     private var g: Game? = null
     private val s: Sudoku = Sudoku(9, empty, diff)
