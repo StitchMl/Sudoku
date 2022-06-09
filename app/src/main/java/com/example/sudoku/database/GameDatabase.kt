@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.sudoku.model.Score
 
-@Database(entities = [Score::class], version = 1, exportSchema = false)
+@Database(entities = [(Score::class)], version = 1, exportSchema = false)
 abstract class GameDatabase: RoomDatabase() {
 
     abstract fun gameDao(): GameDao
@@ -14,15 +14,22 @@ abstract class GameDatabase: RoomDatabase() {
     companion object {
         private var INSTANCE: GameDatabase? = null
 
-        fun getInstance(context: Context): GameDatabase? {
-            if (INSTANCE == null) {
-                synchronized(GameDatabase::class) {
-                    INSTANCE = Room.databaseBuilder(context.applicationContext,
-                        GameDatabase::class.java, "game.db").allowMainThreadQueries()
+        fun getInstance(context: Context): GameDatabase {
+            synchronized(this) {
+                var instance = INSTANCE
+
+                if (instance == null) {
+                    instance = Room.databaseBuilder(
+                        context.applicationContext,
+                        GameDatabase::class.java,
+                        "game_database"
+                    ).fallbackToDestructiveMigration()
                         .build()
+
+                    INSTANCE = instance
                 }
+                return instance
             }
-            return INSTANCE
         }
 
         fun destroyInstance() {

@@ -21,4 +21,8 @@
     <string name="normal">Normal</string>
     <string name="hard">Hard</string>
     <string name="expert">Expert</string>
+    <string name="delete">Cancella</string>
+    <string name="note">Appunti</string>
+    <string name="clue">Suggerimento</string>
+    <string name="cancel">Annulla</string>
 </resources>

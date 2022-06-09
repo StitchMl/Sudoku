@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sudoku.R
 
-
+@Preview(device = Devices.DEFAULT, showBackground = true)
 @Composable
 fun RulesScreen()
 {
@@ -53,10 +53,4 @@ fun RulesScreen()
             )
         }
     }
-}
-
-@Preview(device = Devices.DEFAULT, showBackground = true)
-@Composable
-fun RulesScreenPreview(){
-    RulesScreen()
 }

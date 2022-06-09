@@ -32,7 +32,6 @@ import com.example.sudoku.computation.Screen
 import com.example.sudoku.computation.Setting
 import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.database.ScoreViewModel
-import com.example.sudoku.model.Game
 import com.example.sudoku.ui.theme.ButtonColor
 import com.example.sudoku.ui.theme.textColorLight
 import kotlinx.coroutines.CoroutineScope
@@ -212,7 +211,7 @@ fun PrincipalScreen(
 }
 
 
-/*@Preview(device = Devices.DEFAULT, showBackground = true)
+@Preview(device = Devices.DEFAULT, showBackground = true)
 @Composable
 fun FirstScreenPreview(){
     val scope = rememberCoroutineScope()
@@ -222,9 +221,8 @@ fun FirstScreenPreview(){
     val timer = rememberSaveable{ mutableStateOf(0L) }
     val newRecord = rememberSaveable{ mutableStateOf(false) }
     val start = rememberSaveable{ mutableStateOf(false) }
-   val sudo = Sudoku(9, empty, diff)
     val context = LocalContext.current
     Screen(scope, empty, diff,
-        Navigation(empty, diff, timer, newRecord, screen, start,allGames = List<Game> ,ScoreViewModel(LocalContext.current.applicationContext as Application), context),
+        Navigation(empty, diff, timer, newRecord, screen, start, ScoreViewModel(LocalContext.current.applicationContext as Application), context),
         Sudoku(9, empty, diff))
-}*/
+}

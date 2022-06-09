@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,7 +34,8 @@ fun GameActionBar(game: Game, context: Context) {
                         contentDescription = "Erase",
                         modifier = Modifier.size(24.dp)
                     )
-                    Text(text = "Cancella")
+                    val str = stringResource(R.string.delete)
+                    Text(text = str)
                 }
             }
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
@@ -45,7 +47,8 @@ fun GameActionBar(game: Game, context: Context) {
                         contentDescription = "Erase",
                         modifier = Modifier.size(24.dp)
                     )
-                    Text(text = "Appunti")
+                    val str = stringResource(R.string.note)
+                    Text(text = str)
                 }
             }
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
@@ -56,7 +59,8 @@ fun GameActionBar(game: Game, context: Context) {
                         contentDescription = "Erase",
                         modifier = Modifier.size(24.dp)
                     )
-                    Text(text = "Suggerimento")
+                    val str = stringResource(R.string.clue)
+                    Text(text = str)
                 }
             }
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
@@ -67,7 +71,8 @@ fun GameActionBar(game: Game, context: Context) {
                         contentDescription = "Erase",
                         modifier = Modifier.size(24.dp)
                     )
-                    Text(text = "Annulla")
+                    val str = stringResource(R.string.cancel)
+                    Text(text = str)
                 }
             }
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
