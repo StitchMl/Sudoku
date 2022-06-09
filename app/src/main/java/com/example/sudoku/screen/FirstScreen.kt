@@ -141,16 +141,16 @@ fun PrincipalScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-           Image(
+            Text(stringResource(R.string.sudoku), fontSize = 70.sp)
+            Text(stringResource(R.string.group), fontSize = 14.sp)
+            Image(
                 painter = painterResource(id = R.drawable.ic_calice_logo),
                 modifier = Modifier
                     .size(200.dp)
-                    .padding(top = 10.dp) ,
+                    .padding(top = 8.dp) ,
                 contentDescription = "",
                 contentScale = ContentScale.Fit
             )
-            Text(stringResource(R.string.sudoku), fontSize = 70.sp)
-            Text(stringResource(R.string.group), fontSize = 14.sp)
             Spacer(modifier = Modifier.size(70.dp))
             Button(
                 onClick = {

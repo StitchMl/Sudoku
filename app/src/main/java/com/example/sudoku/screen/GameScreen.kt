@@ -44,7 +44,7 @@ fun NewGameScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(stringResource(R.string.sudoku), fontSize = 70.sp)
-        Spacer(modifier = Modifier.size(70.dp))
+        Spacer(modifier = Modifier.size(30.dp))
 
     ConstraintLayout {
         // Create references for the composable to constrain
