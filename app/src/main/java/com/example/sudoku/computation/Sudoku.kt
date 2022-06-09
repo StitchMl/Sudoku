@@ -188,12 +188,8 @@ class Sudoku internal constructor(
     fun getGame(): Game {
         FillValues()
         bool = false
-        val counter = rememberSaveable { mutableStateOf((n*n)-k.value) }
-        val game = Game(diff.value)
-        game.sudoku = getSudoku()
-        game.bar = NumberBar()
-        game.counter = counter
-        return game
+        val counter = rememberSaveable { mutableStateOf((n * n) - k.value) }
+        return Game(diff.value, sudoku = getSudoku(), bar = NumberBar(), counter = counter)
     }
 
     /** Get Sudoku **/
@@ -206,6 +202,17 @@ class Sudoku internal constructor(
         bool = true
         solution = Array(n) { IntArray(n) }
         mat = Array(n) { Array(n){Cell(0,0,0, null, null)} }
+    }
+
+    /** Save Game **/
+    fun saveGame(sudoku: Array<Array<Cell>>): Array<IntArray>{
+        val savedSudoku = Array(9){IntArray(9)}
+        for (i in 0 until sudoku.size){
+            for (j in 0 until sudoku[i].size){
+                savedSudoku[i][j] = sudoku[i][j].value?.value!!
+            }
+        }
+        return savedSudoku
     }
 
     /** Constructor **/

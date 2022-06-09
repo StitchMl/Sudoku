@@ -7,8 +7,6 @@ import kotlinx.coroutines.*
 
 class GameRepository(private val gameDao: GameDao) {
 
-    //val allGames: LiveData<List<Game>> = gameDao.getAllGames()
-    //val searchResults = MutableLiveData<List<Game>>()
     val allScore: LiveData<List<Score>> = gameDao.getAllScore()
     val searchScoreResults = MutableLiveData<List<Score>>()
     private val coroutineScope = CoroutineScope(Dispatchers.Main)

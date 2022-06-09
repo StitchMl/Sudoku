@@ -22,6 +22,7 @@ import com.example.sudoku.computation.*
 import com.example.sudoku.database.ScoreViewModel
 import com.example.sudoku.model.Game
 import com.example.sudoku.model.Score
+import kotlinx.coroutines.*
 
 
 @Composable
@@ -30,11 +31,10 @@ fun NewGameScreen(
     g: Game,
     timer: MutableState<Long>,
     newRecord: MutableState<Boolean>,
-    start: MutableState<Boolean>,
     model: ScoreViewModel,
     context: Context
 ){
-    //TITOLO
+    //TITLE
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -68,21 +68,32 @@ fun NewGameScreen(
             CurrentInfoBar(g, timer)
         }
     }
-    start.value = true
+    val clock = CoroutineScope(Dispatchers.IO).launchPeriodicAsync(1000, timer)
     if (g.counter.value == (9*9)){
-        start.value = false
+        clock.cancel()
         val str = stringResource(R.string.won)
         g.elapsedTime = timer.value
         context.makeShortToast(str)
         model.insertScore(Score(g.difficult, g.mistakes, g.elapsedTime))
-        //model.insertGame(g)
         navController.setScreen(Screen.VICTORY)
     } else if (g.counter.value == 0){
-        start.value = false
+        clock.cancel()
         val str = stringResource(R.string.game_over)
         g.elapsedTime = timer.value
         context.makeShortToast(str)
         navController.setScreen(Screen.FAIL) }
+    }
+}
+
+fun CoroutineScope.launchPeriodicAsync(
+    repeatMillis: Long,
+    timer: MutableState<Long>
+) = this.async {
+    if (repeatMillis > 0) {
+        while (isActive) {
+            timer.value++
+            delay(repeatMillis)
+        }
     }
 }
 
@@ -102,6 +113,20 @@ fun NewGameScreenPreview(){
     val diff = rememberSaveable { mutableStateOf(set.DIFFICULTY[1]) }
     set.setDifficult(diff.value, k)
     val s = Sudoku(9, k, diff)
-    NewGameScreen(Navigation(empty, diff, timer, newRecord, screen, start, ScoreViewModel(LocalContext.current.applicationContext as Application), context),
-        s.getGame(), t, b, start, ScoreViewModel(LocalContext.current.applicationContext as Application), context)
+    NewGameScreen(
+        Navigation(
+            empty,
+            diff,
+            timer,
+            newRecord,
+            screen,
+            ScoreViewModel(LocalContext.current.applicationContext as Application),
+            context
+        ),
+        s.getGame(),
+        t,
+        b,
+        ScoreViewModel(LocalContext.current.applicationContext as Application),
+        context
+    )
 }

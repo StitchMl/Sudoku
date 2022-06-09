@@ -6,7 +6,7 @@ import androidx.compose.runtime.MutableState
 import com.example.sudoku.database.ScoreViewModel
 import com.example.sudoku.model.Game
 import com.example.sudoku.screen.*
-import java.util.*
+import kotlinx.coroutines.*
 
 class Navigation(
     private val empty: MutableState<Int>,
@@ -14,18 +14,11 @@ class Navigation(
     private val timer: MutableState<Long>,
     private val newRecord: MutableState<Boolean>,
     private val screen: MutableState<Screen>,
-    private val start: MutableState<Boolean>,
     private val score: ScoreViewModel,
     private val context: Context
 ) {
     private var g: Game? = null
     private val s: Sudoku = Sudoku(9, empty, diff)
-
-    init {
-        val t = Timer()
-        val task = MyTimerTask(timer, start)
-        t.scheduleAtFixedRate(task, 1000, 1000)
-    }
 
     @Composable
     fun Start(){
@@ -43,7 +36,7 @@ class Navigation(
     fun NewGameScreen() {
         g = s.getGame()
         timer.value = 0L
-        NewGameScreen(this, g!!, timer, newRecord, start, score, context)
+        NewGameScreen(this, g!!, timer, newRecord, score, context)
     }
     @Composable
     fun Victory() {

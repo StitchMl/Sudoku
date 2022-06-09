@@ -223,6 +223,14 @@ fun FirstScreenPreview(){
     val start = rememberSaveable{ mutableStateOf(false) }
     val context = LocalContext.current
     Screen(scope, empty, diff,
-        Navigation(empty, diff, timer, newRecord, screen, start, ScoreViewModel(LocalContext.current.applicationContext as Application), context),
+        Navigation(
+            empty,
+            diff,
+            timer,
+            newRecord,
+            screen,
+            ScoreViewModel(LocalContext.current.applicationContext as Application),
+            context
+        ),
         Sudoku(9, empty, diff))
 }

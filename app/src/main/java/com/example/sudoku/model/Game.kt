@@ -1,38 +1,18 @@
 package com.example.sudoku.model
 
-import androidx.annotation.NonNull
 import androidx.compose.runtime.MutableState
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
 
-@Entity(tableName = "games")
 data class Game(
-    @ColumnInfo(name = "diff")
     var difficult: String = "",
-    @ColumnInfo(name = "mistakes")
     var mistakes: Int = 0,
-    @ColumnInfo(name = "time")
     var elapsedTime: Long = 0L,
+    var sudoku: Array<Array<Cell>>,
+    var bar: NumberBar,
+    var counter: MutableState<Int>,
+    var oneSelect: Boolean = false,
+    var iSelect: Int? = null,
+    var jSelect: Int? = null,
 ) {
-    @PrimaryKey(autoGenerate = true)
-    @NonNull
-    @ColumnInfo(name = "gameId")
-    var id: Int = 0
-
-    @Ignore
-    lateinit var sudoku: Array<Array<Cell>>
-    @Ignore
-    lateinit var bar: NumberBar
-    @Ignore
-    lateinit var counter: MutableState<Int>
-    var oneSelect: Boolean = false
-    @Ignore
-    var iSelect: Int? = null
-    @Ignore
-    var jSelect: Int? = null
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
