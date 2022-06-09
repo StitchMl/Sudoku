@@ -1,30 +1,23 @@
 package com.example.sudoku.screen
 
-import android.app.Application
 import android.content.Context
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.sudoku.R
-import com.example.sudoku.computation.*
+import com.example.sudoku.computation.Navigation
+import com.example.sudoku.computation.Screen
 import com.example.sudoku.computation.makeShortToast
 import com.example.sudoku.database.ScoreViewModel
 import com.example.sudoku.model.Game
+import com.example.sudoku.model.Score
 
 
 @Composable
@@ -77,6 +70,8 @@ fun NewGameScreen(
         val str = stringResource(R.string.won)
         g.elapsedTime = timer.value
         context.makeShortToast(str)
+        val s = Score(diff = g.difficult, mistakes = g.mistakes, time = g.elapsedTime)
+        model.insertScore(s)
         //model.insertGame(g)
         navController.setScreen(Screen.VICTORY)
     } else if (g.counter.value == 0){

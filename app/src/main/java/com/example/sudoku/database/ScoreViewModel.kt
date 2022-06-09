@@ -2,10 +2,8 @@ package com.example.sudoku.database
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.sudoku.model.Game
 import com.example.sudoku.model.Score
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,19 +14,19 @@ class ScoreViewModel(application: Application): ViewModel() {
     private val scoreList = MutableStateFlow(listOf<Score>())
     val realTimeUpdateItem: StateFlow<List<Score>> get() = scoreList
     val allScore: LiveData<List<Score>>
-    val allGames: LiveData<List<Game>>
+    //val allGames: LiveData<List<Game>>
     private val repository: GameRepository
-    val searchResults: MutableLiveData<List<Game>>
+    //val searchResults: MutableLiveData<List<Game>>
 
     init {
         val gameDb = GameDatabase.getInstance(application)
         val gameDao = gameDb?.gameDao()
         repository = GameRepository(gameDao!!)
 
-        allGames = repository.allGames
+        //allGames = repository.allGames
         allScore = repository.allScore
-        searchResults = repository.searchResults
-        getUpdateItem()
+        //searchResults = repository.searchResults
+        //getUpdateItem()
     }
 
     private fun getUpdateItem() {
@@ -36,7 +34,6 @@ class ScoreViewModel(application: Application): ViewModel() {
             val initialRealTimeUpdateItem = arrayListOf<Score>()
             repeat(20) {
                 initialRealTimeUpdateItem += Score(
-                    id = it + 1,
                     mistakes =  it,
                     time = it.toLong()
                 )
@@ -45,19 +42,21 @@ class ScoreViewModel(application: Application): ViewModel() {
         }
     }
 
-    fun insertGame(game: Game) {
+    /*fun insertGame(game: Game) {
         repository.insertGame(game)
-    }
+    }*/
 
-    fun insertGame(score: Score) {
+    fun insertScore(score: Score) {
         repository.insertScore(score)
+        println(score.id)
+        println(allScore.value)
     }
 
-    fun findGame(id: Int) {
+    /*fun findGame(id: Int) {
         repository.findGame(id)
     }
 
     fun deleteGame(id: Int) {
         repository.deleteGame(id)
-    }
+    }*/
 }

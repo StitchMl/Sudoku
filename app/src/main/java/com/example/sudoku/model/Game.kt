@@ -2,27 +2,12 @@ package com.example.sudoku.model
 
 import androidx.annotation.NonNull
 import androidx.compose.runtime.MutableState
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 
-@Entity(tableName = "games",
-    indices = [
-        Index(
-            value = ["gameId", "diff", "mistakes", "time"],
-            unique = true),
-        Index(
-            value = ["gameId"],
-            unique = true),
-        Index(
-            value = ["diff"],
-            unique = true),
-        Index(
-            value = ["mistakes"],
-            unique = true),
-        Index(
-            value = ["time"],
-            unique = true)
-    ]
-)
+@Entity(tableName = "games")
 data class Game(
     @ColumnInfo(name = "diff")
     var difficult: String = "",

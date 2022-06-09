@@ -51,6 +51,7 @@ fun ScoreScreen(score: ScoreViewModel)
 {
     //val list = score.realTimeUpdateItem.collectAsState()
     val list = score.allScore
+    println(list.value)
     //val mistake = rememberSaveable{ mutableStateOf(score.mistakes) }
     //val time = rememberSaveable{ mutableStateOf(score.time) }
     if(list.value != null) {
@@ -62,7 +63,10 @@ fun ScoreScreen(score: ScoreViewModel)
             }
         }
     } else {
-        Text(text = "There's not any result yet")
+        Column(horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center) {
+            Text(text = "There's not any result yet")
+        }
     }
 }
 

@@ -15,7 +15,6 @@ class Navigation(
     private val newRecord: MutableState<Boolean>,
     private val screen: MutableState<Screen>,
     private val start: MutableState<Boolean>,
-    private val allGames: List<Game>,
     private val score: ScoreViewModel,
     private val context: Context
 ) {

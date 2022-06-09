@@ -7,8 +7,6 @@ import androidx.activity.addCallback
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -30,9 +28,9 @@ class MainActivity : ComponentActivity() {
             val screen = rememberSaveable{ mutableStateOf(Screen.SPLASH_SCREEN) }
             val context = applicationContext
             val score = ScoreViewModel(context as Application)
-            val allGames by score.allGames.observeAsState(listOf())
-            val searchResults by score.searchResults.observeAsState(listOf())
-            val nav = Navigation(empty, diff, timer, newRecord, screen, start, allGames, score, context)
+            //val allGames by score.allGames.observeAsState(listOf())
+            //val searchResults by score.searchResults.observeAsState(listOf())
+            val nav = Navigation(empty, diff, timer, newRecord, screen, start, score, context)
             onBackPressedDispatcher.addCallback(this) {
                 screen.value = Screen.MAIN_SCREEN
             }
