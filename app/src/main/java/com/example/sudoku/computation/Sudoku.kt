@@ -7,6 +7,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import com.example.sudoku.model.Cell
 import com.example.sudoku.model.Game
 import com.example.sudoku.model.NumberBar
+import com.example.sudoku.model.SavedSudoku
 import kotlin.math.floor
 import kotlin.math.sqrt
 
@@ -189,12 +190,17 @@ class Sudoku internal constructor(
         FillValues()
         bool = false
         val counter = rememberSaveable { mutableStateOf((n * n) - k.value) }
-        return Game(diff.value, sudoku = getSudoku(), bar = NumberBar(), counter = counter)
+        return Game(diff.value, sudoku = getSudoku(), bar = NumberBar(), counter = counter, solution = getSolution())
     }
 
     /** Get Sudoku **/
     private fun getSudoku(): Array<Array<Cell>> {
         return mat
+    }
+
+    /** Get Sudoku **/
+    private fun getSolution(): Array<IntArray> {
+        return solution
     }
 
     /** Activate change game **/
@@ -207,12 +213,26 @@ class Sudoku internal constructor(
     /** Save Game **/
     fun saveGame(sudoku: Array<Array<Cell>>): Array<IntArray>{
         val savedSudoku = Array(9){IntArray(9)}
-        for (i in 0 until sudoku.size){
+        for (i in sudoku.indices){
             for (j in 0 until sudoku[i].size){
                 savedSudoku[i][j] = sudoku[i][j].value?.value!!
             }
         }
         return savedSudoku
+    }
+
+    @Composable
+    fun setGame(sudoku: SavedSudoku): Game {
+        bool = false
+        val counter = rememberSaveable { mutableStateOf((n * n) - k.value) }
+        solution = sudoku.solution
+        for (i in 0 until sudoku.sudoku.size){
+            for (j in 0 until sudoku.sudoku[i].size){
+                val value = rememberSaveable { mutableStateOf(sudoku.sudoku[i][j]) }
+                mat[i][j] = Cell(i, j, sudoku.solution[i][j], value, null)
+            }
+        }
+        return Game(sudoku.diff, sudoku = getSudoku(), bar = NumberBar(), counter = counter, solution = getSolution())
     }
 
     /** Constructor **/

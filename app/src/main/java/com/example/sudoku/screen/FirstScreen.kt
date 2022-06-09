@@ -30,24 +30,26 @@ import com.example.sudoku.R
 import com.example.sudoku.computation.Navigation
 import com.example.sudoku.computation.Screen
 import com.example.sudoku.computation.Setting
-import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.database.ScoreViewModel
 import com.example.sudoku.ui.theme.ButtonColor
 import com.example.sudoku.ui.theme.textColorLight
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
 @Composable
-fun FirstScreen(navController: Navigation, empty: MutableState<Int>, diff: MutableState<String>, s: Sudoku){
+fun FirstScreen(navController: Navigation, empty: MutableState<Int>, diff: MutableState<String>){
     val scope = rememberCoroutineScope()
-    Screen(scope, empty, diff, navController, s)
+    Screen(scope, empty, diff, navController)
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun Screen(scope: CoroutineScope, empty: MutableState<Int>,
-           diff: MutableState<String>, navController: Navigation, s: Sudoku){
+fun Screen(
+    scope: CoroutineScope, empty: MutableState<Int>,
+    diff: MutableState<String>, navController: Navigation
+){
     val drawerState = rememberBottomDrawerState(BottomDrawerValue.Closed)
     val context = LocalContext.current
     val set = Setting(context)
@@ -55,7 +57,7 @@ fun Screen(scope: CoroutineScope, empty: MutableState<Int>,
         modifier = Modifier.background(MaterialTheme.colors.onPrimary),
         drawerState = drawerState,
         drawerContent = {
-            DrawerContent(scope, drawerState, empty, set, diff, navController, s)
+            DrawerContent(scope, drawerState, empty, set, diff, navController)
         },
         gesturesEnabled = false
     ) {
@@ -65,9 +67,11 @@ fun Screen(scope: CoroutineScope, empty: MutableState<Int>,
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun DrawerContent(scope: CoroutineScope, drawerState: BottomDrawerState,
-                  e: MutableState<Int>, set: Setting, d: MutableState<String>,
-                  navController: Navigation, s: Sudoku){
+fun DrawerContent(
+    scope: CoroutineScope, drawerState: BottomDrawerState,
+    e: MutableState<Int>, set: Setting, d: MutableState<String>,
+    navController: Navigation
+){
     val diff: Array<String> = set.DIFFICULTY
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -83,7 +87,6 @@ fun DrawerContent(scope: CoroutineScope, drawerState: BottomDrawerState,
                     .clickable {
                         d.value = diff[state]
                         set.setDifficult(d.value, e)
-                        s.changeGame()
                         navController.setScreen(Screen.NEW_GAME_SCREEN)
                     }
                     .padding(3.dp)) {
@@ -222,15 +225,10 @@ fun FirstScreenPreview(){
     val newRecord = rememberSaveable{ mutableStateOf(false) }
     val start = rememberSaveable{ mutableStateOf(false) }
     val context = LocalContext.current
-    Screen(scope, empty, diff,
-        Navigation(
-            empty,
-            diff,
-            timer,
-            newRecord,
-            screen,
+    val clock = CoroutineScope(Dispatchers.IO)
+    Screen(scope, empty, diff, Navigation(empty, diff, timer, newRecord, screen,
             ScoreViewModel(LocalContext.current.applicationContext as Application),
-            context
-        ),
-        Sudoku(9, empty, diff))
+            start, context
+        )
+    )
 }

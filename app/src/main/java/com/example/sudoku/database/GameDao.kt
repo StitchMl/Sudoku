@@ -5,19 +5,23 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import com.example.sudoku.model.SavedSudoku
 import com.example.sudoku.model.Score
 
 @Dao
 interface GameDao {
 
-    /*@Insert
-    fun insertGame(game: Game)*/
+    @Insert
+    fun insertSudoku(sudoku: SavedSudoku)
 
     @Insert
     fun insertScore(score: Score)
 
     @Delete
     fun deleteScore(score: Score)
+
+    @Delete
+    fun deleteSudoku(sudoku: SavedSudoku)
 
     @Query("SELECT * FROM scores WHERE difficulty = :diff")
     fun findDiffScore(diff: String): List<Score>
@@ -28,12 +32,12 @@ interface GameDao {
     @Query("SELECT * FROM scores")
     fun getAllScore(): LiveData<List<Score>>
 
-    /*@Query("SELECT * FROM games WHERE gameId = :id")
-    fun findGame(id: Int): List<Game>
+    @Query("SELECT * FROM sudoku WHERE gameId = :id")
+    fun findSudoku(id: Int): List<SavedSudoku>
 
-    @Query("DELETE FROM games WHERE gameId = :id")
-    fun deleteGame(id: Int)
+    @Query("DELETE FROM sudoku WHERE gameId = :id")
+    fun deleteSudoku(id: Int)
 
-    @Query("SELECT * FROM games")
-    fun getAllGames(): LiveData<List<Game>>*/
+    @Query("SELECT * FROM sudoku")
+    fun getAllSudoku(): LiveData<List<SavedSudoku>>
 }

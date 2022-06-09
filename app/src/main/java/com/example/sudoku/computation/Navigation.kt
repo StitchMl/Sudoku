@@ -3,10 +3,14 @@ package com.example.sudoku.computation
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.res.stringResource
+import com.example.sudoku.R
 import com.example.sudoku.database.ScoreViewModel
 import com.example.sudoku.model.Game
+import com.example.sudoku.model.SavedSudoku
 import com.example.sudoku.screen.*
-import kotlinx.coroutines.*
 
 class Navigation(
     private val empty: MutableState<Int>,
@@ -15,10 +19,19 @@ class Navigation(
     private val newRecord: MutableState<Boolean>,
     private val screen: MutableState<Screen>,
     private val score: ScoreViewModel,
+    private val start: MutableState<Boolean>,
     private val context: Context
 ) {
     private var g: Game? = null
-    private val s: Sudoku = Sudoku(9, empty, diff)
+    private var s: Sudoku = Sudoku(9, empty, diff)
+
+    fun saveGame(){
+        val sudoku = s.saveGame(g?.sudoku!!)
+        println(sudoku)
+        s.changeGame()
+        score.insertSudoku(SavedSudoku(g!!.difficult, g!!.mistakes, g!!.elapsedTime, sudoku, g!!.solution))
+        g = null
+    }
 
     @Composable
     fun Start(){
@@ -29,26 +42,41 @@ class Navigation(
     @Composable
     fun MainScreen() {
         timer.value = 0L
-        FirstScreen(this, empty, diff, s)
+        FirstScreen(this, empty, diff)
     }
     // Game Screen
     @Composable
     fun NewGameScreen() {
         g = s.getGame()
         timer.value = 0L
-        NewGameScreen(this, g!!, timer, newRecord, score, context)
+        if(g != null) {
+            GameScreen(this, g!!, timer, newRecord, score, start, context)
+        }
     }
     @Composable
     fun Victory() {
+        g = null
         VictoryScreen(this, timer, newRecord)
     }
     @Composable
     fun Fail() {
+        g = null
         FailureScreen(this, timer, newRecord)
     }
     @Composable
     fun LoadGameScreen(){
-        /*TODO LoadGameScreen(this)*/
+        val allSudoku by score.allSudoku.observeAsState(listOf())
+        if (allSudoku.isNotEmpty()) {
+            println(allSudoku)
+            g = s.setGame(allSudoku[0])
+            timer.value = allSudoku[0].time
+            score.deleteSudoku(allSudoku[0].id)
+            GameScreen(this, g!!, timer, newRecord, score, start, context)
+        } else {
+            val str = stringResource(R.string.no_game)
+            context.makeShortToast(str)
+            screen.value = Screen.MAIN_SCREEN
+        }
     }
     // Rules Screen
     @Composable

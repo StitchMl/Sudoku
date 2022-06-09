@@ -2,6 +2,7 @@ package com.example.sudoku.database
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.sudoku.model.SavedSudoku
 import com.example.sudoku.model.Score
 import kotlinx.coroutines.*
 
@@ -9,6 +10,8 @@ class GameRepository(private val gameDao: GameDao) {
 
     val allScore: LiveData<List<Score>> = gameDao.getAllScore()
     val searchScoreResults = MutableLiveData<List<Score>>()
+    val allSudoku: LiveData<List<SavedSudoku>> = gameDao.getAllSudoku()
+    val searchSudokuResults = MutableLiveData<List<SavedSudoku>>()
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     fun insertScore(newScore: Score) {
@@ -34,26 +37,26 @@ class GameRepository(private val gameDao: GameDao) {
             return@async gameDao.findDiffScore(diff)
         }
 
-    /*fun insertGame(newGame: Game) {
+    fun insertSudoku(newSudoku: SavedSudoku) {
         coroutineScope.launch(Dispatchers.IO) {
-            gameDao.insertGame(newGame)
-        }
-    }*/
-
-    /*fun deleteGame(id: Int) {
-        coroutineScope.launch(Dispatchers.IO) {
-            gameDao.deleteGame(id)
+            gameDao.insertSudoku(newSudoku)
         }
     }
 
-    fun findGame(id: Int) {
+    fun deleteSudoku(id: Int) {
+        coroutineScope.launch(Dispatchers.IO) {
+            gameDao.deleteSudoku(id)
+        }
+    }
+
+    fun findSudoku(id: Int) {
         coroutineScope.launch(Dispatchers.Main) {
-            searchResults.value = asyncFind(id).await()
+            searchSudokuResults.value = asyncSudoku(id).await()
         }
     }
 
-    private fun asyncFind(id: Int): Deferred<List<Game>?> =
+    private fun asyncSudoku(id: Int): Deferred<List<SavedSudoku>?> =
         coroutineScope.async(Dispatchers.IO) {
-            return@async gameDao.findGame(id)
-        }*/
+            return@async gameDao.findSudoku(id)
+        }
 }
