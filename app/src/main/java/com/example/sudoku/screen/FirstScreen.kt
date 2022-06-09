@@ -151,7 +151,7 @@ fun PrincipalScreen(
                 contentDescription = "",
                 contentScale = ContentScale.Fit
             )
-            Spacer(modifier = Modifier.size(70.dp))
+            Spacer(modifier = Modifier.size(30.dp))
             Button(
                 onClick = {
                     scope.launch {
