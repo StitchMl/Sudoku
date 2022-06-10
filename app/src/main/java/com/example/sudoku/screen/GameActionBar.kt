@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.example.sudoku.R
 import com.example.sudoku.computation.Setting
 import com.example.sudoku.computation.Sudoku
+import com.example.sudoku.computation.makeShortToast
 import com.example.sudoku.model.Game
 @Composable
 fun GameActionBar(game: Game, context: Context) {
@@ -31,7 +32,7 @@ fun GameActionBar(game: Game, context: Context) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         painter = painterResource(id = R.drawable.cancella),
-                        contentDescription = "Erase",
+                        contentDescription = "Delete",
                         modifier = Modifier.size(24.dp)
                     )
                     val str = stringResource(R.string.delete)
@@ -44,7 +45,7 @@ fun GameActionBar(game: Game, context: Context) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         painter = painterResource(id = R.drawable.appunti),
-                        contentDescription = "Erase",
+                        contentDescription = "Note",
                         modifier = Modifier.size(24.dp)
                     )
                     val str = stringResource(R.string.note)
@@ -52,11 +53,11 @@ fun GameActionBar(game: Game, context: Context) {
                 }
             }
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { getClue(game, context) }) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         painter = painterResource(id = R.drawable.suggerimenti),
-                        contentDescription = "Erase",
+                        contentDescription = "Clue",
                         modifier = Modifier.size(24.dp)
                     )
                     val str = stringResource(R.string.clue)
@@ -77,6 +78,21 @@ fun GameActionBar(game: Game, context: Context) {
             }
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
         }
+    }
+}
+
+
+fun getClue(g: Game, context: Context) {
+    if(g.iSelect != null && g.jSelect != null){
+        g.sudoku[g.iSelect!!][g.jSelect!!].value?.value = g.sudoku[g.iSelect!!][g.jSelect!!].sol
+        g.sudoku[g.iSelect!!][g.jSelect!!].click?.value = 0
+        g.oneSelect = false
+        g.iSelect = null
+        g.jSelect = null
+        g.counter.value += 1
+    } else {
+        val str = context.getString(R.string.select)
+        context.makeShortToast(str)
     }
 }
 
