@@ -9,6 +9,7 @@ import androidx.compose.ui.res.stringResource
 import com.example.sudoku.R
 import com.example.sudoku.database.ScoreViewModel
 import com.example.sudoku.model.Game
+import com.example.sudoku.model.SavedCell
 import com.example.sudoku.model.SavedSudoku
 import com.example.sudoku.screen.*
 
@@ -27,9 +28,14 @@ class Navigation(
 
     fun saveGame(){
         val sudoku = s.saveGame(g?.sudoku!!)
-        println(sudoku)
+        val solution = g!!.solution
         s.changeGame()
-        score.insertSudoku(SavedSudoku(g!!.difficult, g!!.mistakes, g!!.elapsedTime, sudoku, g!!.solution))
+        for (i in sudoku.indices){
+            for (j in 0 until sudoku[i].size){
+                score.insertCell(SavedCell(i, j, solution[i][j], sudoku[i][j]))
+            }
+        }
+        score.insertSudoku(SavedSudoku(g!!.difficult, g!!.mistakes, g!!.elapsedTime))
         g = null
     }
 
@@ -66,9 +72,9 @@ class Navigation(
     @Composable
     fun LoadGameScreen(){
         val allSudoku by score.allSudoku.observeAsState(listOf())
-        if (allSudoku.isNotEmpty()) {
-            println(allSudoku)
-            g = s.setGame(allSudoku[0])
+        val allCell by score.allCell.observeAsState(listOf())
+        if (allSudoku.isNotEmpty() && allCell.isNotEmpty()) {
+            g = s.setGame(allSudoku[0], allCell)
             timer.value = allSudoku[0].time
             score.deleteSudoku(allSudoku[0].id)
             GameScreen(this, g!!, timer, newRecord, score, start, context)

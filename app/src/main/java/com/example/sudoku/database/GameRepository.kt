@@ -1,17 +1,18 @@
 package com.example.sudoku.database
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import com.example.sudoku.model.SavedCell
 import com.example.sudoku.model.SavedSudoku
 import com.example.sudoku.model.Score
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class GameRepository(private val gameDao: GameDao) {
 
     val allScore: LiveData<List<Score>> = gameDao.getAllScore()
-    val searchScoreResults = MutableLiveData<List<Score>>()
     val allSudoku: LiveData<List<SavedSudoku>> = gameDao.getAllSudoku()
-    val searchSudokuResults = MutableLiveData<List<SavedSudoku>>()
+    val allCell: LiveData<List<SavedCell>> = gameDao.getAllCell()
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     fun insertScore(newScore: Score) {
@@ -26,17 +27,6 @@ class GameRepository(private val gameDao: GameDao) {
         }
     }
 
-    fun findScore(diff: String) {
-        coroutineScope.launch(Dispatchers.Main) {
-            searchScoreResults.value = asyncFind(diff).await()
-        }
-    }
-
-    private fun asyncFind(diff: String): Deferred<List<Score>?> =
-        coroutineScope.async(Dispatchers.IO) {
-            return@async gameDao.findDiffScore(diff)
-        }
-
     fun insertSudoku(newSudoku: SavedSudoku) {
         coroutineScope.launch(Dispatchers.IO) {
             gameDao.insertSudoku(newSudoku)
@@ -49,14 +39,15 @@ class GameRepository(private val gameDao: GameDao) {
         }
     }
 
-    fun findSudoku(id: Int) {
-        coroutineScope.launch(Dispatchers.Main) {
-            searchSudokuResults.value = asyncSudoku(id).await()
+    fun insertCell(newCell: SavedCell) {
+        coroutineScope.launch(Dispatchers.IO) {
+            gameDao.insertCell(newCell)
         }
     }
 
-    private fun asyncSudoku(id: Int): Deferred<List<SavedSudoku>?> =
-        coroutineScope.async(Dispatchers.IO) {
-            return@async gameDao.findSudoku(id)
+    fun deleteCell(row: Int, col: Int) {
+        coroutineScope.launch(Dispatchers.IO) {
+            gameDao.deleteCell(row, col)
         }
+    }
 }
