@@ -15,11 +15,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.sudoku.R
 import com.example.sudoku.computation.toTime
 import com.example.sudoku.database.ScoreViewModel
 import com.example.sudoku.model.Score
@@ -41,10 +44,19 @@ fun ScoreScreen(model: ScoreViewModel)
     }
 
     if (allScore.isEmpty()) {
+        Text(
+            text = "PUNTEGGI",
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(100.dp),
+            color = Color.Black,
+            textAlign = TextAlign.Center
+        )
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+
             Text(text = "There's not any result yet")
         }
     }
@@ -65,6 +77,14 @@ fun RealTimeUpdateItemCard(score: Score) {
             .fillMaxWidth()
             .padding(8.dp)
     ) {
+        Text(
+            text = "PUNTEGGI",
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(100.dp),
+            color = Color.Black,
+            textAlign = TextAlign.Center
+        )
+
         Row {
             Text(
                 text = "$id",
