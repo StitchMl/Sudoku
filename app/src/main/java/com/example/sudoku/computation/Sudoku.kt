@@ -4,9 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import com.example.sudoku.model.Cell
-import com.example.sudoku.model.Game
-import com.example.sudoku.model.NumberBar
+import com.example.sudoku.model.*
 import kotlin.math.floor
 import kotlin.math.sqrt
 
@@ -189,12 +187,17 @@ class Sudoku internal constructor(
         FillValues()
         bool = false
         val counter = rememberSaveable { mutableStateOf((n * n) - k.value) }
-        return Game(diff.value, sudoku = getSudoku(), bar = NumberBar(), counter = counter)
+        return Game(diff.value, sudoku = getSudoku(), bar = NumberBar(), counter = counter, solution = getSolution())
     }
 
     /** Get Sudoku **/
     private fun getSudoku(): Array<Array<Cell>> {
         return mat
+    }
+
+    /** Get Sudoku **/
+    private fun getSolution(): Array<IntArray> {
+        return solution
     }
 
     /** Activate change game **/
@@ -207,12 +210,26 @@ class Sudoku internal constructor(
     /** Save Game **/
     fun saveGame(sudoku: Array<Array<Cell>>): Array<IntArray>{
         val savedSudoku = Array(9){IntArray(9)}
-        for (i in 0 until sudoku.size){
+        for (i in sudoku.indices){
             for (j in 0 until sudoku[i].size){
                 savedSudoku[i][j] = sudoku[i][j].value?.value!!
             }
         }
         return savedSudoku
+    }
+
+    @Composable
+    fun setGame(sudoku: SavedSudoku, cell: List<SavedCell>): Game {
+        bool = false
+        val counter = rememberSaveable { mutableStateOf((n * n) - k.value) }
+        val sol = Array(9){IntArray(9)}
+        for (i in cell.indices){
+            val value = rememberSaveable { mutableStateOf(cell[i].value) }
+            mat[cell[i].row][cell[i].col] = Cell(cell[i].row, cell[i].col, cell[i].sol, value, null)
+            sol[cell[i].row][cell[i].col] = cell[i].sol
+        }
+        solution = sol
+        return Game(sudoku.diff, sudoku = getSudoku(), bar = NumberBar(), counter = counter, solution = getSolution())
     }
 
     /** Constructor **/

@@ -26,4 +26,6 @@
     <string name="note">Appunti</string>
     <string name="clue">Suggerimento</string>
     <string name="cancel">Annulla</string>
+    <string name="no_game">Non ci sono giochi aperti</string>
+    <string name="game_saved">Gioco Salvato</string>
 </resources>

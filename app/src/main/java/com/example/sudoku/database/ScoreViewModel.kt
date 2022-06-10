@@ -2,14 +2,16 @@ package com.example.sudoku.database
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.sudoku.model.SavedCell
+import com.example.sudoku.model.SavedSudoku
 import com.example.sudoku.model.Score
 
 class ScoreViewModel(application: Application): ViewModel() {
     val allScore: LiveData<List<Score>>
+    val allSudoku: LiveData<List<SavedSudoku>>
+    val allCell: LiveData<List<SavedCell>>
     private val repository: GameRepository
-    val searchScoreResults: MutableLiveData<List<Score>>
 
     init {
         val gameDb = GameDatabase.getInstance(application)
@@ -17,20 +19,31 @@ class ScoreViewModel(application: Application): ViewModel() {
         repository = GameRepository(gameDao)
 
         allScore = repository.allScore
-        searchScoreResults = repository.searchScoreResults
+        allSudoku = repository.allSudoku
+        allCell = repository.allCell
     }
 
     fun insertScore(score: Score) {
         repository.insertScore(score)
-        println(score.id)
-        println(allScore.value)
-    }
-
-    fun findScore(diff: String) {
-        repository.findScore(diff)
     }
 
     fun deleteScoreDiff(diff: String) {
         repository.deleteScoreDiff(diff)
+    }
+
+    fun insertSudoku(sudoku: SavedSudoku) {
+        repository.insertSudoku(sudoku)
+    }
+
+    fun deleteSudoku(id: Int) {
+        repository.deleteSudoku(id)
+    }
+
+    fun insertCell(cell: SavedCell) {
+        repository.insertCell(cell)
+    }
+
+    fun deleteCell(row: Int, col: Int) {
+        repository.deleteCell(row, col)
     }
 }

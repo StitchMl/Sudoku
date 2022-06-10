@@ -12,6 +12,7 @@ data class Game(
     var oneSelect: Boolean = false,
     var iSelect: Int? = null,
     var jSelect: Int? = null,
+    var solution: Array<IntArray> = Array(9){IntArray(9)}
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
