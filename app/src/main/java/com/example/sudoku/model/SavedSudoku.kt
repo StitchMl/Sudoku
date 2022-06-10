@@ -8,7 +8,9 @@ import androidx.room.PrimaryKey
 data class SavedSudoku(
     var diff: String,
     var mistakes: Int,
-    var time: Long
+    var time: Long,
+    var sudoku: String,
+    var solution: String
 ){
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "gameId")

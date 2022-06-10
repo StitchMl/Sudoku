@@ -219,14 +219,20 @@ class Sudoku internal constructor(
     }
 
     @Composable
-    fun setGame(sudoku: SavedSudoku, cell: List<SavedCell>): Game {
+    fun setGame(sudoku: SavedSudoku): Game {
         bool = false
         val counter = rememberSaveable { mutableStateOf((n * n) - k.value) }
         val sol = Array(9){IntArray(9)}
-        for (i in cell.indices){
-            val value = rememberSaveable { mutableStateOf(cell[i].value) }
-            mat[cell[i].row][cell[i].col] = Cell(cell[i].row, cell[i].col, cell[i].sol, value, null)
-            sol[cell[i].row][cell[i].col] = cell[i].sol
+        val cellList = sudoku.sudoku.split(',')
+        val cellSolList = sudoku.solution.split(',')
+        for (i in cellList.indices){
+            val sCell = cellList[i].substring(1, cellList[i].length - 1)
+            val sSolCell = cellSolList[i].substring(1, cellSolList[i].length - 1)
+            val lC = sCell.split(';')
+            val lSC = sSolCell.split(';')
+            val value = rememberSaveable { mutableStateOf(lC[2].toInt()) }
+            mat[lC[0].toInt()][lC[1].toInt()] = Cell(lC[0].toInt(), lC[1].toInt(), lSC[2].toInt(), value, null)
+            sol[lSC[0].toInt()][lSC[1].toInt()] = lSC[2].toInt()
         }
         solution = sol
         return Game(sudoku.diff, sudoku = getSudoku(), bar = NumberBar(), counter = counter, solution = getSolution())

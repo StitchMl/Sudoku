@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
                     val str = getString(R.string.game_saved)
                     start.value = false
                     makeShortToast(str)
-                    //nav.saveGame()
+                    nav.saveGame()
                 }
                 screen.value = Screen.MAIN_SCREEN
             }

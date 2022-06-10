@@ -12,7 +12,6 @@ class GameRepository(private val gameDao: GameDao) {
 
     val allScore: LiveData<List<Score>> = gameDao.getAllScore()
     val allSudoku: LiveData<List<SavedSudoku>> = gameDao.getAllSudoku()
-    val allCell: LiveData<List<SavedCell>> = gameDao.getAllCell()
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     fun insertScore(newScore: Score) {
@@ -36,18 +35,6 @@ class GameRepository(private val gameDao: GameDao) {
     fun deleteSudoku(id: Int) {
         coroutineScope.launch(Dispatchers.IO) {
             gameDao.deleteSudoku(id)
-        }
-    }
-
-    fun insertCell(newCell: SavedCell) {
-        coroutineScope.launch(Dispatchers.IO) {
-            gameDao.insertCell(newCell)
-        }
-    }
-
-    fun deleteCell(row: Int, col: Int) {
-        coroutineScope.launch(Dispatchers.IO) {
-            gameDao.deleteCell(row, col)
         }
     }
 }

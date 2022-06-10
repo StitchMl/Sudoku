@@ -10,7 +10,6 @@ import com.example.sudoku.model.Score
 class ScoreViewModel(application: Application): ViewModel() {
     val allScore: LiveData<List<Score>>
     val allSudoku: LiveData<List<SavedSudoku>>
-    val allCell: LiveData<List<SavedCell>>
     private val repository: GameRepository
 
     init {
@@ -20,7 +19,6 @@ class ScoreViewModel(application: Application): ViewModel() {
 
         allScore = repository.allScore
         allSudoku = repository.allSudoku
-        allCell = repository.allCell
     }
 
     fun insertScore(score: Score) {
@@ -37,13 +35,5 @@ class ScoreViewModel(application: Application): ViewModel() {
 
     fun deleteSudoku(id: Int) {
         repository.deleteSudoku(id)
-    }
-
-    fun insertCell(cell: SavedCell) {
-        repository.insertCell(cell)
-    }
-
-    fun deleteCell(row: Int, col: Int) {
-        repository.deleteCell(row, col)
     }
 }

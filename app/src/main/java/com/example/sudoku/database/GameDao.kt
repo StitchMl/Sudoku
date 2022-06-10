@@ -18,17 +18,11 @@ interface GameDao {
     @Insert(entity = Score::class)
     fun insertScore(score: Score)
 
-    @Insert(entity = SavedCell::class)
-    fun insertCell(cell: SavedCell)
-
     @Delete
     fun deleteScore(score: Score)
 
     @Delete
     fun deleteSudoku(sudoku: SavedSudoku)
-
-    @Delete
-    fun deleteCell(cell: SavedCell)
 
     @Query("DELETE FROM scores WHERE difficulty = :diff")
     fun deleteDiffScore(diff: String)
@@ -41,10 +35,4 @@ interface GameDao {
 
     @Query("SELECT * FROM sudoku")
     fun getAllSudoku(): LiveData<List<SavedSudoku>>
-
-    @Query("DELETE FROM cell WHERE `row` = :row AND col = :col")
-    fun deleteCell(row: Int, col: Int)
-
-    @Query("SELECT * FROM cell")
-    fun getAllCell(): LiveData<List<SavedCell>>
 }

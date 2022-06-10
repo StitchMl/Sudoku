@@ -12,6 +12,9 @@ import com.example.sudoku.model.Game
 import com.example.sudoku.model.SavedCell
 import com.example.sudoku.model.SavedSudoku
 import com.example.sudoku.screen.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class Navigation(
     private val empty: MutableState<Int>,
@@ -27,16 +30,29 @@ class Navigation(
     private var s: Sudoku = Sudoku(9, empty, diff)
 
     fun saveGame(){
-        val sudoku = s.saveGame(g?.sudoku!!)
-        val solution = g!!.solution
+        val sudoku = toJson(s.saveGame(g?.sudoku!!))
+        val solution = toJson(g!!.solution)
+        val diff = g!!.difficult
+        val mistakes = g!!.mistakes
+        val temp = g!!.elapsedTime
         s.changeGame()
-        for (i in sudoku.indices){
+        /*for (i in sudoku.indices){
             for (j in 0 until sudoku[i].size){
                 score.insertCell(SavedCell(i, j, solution[i][j], sudoku[i][j]))
             }
-        }
-        score.insertSudoku(SavedSudoku(g!!.difficult, g!!.mistakes, g!!.elapsedTime))
+        }*/
+        score.insertSudoku(SavedSudoku(diff, mistakes, temp, sudoku, solution))
         g = null
+    }
+
+    private fun toJson(matrix: Array<IntArray>): String {
+        val sb = StringBuilder()
+        matrix.forEachIndexed { i, row ->
+            row.forEachIndexed{ j, value->
+                sb.append("[$i;$j;$value],")
+            }
+        }
+        return "$sb"
     }
 
     @Composable
@@ -72,9 +88,9 @@ class Navigation(
     @Composable
     fun LoadGameScreen(){
         val allSudoku by score.allSudoku.observeAsState(listOf())
-        val allCell by score.allCell.observeAsState(listOf())
-        if (allSudoku.isNotEmpty() && allCell.isNotEmpty()) {
-            g = s.setGame(allSudoku[0], allCell)
+        //val allCell by score.allCell.observeAsState(listOf())
+        if (allSudoku.isNotEmpty()) {
+            g = s.setGame(allSudoku[0])
             timer.value = allSudoku[0].time
             score.deleteSudoku(allSudoku[0].id)
             GameScreen(this, g!!, timer, newRecord, score, start, context)
