@@ -20,12 +20,13 @@ import com.example.sudoku.R
 import com.example.sudoku.computation.Setting
 import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.computation.makeShortToast
+import com.example.sudoku.model.Action
 import com.example.sudoku.model.Cell
 import com.example.sudoku.model.Game
-import com.example.sudoku.model.Undo
+
 
 @Composable
-fun GameActionBar(game: Game, context: Context, note: MutableState<Boolean>) {
+fun GameActionBar(game: Game, context: Context, action: Action) {
     CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.caption) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -45,7 +46,7 @@ fun GameActionBar(game: Game, context: Context, note: MutableState<Boolean>) {
             }
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
 
-            IconButton(onClick = { note.value = true }) {
+            IconButton(onClick = { action.note.value = true }) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         painter = painterResource(id = R.drawable.appunti),
@@ -107,7 +108,7 @@ fun eraseField(g: Game){
     }
 }
 
-fun UndoField(g: Game, u: Undo) {
+fun UndoField(g: Game, u: Action) {
     if( u.r != null && u.c != null)
     {
         g.sudoku[u.r][u.c].value?.value = 0
@@ -115,6 +116,7 @@ fun UndoField(g: Game, u: Undo) {
 
 }
 
+/*
 @Preview(device = Devices.DEFAULT, showBackground = true)
 @Composable
 fun ButtonActionPreview(){
@@ -124,6 +126,6 @@ fun ButtonActionPreview(){
     val diff = rememberSaveable { mutableStateOf(set.DIFFICULTY[1]) }
     set.setDifficult(diff.value, k)
     val s = Sudoku(9, k, diff)
-    val note = rememberSaveable { mutableStateOf( false) }
+
     GameActionBar(s.getGame(), context, note)
-}
+}*/

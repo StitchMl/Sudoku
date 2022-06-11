@@ -20,6 +20,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.sudoku.R
 import com.example.sudoku.computation.*
 import com.example.sudoku.database.ScoreViewModel
+import com.example.sudoku.model.Action
 import com.example.sudoku.model.Game
 import com.example.sudoku.model.Score
 import kotlinx.coroutines.CoroutineScope
@@ -37,7 +38,7 @@ fun GameScreen(
     model: ScoreViewModel,
     start: MutableState<Boolean>,
     context: Context,
-    note: MutableState<Boolean>
+    action: Action
 ) {
     start.value = true
     //TITLE
@@ -61,12 +62,12 @@ fun GameScreen(
             Box(modifier = Modifier.constrainAs(actionBar) {
                 top.linkTo(number.bottom, margin = 10.dp)
             }) {
-                GameActionBar(g, context, note)
+                GameActionBar(g, context, action)
             }
             Box(modifier = Modifier.constrainAs(number) {
                 top.linkTo(sudoku.bottom, margin = 10.dp)
             }) {
-                NumberSelection(g, context, note)
+                NumberSelection(g, context, action)
             }
             Box(modifier = Modifier.constrainAs(infoBar) {
                 top.linkTo(parent.top, margin = 10.dp)
@@ -94,7 +95,7 @@ fun GameScreen(
         }
     }
 }
-
+/*
 @Preview(device = Devices.DEFAULT, showBackground = true)
 @Composable
 fun NewGameScreenPreview(){
@@ -112,13 +113,14 @@ fun NewGameScreenPreview(){
     set.setDifficult(diff.value, k)
     val s = Sudoku(9, k, diff)
     val note = rememberSaveable { mutableStateOf(false) }
+
     GameScreen(
         Navigation(empty, diff, timer, newRecord, screen,
                 ScoreViewModel(LocalContext.current.applicationContext as Application), start, context),
         s.getGame(), t, b, ScoreViewModel(LocalContext.current.applicationContext as Application),
-        start, context, note
+        start, context, action
     )
-}
+}*/
 
 fun CoroutineScope.launchPeriodicAsync(
     repeatMillis: Long,

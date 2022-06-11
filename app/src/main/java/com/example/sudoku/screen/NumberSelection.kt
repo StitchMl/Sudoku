@@ -23,12 +23,13 @@ import com.example.sudoku.R
 import com.example.sudoku.computation.Setting
 import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.computation.makeShortToast
+import com.example.sudoku.model.Action
 import com.example.sudoku.model.Game
-import com.example.sudoku.model.Undo
+
 
 /** Create the board of number to insert **/
 @Composable
-fun NumberSelection(g: Game, context: Context, note: MutableState<Boolean>, undo: Undo) {
+fun NumberSelection(g: Game, context: Context, action: Action) {
     val tempVal = rememberSaveable { mutableStateOf(false) }
     val str = stringResource(R.string.wrong)
     g.bar.bar = Array(9){tempVal}
@@ -47,7 +48,7 @@ fun NumberSelection(g: Game, context: Context, note: MutableState<Boolean>, undo
                     modifier = Modifier
                         .size(itemSize)
                         .background(if (clicked.value) Color.Gray else Color.White)
-                        .run { clickable { clickAction(str, it, g, context, note) } },
+                        .run { clickable { clickAction(str, it, g, context, action) } },
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -59,22 +60,22 @@ fun NumberSelection(g: Game, context: Context, note: MutableState<Boolean>, undo
                     )
                 }
 
-                undo.r = g.iSelect!!
-                undo.c = g.jSelect!!
+                action.r = g.iSelect!!
+                action.c = g.jSelect!!
             }
         }
     }
 }
 
 
-fun clickAction(str: String, it: Int, g: Game, context: Context, note: MutableState<Boolean>){
+fun clickAction(str: String, it: Int, g: Game, context: Context, action: Action){
 
-    if (note.value)
+    if (action.note.value)
     {
         g.sudoku[g.iSelect!!][g.jSelect!!].note?.value = it
 
 
-        note.value = false
+        action.note.value = false
     }
     else {
         if (g.iSelect != null && g.jSelect != null) {
