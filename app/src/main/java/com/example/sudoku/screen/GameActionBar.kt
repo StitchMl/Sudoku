@@ -20,6 +20,7 @@ import com.example.sudoku.R
 import com.example.sudoku.computation.Setting
 import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.computation.makeShortToast
+import com.example.sudoku.model.Cell
 import com.example.sudoku.model.Game
 @Composable
 fun GameActionBar(game: Game, context: Context, note: MutableState<Boolean>) {
@@ -30,7 +31,7 @@ fun GameActionBar(game: Game, context: Context, note: MutableState<Boolean>) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { eraseField(game, note) }) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         painter = painterResource(id = R.drawable.cancella),
@@ -67,7 +68,7 @@ fun GameActionBar(game: Game, context: Context, note: MutableState<Boolean>) {
                 }
             }
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { /*eraseField(game, context, note)*/ }) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         painter = painterResource(id = R.drawable.torna_indietro),
@@ -95,6 +96,14 @@ fun getClue(g: Game, context: Context) {
     } else {
         val str = context.getString(R.string.select)
         context.makeShortToast(str)
+    }
+}
+
+fun eraseField(g: Game, note: MutableState<Boolean>){
+    if(g.iSelect != null && g.jSelect != null){
+    if (note.value)
+    {
+        g.sudoku[g.iSelect!!][g.jSelect!!].note?.value = 0}
     }
 }
 
