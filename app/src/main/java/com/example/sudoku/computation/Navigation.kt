@@ -5,16 +5,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.stringResource
 import com.example.sudoku.R
 import com.example.sudoku.database.ScoreViewModel
 import com.example.sudoku.model.Game
-import com.example.sudoku.model.SavedCell
 import com.example.sudoku.model.SavedSudoku
 import com.example.sudoku.screen.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class Navigation(
     private val empty: MutableState<Int>,
@@ -71,8 +69,9 @@ class Navigation(
     fun NewGameScreen() {
         g = s.getGame()
         timer.value = 0L
+        val note = rememberSaveable { mutableStateOf(false) }
         if(g != null) {
-            GameScreen(this, g!!, timer, newRecord, score, start, context)
+            GameScreen(this, g!!, timer, newRecord, score, start, context, note)
         }
     }
     @Composable
@@ -88,13 +87,14 @@ class Navigation(
     @Composable
     fun LoadGameScreen(){
         val allSudoku by score.allSudoku.observeAsState(listOf())
+        val note = rememberSaveable { mutableStateOf(false) }
         println(allSudoku)
         //val allCell by score.allCell.observeAsState(listOf())
         if (allSudoku.isNotEmpty()) {
             g = s.setGame(allSudoku[0])
             timer.value = allSudoku[0].time
             score.deleteSudoku(allSudoku[0].id)
-            GameScreen(this, g!!, timer, newRecord, score, start, context)
+            GameScreen(this, g!!, timer, newRecord, score, start, context, note)
         } else {
             val str = stringResource(R.string.no_game)
             context.makeShortToast(str)

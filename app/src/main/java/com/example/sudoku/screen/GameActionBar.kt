@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -21,7 +22,8 @@ import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.computation.makeShortToast
 import com.example.sudoku.model.Game
 @Composable
-fun GameActionBar(game: Game, context: Context) {
+fun GameActionBar(game: Game, context: Context, note: MutableState<Boolean>) {
+   // val note = rememberSaveable { mutableStateOf(false) }
     CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.caption) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -41,7 +43,7 @@ fun GameActionBar(game: Game, context: Context) {
             }
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
 
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { note.value = true }) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         painter = painterResource(id = R.drawable.appunti),
@@ -105,5 +107,6 @@ fun ButtonActionPreview(){
     val diff = rememberSaveable { mutableStateOf(set.DIFFICULTY[1]) }
     set.setDifficult(diff.value, k)
     val s = Sudoku(9, k, diff)
-    GameActionBar(s.getGame(), context)
+    val note = rememberSaveable { mutableStateOf( false) }
+    GameActionBar(s.getGame(), context, note)
 }

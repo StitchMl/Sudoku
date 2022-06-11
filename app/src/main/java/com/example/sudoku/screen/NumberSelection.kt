@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -26,7 +27,7 @@ import com.example.sudoku.model.Game
 
 /** Create the board of number to insert **/
 @Composable
-fun NumberSelection(g: Game, context: Context) {
+fun NumberSelection(g: Game, context: Context, note: MutableState<Boolean>) {
     val tempVal = rememberSaveable { mutableStateOf(false) }
     val str = stringResource(R.string.wrong)
     g.bar.bar = Array(9){tempVal}
@@ -45,7 +46,7 @@ fun NumberSelection(g: Game, context: Context) {
                     modifier = Modifier
                         .size(itemSize)
                         .background(if (clicked.value) Color.Gray else Color.White)
-                        .run { clickable { clickAction(str, it, g, context) } },
+                        .run { clickable { clickAction(str, it, g, context, note) } },
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -61,23 +62,36 @@ fun NumberSelection(g: Game, context: Context) {
     }
 }
 
-fun clickAction(str: String, it: Int, g: Game, context: Context){
-    if(g.iSelect != null && g.jSelect != null){
-        oneIsSelect(str, it, g, context)
-    } else {
-        selectNumOnBar(it, g)
-        for (i in 0 until g.sudoku.size) {
-            for (j in 0 until g.sudoku[i].size) {
-                if (g.sudoku[i][j].value?.value == it) {
-                    g.sudoku[i][j].click?.value = 2
-                } else {
-                    g.sudoku[i][j].click?.value = 0
+
+fun clickAction(str: String, it: Int, g: Game, context: Context, note: MutableState<Boolean>){
+
+    if (note.value)
+    {
+       /*  Text(text = it.toString(),
+            style = TextStyle(
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Medium)
+        ) */
+        note.value = false
+    }
+    else {
+        if (g.iSelect != null && g.jSelect != null) {
+            oneIsSelect(str, it, g, context)
+        } else {
+            selectNumOnBar(it, g)
+            for (i in 0 until g.sudoku.size) {
+                for (j in 0 until g.sudoku[i].size) {
+                    if (g.sudoku[i][j].value?.value == it) {
+                        g.sudoku[i][j].click?.value = 2
+                    } else {
+                        g.sudoku[i][j].click?.value = 0
+                    }
                 }
             }
         }
-    }
-    if(g.mistakes == 3){
-        g.counter.value = 0
+        if (g.mistakes == 3) {
+            g.counter.value = 0
+        }
     }
 }
 
@@ -117,5 +131,6 @@ fun ShowPreview() {
     set.setDifficult(diff.value, d)
     val s = Sudoku(9, d, diff)
     val game = s.getGame()
-    NumberSelection(game, context)
+    val note = rememberSaveable { mutableStateOf(false) }
+    NumberSelection(game, context, note)
 }

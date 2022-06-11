@@ -36,7 +36,8 @@ fun GameScreen(
     newRecord: MutableState<Boolean>,
     model: ScoreViewModel,
     start: MutableState<Boolean>,
-    context: Context
+    context: Context,
+    note: MutableState<Boolean>
 ) {
     start.value = true
     //TITLE
@@ -60,12 +61,12 @@ fun GameScreen(
             Box(modifier = Modifier.constrainAs(actionBar) {
                 top.linkTo(number.bottom, margin = 10.dp)
             }) {
-                GameActionBar(g, context)
+                GameActionBar(g, context, note)
             }
             Box(modifier = Modifier.constrainAs(number) {
                 top.linkTo(sudoku.bottom, margin = 10.dp)
             }) {
-                NumberSelection(g, context)
+                NumberSelection(g, context, note)
             }
             Box(modifier = Modifier.constrainAs(infoBar) {
                 top.linkTo(parent.top, margin = 10.dp)
@@ -110,11 +111,12 @@ fun NewGameScreenPreview(){
     val diff = rememberSaveable { mutableStateOf(set.DIFFICULTY[1]) }
     set.setDifficult(diff.value, k)
     val s = Sudoku(9, k, diff)
+    val note = rememberSaveable { mutableStateOf(false) }
     GameScreen(
         Navigation(empty, diff, timer, newRecord, screen,
                 ScoreViewModel(LocalContext.current.applicationContext as Application), start, context),
         s.getGame(), t, b, ScoreViewModel(LocalContext.current.applicationContext as Application),
-        start, context
+        start, context, note
     )
 }
 
