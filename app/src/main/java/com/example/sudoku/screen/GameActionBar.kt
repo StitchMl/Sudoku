@@ -68,11 +68,11 @@ fun GameActionBar(game: Game, context: Context, note: MutableState<Boolean>) {
                 }
             }
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
-            IconButton(onClick = { /*eraseField(game, context, note)*/ }) {
+            IconButton(onClick = { /*note*/ }) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         painter = painterResource(id = R.drawable.torna_indietro),
-                        contentDescription = "Erase",
+                        contentDescription = "Undo",
                         modifier = Modifier.size(24.dp)
                     )
                     val str = stringResource(R.string.cancel)
