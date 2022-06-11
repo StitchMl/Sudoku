@@ -22,16 +22,17 @@ import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.computation.makeShortToast
 import com.example.sudoku.model.Cell
 import com.example.sudoku.model.Game
+import com.example.sudoku.model.Undo
+
 @Composable
 fun GameActionBar(game: Game, context: Context, note: MutableState<Boolean>) {
-   // val note = rememberSaveable { mutableStateOf(false) }
     CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.caption) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = { eraseField(game, note) }) {
+            IconButton(onClick = { eraseField(game) }) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         painter = painterResource(id = R.drawable.cancella),
@@ -68,7 +69,7 @@ fun GameActionBar(game: Game, context: Context, note: MutableState<Boolean>) {
                 }
             }
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
-            IconButton(onClick = { /*note*/ }) {
+            IconButton(onClick = { /* UndoField(game,) */ }) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         painter = painterResource(id = R.drawable.torna_indietro),
@@ -99,12 +100,19 @@ fun getClue(g: Game, context: Context) {
     }
 }
 
-fun eraseField(g: Game, note: MutableState<Boolean>){
-    if(g.iSelect != null && g.jSelect != null){
-    if (note.value)
+fun eraseField(g: Game){
+    if(g.iSelect != null && g.jSelect != null)
     {
-        g.sudoku[g.iSelect!!][g.jSelect!!].note?.value = 0}
+        g.sudoku[g.iSelect!!][g.jSelect!!].note?.value = 0
     }
+}
+
+fun UndoField(g: Game, u: Undo) {
+    if( u.r != null && u.c != null)
+    {
+        g.sudoku[u.r][u.c].value?.value = 0
+    }
+
 }
 
 @Preview(device = Devices.DEFAULT, showBackground = true)

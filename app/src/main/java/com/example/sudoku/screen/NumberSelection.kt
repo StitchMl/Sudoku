@@ -24,10 +24,11 @@ import com.example.sudoku.computation.Setting
 import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.computation.makeShortToast
 import com.example.sudoku.model.Game
+import com.example.sudoku.model.Undo
 
 /** Create the board of number to insert **/
 @Composable
-fun NumberSelection(g: Game, context: Context, note: MutableState<Boolean>) {
+fun NumberSelection(g: Game, context: Context, note: MutableState<Boolean>, undo: Undo) {
     val tempVal = rememberSaveable { mutableStateOf(false) }
     val str = stringResource(R.string.wrong)
     g.bar.bar = Array(9){tempVal}
@@ -57,6 +58,9 @@ fun NumberSelection(g: Game, context: Context, note: MutableState<Boolean>) {
                         )
                     )
                 }
+
+                undo.r = g.iSelect!!
+                undo.c = g.jSelect!!
             }
         }
     }
@@ -119,7 +123,7 @@ fun selectNumOnBar(it: Int, g: Game){
     }
 }
 
-
+/*
 @Preview(showBackground = true)
 @Composable
 fun ShowPreview() {
@@ -133,3 +137,4 @@ fun ShowPreview() {
     val note = rememberSaveable { mutableStateOf(false) }
     NumberSelection(game, context, note)
 }
+*/
