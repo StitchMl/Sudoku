@@ -30,18 +30,18 @@ class Navigation(
     private var s: Sudoku = Sudoku(9, empty, diff)
 
     fun saveGame(){
-        val sudoku = toJson(s.saveGame(g?.sudoku!!))
-        val solution = toJson(g!!.solution)
-        val diff = g!!.difficult
-        val mistakes = g!!.mistakes
-        val temp = g!!.elapsedTime
+        val game = g!!
+        val sudoku = toJson(s.saveGame(game.sudoku))
+        val solution = toJson(game.solution)
+        val mistakes = game.mistakes
+        val temp = game.elapsedTime
         s.changeGame()
         /*for (i in sudoku.indices){
             for (j in 0 until sudoku[i].size){
                 score.insertCell(SavedCell(i, j, solution[i][j], sudoku[i][j]))
             }
         }*/
-        score.insertSudoku(SavedSudoku(diff, mistakes, temp, sudoku, solution))
+        score.insertSudoku(SavedSudoku(diff.value, mistakes, temp, sudoku, solution))
         g = null
     }
 
@@ -88,6 +88,7 @@ class Navigation(
     @Composable
     fun LoadGameScreen(){
         val allSudoku by score.allSudoku.observeAsState(listOf())
+        println(allSudoku)
         //val allCell by score.allCell.observeAsState(listOf())
         if (allSudoku.isNotEmpty()) {
             g = s.setGame(allSudoku[0])

@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.sudoku.model.SavedCell
 import com.example.sudoku.model.SavedSudoku
 import com.example.sudoku.model.Score
 
@@ -24,7 +23,7 @@ abstract class GameDatabase: RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         GameDatabase::class.java,
-                        "game_database"
+                        "game_db"
                     ).fallbackToDestructiveMigration()
                         .build()
 

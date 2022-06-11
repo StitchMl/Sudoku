@@ -5,17 +5,16 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.sudoku.model.SavedCell
 import com.example.sudoku.model.SavedSudoku
 import com.example.sudoku.model.Score
 
 @Dao
 interface GameDao {
 
-    @Insert(entity = SavedSudoku::class)
+    @Insert
     fun insertSudoku(sudoku: SavedSudoku)
 
-    @Insert(entity = Score::class)
+    @Insert
     fun insertScore(score: Score)
 
     @Delete

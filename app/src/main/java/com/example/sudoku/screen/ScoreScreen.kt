@@ -21,7 +21,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.sudoku.R
 import com.example.sudoku.computation.toTime
 import com.example.sudoku.database.ScoreViewModel
@@ -44,8 +43,9 @@ fun ScoreScreen(model: ScoreViewModel)
     }
 
     if (allScore.isEmpty()) {
+        val str = stringResource(R.string.scores)
         Text(
-            text = "PUNTEGGI",
+            text = str,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(100.dp),
             color = Color.Black,
@@ -77,8 +77,9 @@ fun RealTimeUpdateItemCard(score: Score) {
             .fillMaxWidth()
             .padding(8.dp)
     ) {
+        val str = stringResource(R.string.scores)
         Text(
-            text = "PUNTEGGI",
+            text = str,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(100.dp),
             color = Color.Black,
