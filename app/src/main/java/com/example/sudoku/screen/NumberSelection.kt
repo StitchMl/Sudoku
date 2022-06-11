@@ -67,11 +67,9 @@ fun clickAction(str: String, it: Int, g: Game, context: Context, note: MutableSt
 
     if (note.value)
     {
-       /*  Text(text = it.toString(),
-            style = TextStyle(
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Medium)
-        ) */
+        g.sudoku[g.iSelect!!][g.jSelect!!].note?.value = it
+
+
         note.value = false
     }
     else {
@@ -94,6 +92,7 @@ fun clickAction(str: String, it: Int, g: Game, context: Context, note: MutableSt
         }
     }
 }
+
 
 fun oneIsSelect(str: String, it: Int, g: Game, context: Context){
     if(g.sudoku[g.iSelect!!][g.jSelect!!].sol == it) {
