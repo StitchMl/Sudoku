@@ -10,6 +10,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.stringResource
 import com.example.sudoku.R
 import com.example.sudoku.database.ScoreViewModel
+import com.example.sudoku.model.Action
 import com.example.sudoku.model.Game
 import com.example.sudoku.model.SavedSudoku
 import com.example.sudoku.screen.*
@@ -71,7 +72,7 @@ class Navigation(
         timer.value = 0L
         val note = rememberSaveable { mutableStateOf(false) }
         if(g != null) {
-            GameScreen(this, g!!, timer, newRecord, score, start, context, note)
+            GameScreen(this, g!!, timer, newRecord, score, start, context, Action(note, 0,0))
         }
     }
     @Composable
@@ -94,7 +95,7 @@ class Navigation(
             g = s.setGame(allSudoku[0])
             timer.value = allSudoku[0].time
             score.deleteSudoku(allSudoku[0].id)
-            GameScreen(this, g!!, timer, newRecord, score, start, context, note)
+            GameScreen(this, g!!, timer, newRecord, score, start, context, Action(note, 0,0))
         } else {
             val str = stringResource(R.string.no_game)
             context.makeShortToast(str)

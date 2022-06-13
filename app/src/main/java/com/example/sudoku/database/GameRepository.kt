@@ -1,7 +1,6 @@
 package com.example.sudoku.database
 
 import androidx.lifecycle.LiveData
-import com.example.sudoku.model.SavedCell
 import com.example.sudoku.model.SavedSudoku
 import com.example.sudoku.model.Score
 import kotlinx.coroutines.CoroutineScope

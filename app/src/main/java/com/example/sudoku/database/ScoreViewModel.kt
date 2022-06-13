@@ -3,7 +3,6 @@ package com.example.sudoku.database
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.sudoku.model.SavedCell
 import com.example.sudoku.model.SavedSudoku
 import com.example.sudoku.model.Score
 

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -21,7 +20,6 @@ import com.example.sudoku.computation.Setting
 import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.computation.makeShortToast
 import com.example.sudoku.model.Action
-import com.example.sudoku.model.Cell
 import com.example.sudoku.model.Game
 
 
@@ -108,7 +106,7 @@ fun eraseField(g: Game){
     }
 }
 
-fun UndoField(g: Game, u: Action) {
+fun undoField(g: Game, u: Action) {
     if( u.r != null && u.c != null)
     {
         g.sudoku[u.r][u.c].value?.value = 0
@@ -116,7 +114,7 @@ fun UndoField(g: Game, u: Action) {
 
 }
 
-/*
+
 @Preview(device = Devices.DEFAULT, showBackground = true)
 @Composable
 fun ButtonActionPreview(){
@@ -126,6 +124,7 @@ fun ButtonActionPreview(){
     val diff = rememberSaveable { mutableStateOf(set.DIFFICULTY[1]) }
     set.setDifficult(diff.value, k)
     val s = Sudoku(9, k, diff)
+    val note = rememberSaveable { mutableStateOf(false) }
 
-    GameActionBar(s.getGame(), context, note)
-}*/
+    GameActionBar(s.getGame(), context, Action(note, 0, 0))
+}

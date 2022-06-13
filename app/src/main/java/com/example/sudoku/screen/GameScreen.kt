@@ -95,7 +95,7 @@ fun GameScreen(
         }
     }
 }
-/*
+
 @Preview(device = Devices.DEFAULT, showBackground = true)
 @Composable
 fun NewGameScreenPreview(){
@@ -118,9 +118,9 @@ fun NewGameScreenPreview(){
         Navigation(empty, diff, timer, newRecord, screen,
                 ScoreViewModel(LocalContext.current.applicationContext as Application), start, context),
         s.getGame(), t, b, ScoreViewModel(LocalContext.current.applicationContext as Application),
-        start, context, action
+        start, context, Action(note, 0, 0)
     )
-}*/
+}
 
 fun CoroutineScope.launchPeriodicAsync(
     repeatMillis: Long,

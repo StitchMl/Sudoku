@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -124,7 +123,7 @@ fun selectNumOnBar(it: Int, g: Game){
     }
 }
 
-/*
+
 @Preview(showBackground = true)
 @Composable
 fun ShowPreview() {
@@ -136,6 +135,5 @@ fun ShowPreview() {
     val s = Sudoku(9, d, diff)
     val game = s.getGame()
     val note = rememberSaveable { mutableStateOf(false) }
-    NumberSelection(game, context, note)
+    NumberSelection(game, context, Action(note, 0, 0))
 }
-*/
