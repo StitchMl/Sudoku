@@ -36,6 +36,7 @@ fun GameScreen(
     timer: MutableState<Long>,
     newRecord: MutableState<Boolean>,
     model: ScoreViewModel,
+    numberScore:  MutableState<Int>,
     start: MutableState<Boolean>,
     context: Context,
     action: Action
@@ -83,7 +84,8 @@ fun GameScreen(
             val str = stringResource(R.string.won)
             g.elapsedTime = timer.value
             context.makeShortToast(str)
-            model.insertScore(Score(g.difficult, g.mistakes, g.elapsedTime))
+            model.insertScore(Score(numberScore.value, g.difficult, g.mistakes, g.elapsedTime))
+            numberScore.value++
             navController.setScreen(Screen.VICTORY)
         } else if (g.counter.value == 0) {
             t.cancel()
@@ -103,6 +105,7 @@ fun NewGameScreenPreview(){
     val set = Setting(context)
     val k = rememberSaveable { mutableStateOf(0) }
     val empty = rememberSaveable { mutableStateOf(0) }
+    val numberScore = rememberSaveable { mutableStateOf(1) }
     val t = rememberSaveable { mutableStateOf(0L) }
     val b = rememberSaveable { mutableStateOf(false) }
     val screen = rememberSaveable { mutableStateOf(Screen.SPLASH_SCREEN) }
@@ -116,8 +119,8 @@ fun NewGameScreenPreview(){
 
     GameScreen(
         Navigation(empty, diff, timer, newRecord, screen,
-                ScoreViewModel(LocalContext.current.applicationContext as Application), start, context),
-        s.getGame(), t, b, ScoreViewModel(LocalContext.current.applicationContext as Application),
+                ScoreViewModel(LocalContext.current.applicationContext as Application), numberScore, start, context),
+        s.getGame(), t, b, ScoreViewModel(LocalContext.current.applicationContext as Application), numberScore,
         start, context, Action(note, 0, 0)
     )
 }

@@ -30,34 +30,39 @@ import com.example.sudoku.model.Score
 fun ScoreScreen(model: ScoreViewModel)
 {
     val allScore by model.allScore.observeAsState(listOf())
-    //val searchResults by model.searchScoreResults.observeAsState(listOf())
     println(allScore)
 
-    LazyColumn(Modifier.fillMaxWidth().padding(10.dp)
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        itemsIndexed(allScore) { _, score ->
-            RealTimeUpdateItemCard(
-                score = score
-            )
-        }
-    }
-
-    if (allScore.isEmpty()) {
         val str = stringResource(R.string.scores)
         Text(
             text = str,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(100.dp),
+            modifier = Modifier.padding(10.dp),
             color = Color.Black,
             textAlign = TextAlign.Center
         )
-
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+        LazyColumn(
+            Modifier.fillMaxWidth().padding(10.dp)
         ) {
+            itemsIndexed(allScore) { i, score ->
+                //if(i != 0) {
+                    RealTimeUpdateItemCard(
+                        score = score
+                    )
+                //}
+            }
+        }
 
-            Text(text = "There's not any result yet")
+        //if (allScore.size < 2) {
+        if (allScore.isEmpty()) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(text = "There's not any result yet")
+            }
         }
     }
 }
@@ -77,15 +82,6 @@ fun RealTimeUpdateItemCard(score: Score) {
             .fillMaxWidth()
             .padding(8.dp)
     ) {
-        val str = stringResource(R.string.scores)
-        Text(
-            text = str,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(100.dp),
-            color = Color.Black,
-            textAlign = TextAlign.Center
-        )
-
         Row {
             Text(
                 text = "$id",

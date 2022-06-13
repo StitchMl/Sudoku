@@ -59,8 +59,12 @@ fun NumberSelection(g: Game, context: Context, action: Action) {
                     )
                 }
 
-                action.r = g.iSelect!!
-                action.c = g.jSelect!!
+                if(g.iSelect!= null) {
+                    action.r = g.iSelect!!
+                }
+                if(g.jSelect!= null) {
+                    action.c = g.jSelect!!
+                }
             }
         }
     }

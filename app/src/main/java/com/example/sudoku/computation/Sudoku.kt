@@ -4,7 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import com.example.sudoku.model.*
+import com.example.sudoku.model.Cell
+import com.example.sudoku.model.Game
+import com.example.sudoku.model.NumberBar
+import com.example.sudoku.model.Score
 import kotlin.math.floor
 import kotlin.math.sqrt
 
@@ -219,7 +222,7 @@ class Sudoku internal constructor(
     }
 
     @Composable
-    fun setGame(sudoku: SavedSudoku): Game {
+    fun setGame(sudoku: Score): Game {
         bool = false
         val counter = rememberSaveable { mutableStateOf((n * n) - k.value) }
         val sol = Array(9){IntArray(9)}

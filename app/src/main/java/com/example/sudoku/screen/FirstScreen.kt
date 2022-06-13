@@ -218,6 +218,7 @@ fun PrincipalScreen(
 fun FirstScreenPreview(){
     val scope = rememberCoroutineScope()
     val empty = rememberSaveable { mutableStateOf(0) }
+    val numberScore = rememberSaveable { mutableStateOf(0) }
     val screen = rememberSaveable { mutableStateOf(Screen.SPLASH_SCREEN) }
     val diff = rememberSaveable { mutableStateOf("") }
     val timer = rememberSaveable{ mutableStateOf(0L) }
@@ -226,7 +227,7 @@ fun FirstScreenPreview(){
     val context = LocalContext.current
     Screen(scope, empty, diff, Navigation(empty, diff, timer, newRecord, screen,
             ScoreViewModel(LocalContext.current.applicationContext as Application),
-            start, context
+            numberScore, start, context
         )
     )
 }
