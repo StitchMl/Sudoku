@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
             val screen = rememberSaveable{ mutableStateOf(Screen.SPLASH_SCREEN) }
             val context = applicationContext
             val score = ScoreViewModel(context as Application)
-            val numberScore = rememberSaveable{ mutableStateOf(1) }
+            val numberScore = rememberSaveable{ mutableStateOf(2) }
             val nav = Navigation(empty, diff, timer, newRecord, screen, score, numberScore, start, context)
             onBackPressedDispatcher.addCallback(this) {
                 if(screen.value == Screen.NEW_GAME_SCREEN || screen.value == Screen.LOAD_GAME_SCREEN){

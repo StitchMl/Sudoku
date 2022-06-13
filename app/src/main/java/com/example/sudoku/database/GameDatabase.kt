@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.sudoku.model.Score
 
-@Database(entities = [(Score::class)], version = 3, exportSchema = false)
+@Database(entities = [(Score::class)], version = 2, exportSchema = false)
 abstract class GameDatabase: RoomDatabase() {
 
     abstract fun gameDao(): GameDao
@@ -22,7 +22,7 @@ abstract class GameDatabase: RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         GameDatabase::class.java,
-                        "game_database"
+                        "game_db"
                     ).fallbackToDestructiveMigration()
                         .build()
 

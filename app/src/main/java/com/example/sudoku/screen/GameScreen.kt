@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -31,6 +33,9 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun GameScreen(
+    load: Boolean,
+    s: Sudoku,
+    screen: MutableState<Screen>,
     navController: Navigation,
     g: Game,
     timer: MutableState<Long>,
@@ -41,6 +46,21 @@ fun GameScreen(
     context: Context,
     action: Action
 ) {
+    var game = g
+    val allScore by model.allScore.observeAsState(listOf())
+    println(allScore)
+    if (load && allScore.isNotEmpty()) {
+        println(allScore[0])
+        game = s.setGame(allScore[0])
+        timer.value = allScore[0].time
+        model.deleteScore(0)
+    } else if (!load){
+        //TODO
+    } else {
+        val str = stringResource(R.string.no_game)
+        context.makeShortToast(str)
+        screen.value = Screen.MAIN_SCREEN
+    }
     start.value = true
     //TITLE
     Column(
@@ -58,40 +78,40 @@ fun GameScreen(
             Box(modifier = Modifier.constrainAs(sudoku) {
                 top.linkTo(infoBar.bottom, margin = 8.dp)
             }) {
-                CreateBoard(g)
+                CreateBoard(game)
             }
             Box(modifier = Modifier.constrainAs(actionBar) {
                 top.linkTo(number.bottom, margin = 10.dp)
             }) {
-                GameActionBar(g, context, action)
+                GameActionBar(game, context, action)
             }
             Box(modifier = Modifier.constrainAs(number) {
                 top.linkTo(sudoku.bottom, margin = 10.dp)
             }) {
-                NumberSelection(g, context, action)
+                NumberSelection(game, context, action)
             }
             Box(modifier = Modifier.constrainAs(infoBar) {
                 top.linkTo(parent.top, margin = 10.dp)
             }) {
-                CurrentInfoBar(g, timer)
+                CurrentInfoBar(game, timer)
             }
         }
         val t = CoroutineScope(Dispatchers.IO).launchPeriodicAsync(1000, timer, start)
         println(start.value)
-        if (g.counter.value == (9 * 9)) {
+        if (game.counter.value == (9 * 9)) {
             t.cancel()
             start.value = false
             val str = stringResource(R.string.won)
-            g.elapsedTime = timer.value
+            game.elapsedTime = timer.value
             context.makeShortToast(str)
-            model.insertScore(Score(numberScore.value, g.difficult, g.mistakes, g.elapsedTime))
+            model.insertScore(Score(numberScore.value, game.difficult, game.mistakes, game.elapsedTime))
             numberScore.value++
             navController.setScreen(Screen.VICTORY)
-        } else if (g.counter.value == 0) {
+        } else if (game.counter.value == 0) {
             t.cancel()
             start.value = false
             val str = stringResource(R.string.game_over)
-            g.elapsedTime = timer.value
+            game.elapsedTime = timer.value
             context.makeShortToast(str)
             navController.setScreen(Screen.FAIL)
         }
@@ -118,7 +138,7 @@ fun NewGameScreenPreview(){
     val note = rememberSaveable { mutableStateOf(false) }
 
     GameScreen(
-        Navigation(empty, diff, timer, newRecord, screen,
+        false, s, screen, Navigation(empty, diff, timer, newRecord, screen,
                 ScoreViewModel(LocalContext.current.applicationContext as Application), numberScore, start, context),
         s.getGame(), t, b, ScoreViewModel(LocalContext.current.applicationContext as Application), numberScore,
         start, context, Action(note, 0, 0)
