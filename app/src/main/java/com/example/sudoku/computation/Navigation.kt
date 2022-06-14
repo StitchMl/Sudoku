@@ -3,12 +3,15 @@ package com.example.sudoku.computation
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.res.stringResource
+import com.example.sudoku.R
 import com.example.sudoku.database.ScoreViewModel
-import com.example.sudoku.model.Action
 import com.example.sudoku.model.Game
-import com.example.sudoku.model.Score
+import com.example.sudoku.model.SavedSudoku
 import com.example.sudoku.screen.*
 
 class Navigation(
@@ -18,7 +21,6 @@ class Navigation(
     private val newRecord: MutableState<Boolean>,
     private val screen: MutableState<Screen>,
     private val score: ScoreViewModel,
-    private val numberScore: MutableState<Int>,
     private val start: MutableState<Boolean>,
     private val context: Context
 ) {
@@ -32,7 +34,12 @@ class Navigation(
         val mistakes = game.mistakes
         val temp = game.elapsedTime
         s.changeGame()
-        score.insertScore(Score(1, diff.value, mistakes, temp, sudoku, solution))
+        /*for (i in sudoku.indices){
+            for (j in 0 until sudoku[i].size){
+                score.insertCell(SavedCell(i, j, solution[i][j], sudoku[i][j]))
+            }
+        }*/
+        score.insertSudoku(SavedSudoku(diff.value, mistakes, temp, sudoku, solution))
         g = null
     }
 
@@ -64,7 +71,7 @@ class Navigation(
         timer.value = 0L
         val note = rememberSaveable { mutableStateOf(false) }
         if(g != null) {
-            GameScreen(false, s, screen, this, g!!, timer, newRecord, score, numberScore, start, context, Action(note, 0,0))
+            GameScreen(this, g!!, timer, newRecord, score, start, context, note)
         }
     }
     @Composable
@@ -79,8 +86,20 @@ class Navigation(
     }
     @Composable
     fun LoadGameScreen(){
+        val allSudoku by score.allSudoku.observeAsState(listOf())
         val note = rememberSaveable { mutableStateOf(false) }
-        //GameScreen(true, s, screen, this, g!!, timer, newRecord, score, numberScore, start, context, Action(note, 0,0))
+        println(allSudoku)
+        //val allCell by score.allCell.observeAsState(listOf())
+        if (allSudoku.isNotEmpty()) {
+            g = s.setGame(allSudoku[0])
+            timer.value = allSudoku[0].time
+            score.deleteSudoku(allSudoku[0].id)
+            GameScreen(this, g!!, timer, newRecord, score, start, context, note)
+        } else {
+            val str = stringResource(R.string.no_game)
+            context.makeShortToast(str)
+            screen.value = Screen.MAIN_SCREEN
+        }
     }
     // Rules Screen
     @Composable

@@ -207,7 +207,7 @@ class Sudoku internal constructor(
     fun changeGame(){
         bool = true
         solution = Array(n) { IntArray(n) }
-        mat = Array(n) { Array(n){Cell(0,0,0, null, null)} }
+        mat = Array(n) { Array(n){Cell(0,0,0, null, null, note: mutableStateOf(0) )} }
     }
 
     /** Save Game **/
