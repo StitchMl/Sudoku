@@ -3,14 +3,15 @@ package com.example.sudoku.computation
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.stringResource
 import com.example.sudoku.R
 import com.example.sudoku.database.ScoreViewModel
-import com.example.sudoku.model.*
+import com.example.sudoku.model.Action
+import com.example.sudoku.model.Game
+import com.example.sudoku.model.Score
 import com.example.sudoku.screen.*
 
 class Navigation(

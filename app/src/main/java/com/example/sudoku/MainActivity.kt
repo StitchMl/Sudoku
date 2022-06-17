@@ -7,8 +7,6 @@ import androidx.activity.addCallback
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -18,7 +16,6 @@ import com.example.sudoku.computation.Screen
 import com.example.sudoku.computation.makeShortToast
 import com.example.sudoku.database.ScoreViewModel
 import com.example.sudoku.ui.theme.SudokuEIlCaliceDiAndroidTheme
-import java.util.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
