@@ -31,6 +31,7 @@ import com.example.sudoku.model.Game
 fun NumberSelection(g: Game, context: Context, action: Action) {
     val tempVal = rememberSaveable { mutableStateOf(false) }
     val str = stringResource(R.string.wrong)
+    val s = context.getString(R.string.select)
     g.bar.bar = Array(9){tempVal}
     BoxWithConstraints {
         val itemSize = maxWidth / 9
@@ -47,7 +48,7 @@ fun NumberSelection(g: Game, context: Context, action: Action) {
                     modifier = Modifier
                         .size(itemSize)
                         .background(if (clicked.value) Color.Gray else Color.White)
-                        .run { clickable { clickAction(str, it, g, context, action) } },
+                        .run { clickable { clickAction(str, s, it, g, context, action) } },
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -71,14 +72,16 @@ fun NumberSelection(g: Game, context: Context, action: Action) {
 }
 
 
-fun clickAction(str: String, it: Int, g: Game, context: Context, action: Action){
+fun clickAction(str: String, s: String, it: Int, g: Game, context: Context, action: Action){
 
     if (action.note.value)
     {
-        g.sudoku[g.iSelect!!][g.jSelect!!].note?.value = it
-
-
-        action.note.value = false
+        if (g.iSelect != null && g.jSelect != null) {
+            g.sudoku[g.iSelect!!][g.jSelect!!].note?.value = it
+            //action.note.value = false
+        } else {
+            context.makeShortToast(s)
+        }
     }
     else {
         if (g.iSelect != null && g.jSelect != null) {

@@ -1,6 +1,7 @@
 package com.example.sudoku.screen
 
 import android.content.Context
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -9,6 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -44,12 +46,13 @@ fun GameActionBar(game: Game, context: Context, action: Action) {
             }
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
 
-            IconButton(onClick = { action.note.value = true }) {
+            IconButton(onClick = { action.note.value = !action.note.value }) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         painter = painterResource(id = R.drawable.appunti),
                         contentDescription = "Note",
                         modifier = Modifier.size(24.dp)
+                            .background(if (action.note.value) Color.Gray else Color.White)
                     )
                     val str = stringResource(R.string.note)
                     Text(text = str)
