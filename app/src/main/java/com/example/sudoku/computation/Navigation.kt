@@ -3,12 +3,14 @@ package com.example.sudoku.computation
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.res.stringResource
+import com.example.sudoku.R
 import com.example.sudoku.database.ScoreViewModel
-import com.example.sudoku.model.Action
-import com.example.sudoku.model.Game
-import com.example.sudoku.model.Score
+import com.example.sudoku.model.*
 import com.example.sudoku.screen.*
 
 class Navigation(
@@ -24,6 +26,7 @@ class Navigation(
 ) {
     private var g: Game? = null
     private var s: Sudoku = Sudoku(9, empty, diff)
+    private var allScore: List<Score>? = null
 
     fun saveGame(){
         val game = g!!
@@ -31,8 +34,8 @@ class Navigation(
         val solution = toJson(game.solution)
         val mistakes = game.mistakes
         val temp = game.elapsedTime
-        s.changeGame()
-        score.insertScore(Score(1, diff.value, mistakes, temp, sudoku, solution))
+        score.deleteScoreById(1)
+        score.insertScore(Score(1, diff.value, mistakes.value, temp, sudoku, solution, game.counter.value))
         g = null
     }
 
@@ -60,11 +63,12 @@ class Navigation(
     // Game Screen
     @Composable
     fun NewGameScreen() {
+        s.changeGame()
         g = s.getGame()
         timer.value = 0L
         val note = rememberSaveable { mutableStateOf(false) }
         if(g != null) {
-            GameScreen(false, s, screen, this, g!!, timer, newRecord, score, numberScore, start, context, Action(note, 0,0))
+            GameScreen(this, g!!, timer, newRecord, score, numberScore, start, context, Action(note, 0,0))
         }
     }
     @Composable
@@ -79,8 +83,30 @@ class Navigation(
     }
     @Composable
     fun LoadGameScreen(){
+        val allScore = score.allScore.observeAsState(listOf())
+        if (allScore.value.isNotEmpty()) {
+            for (i in allScore.value.indices) {
+                if (allScore.value[i].id == 1) {
+                    g = s.setGame(allScore.value[i])
+                    timer.value = g!!.elapsedTime
+                    this.allScore = allScore.value
+                    score.deleteScore(allScore.value[i])
+                    screen.value = Screen.LOADED_GAME_SCREEN
+                } else {
+                    val str = stringResource(R.string.no_game)
+                    context.makeShortToast(str)
+                }
+            }
+        } else {
+            val str = stringResource(R.string.no_game)
+            context.makeShortToast(str)
+            MainScreen()
+        }
+    }
+    @Composable
+    fun OpenLoadGameScreen(){
         val note = rememberSaveable { mutableStateOf(false) }
-        //GameScreen(true, s, screen, this, g!!, timer, newRecord, score, numberScore, start, context, Action(note, 0,0))
+        GameScreen(this, g!!, timer, newRecord, score, numberScore, start, context, Action(note, 0, 0))
     }
     // Rules Screen
     @Composable
@@ -108,6 +134,7 @@ class Navigation(
             Screen.LOAD_GAME_SCREEN -> { LoadGameScreen() }
             Screen.RULES_SCREEN -> { LoadRulesScreen() }
             Screen.RESULT_SCREEN -> { LoadScoreScreen() }
+            Screen.LOADED_GAME_SCREEN -> { OpenLoadGameScreen() }
         }
     }
 }

@@ -16,5 +16,6 @@ class Score (
     @ColumnInfo(name = "time")
     var time: Long,
     var sudoku: String = "",
-    var solution: String = ""
+    var solution: String = "",
+    var counter: Int = 0
 )

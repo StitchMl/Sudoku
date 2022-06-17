@@ -68,7 +68,7 @@ fun GameActionBar(game: Game, context: Context, action: Action) {
                 }
             }
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
-            IconButton(onClick = { UndoField(game, action) }) {
+            IconButton(onClick = { undoField(game, action) }) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         painter = painterResource(id = R.drawable.torna_indietro),

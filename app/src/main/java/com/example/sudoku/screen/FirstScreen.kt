@@ -8,10 +8,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -225,9 +223,9 @@ fun FirstScreenPreview(){
     val newRecord = rememberSaveable{ mutableStateOf(false) }
     val start = rememberSaveable{ mutableStateOf(false) }
     val context = LocalContext.current
+    val score = ScoreViewModel(LocalContext.current.applicationContext as Application)
+    val allScore by score.allScore.observeAsState(listOf())
+    val allScoreList = rememberSaveable{ mutableStateOf(allScore) }
     Screen(scope, empty, diff, Navigation(empty, diff, timer, newRecord, screen,
-            ScoreViewModel(LocalContext.current.applicationContext as Application),
-            numberScore, start, context
-        )
-    )
+        score, numberScore, start, context))
 }

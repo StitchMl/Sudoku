@@ -7,6 +7,8 @@ import androidx.activity.addCallback
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -16,6 +18,7 @@ import com.example.sudoku.computation.Screen
 import com.example.sudoku.computation.makeShortToast
 import com.example.sudoku.database.ScoreViewModel
 import com.example.sudoku.ui.theme.SudokuEIlCaliceDiAndroidTheme
+import java.util.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,13 +33,14 @@ class MainActivity : ComponentActivity() {
             val context = applicationContext
             val score = ScoreViewModel(context as Application)
             val numberScore = rememberSaveable{ mutableStateOf(2) }
-            val nav = Navigation(empty, diff, timer, newRecord, screen, score, numberScore, start, context)
+            val nav = Navigation(empty, diff, timer, newRecord, screen, score,
+                numberScore, start, context)
             onBackPressedDispatcher.addCallback(this) {
-                if(screen.value == Screen.NEW_GAME_SCREEN || screen.value == Screen.LOAD_GAME_SCREEN){
+                if(screen.value == Screen.NEW_GAME_SCREEN || screen.value == Screen.LOAD_GAME_SCREEN || screen.value == Screen.LOADED_GAME_SCREEN){
                     val str = getString(R.string.game_saved)
                     start.value = false
                     makeShortToast(str)
-                    //nav.saveGame()
+                    nav.saveGame()
                 }
                 screen.value = Screen.MAIN_SCREEN
             }

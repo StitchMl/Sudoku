@@ -47,21 +47,23 @@ fun ScoreScreen(model: ScoreViewModel)
             Modifier.fillMaxWidth().padding(10.dp)
         ) {
             itemsIndexed(allScore) { i, score ->
-                //if(i != 0) {
+                if(allScore[i].id != 1) {
                     RealTimeUpdateItemCard(
                         score = score
                     )
-                //}
+                }
             }
         }
 
-        //if (allScore.size < 2) {
-        if (allScore.isEmpty()) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(text = "There's not any result yet")
+        if (allScore.size < 2) {
+        //if (allScore.isEmpty()) {
+            if (allScore[0].id==1){
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(text = "There's not any result yet")
+                }
             }
         }
     }

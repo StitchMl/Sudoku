@@ -8,5 +8,6 @@ enum class Screen {
     FAIL,
     LOAD_GAME_SCREEN,
     RULES_SCREEN,
-    RESULT_SCREEN
+    RESULT_SCREEN,
+    LOADED_GAME_SCREEN
 }

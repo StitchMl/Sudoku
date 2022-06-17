@@ -32,7 +32,7 @@ fun CurrentInfoBar(g: Game, timer: MutableState<Long>) {
             Text(text = g.difficult,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold)
-            Text(text = stringResource(R.string.mistakes) + "${g.mistakes}",
+            Text(text = stringResource(R.string.mistakes) + "${g.mistakes.value}",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold)
             Text(text = timer.value.toTime(),

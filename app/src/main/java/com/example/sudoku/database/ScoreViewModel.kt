@@ -21,7 +21,11 @@ class ScoreViewModel(application: Application): ViewModel() {
         repository.insertScore(score)
     }
 
-    fun deleteScore(id: Int) {
-        repository.deleteScore(id)
+    fun deleteScoreById(id: Int) {
+        repository.deleteScoreById(id)
+    }
+
+    fun deleteScore(score: Score) {
+        repository.deleteScore(score)
     }
 }

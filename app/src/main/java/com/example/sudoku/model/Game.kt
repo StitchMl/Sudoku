@@ -4,7 +4,7 @@ import androidx.compose.runtime.MutableState
 
 data class Game(
     var difficult: String = "",
-    var mistakes: Int = 0,
+    var mistakes: MutableState<Int>,
     var elapsedTime: Long = 0L,
     var sudoku: Array<Array<Cell>>,
     var bar: NumberBar,
