@@ -119,11 +119,11 @@ fun CreateCell(row:Int, col:Int, game:Game, itemSize: Dp){
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = if (game.sudoku[row][col].value?.value != 0) game.sudoku[row][col].value?.value.toString() else "",
+            text = if (game.sudoku[row][col].value?.value != 0) game.sudoku[row][col].value?.value.toString() else if (game.sudoku[row][col].note?.value != 0) game.sudoku[row][col].note?.value.toString() else "",
             style = TextStyle(
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color.Black
+                color = if (game.sudoku[row][col].value?.value != 0) Color.Black else Color.LightGray
             )
         )
     }

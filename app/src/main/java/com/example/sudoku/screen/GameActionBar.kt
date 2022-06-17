@@ -46,13 +46,13 @@ fun GameActionBar(game: Game, context: Context, action: Action) {
             }
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
 
-            IconButton(onClick = { action.note.value = !action.note.value }) {
+            IconButton(onClick = { action.note.value = !action.note.value },
+            modifier = Modifier.background(if (action.note.value) Color.LightGray else Color.White)) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         painter = painterResource(id = R.drawable.appunti),
                         contentDescription = "Note",
                         modifier = Modifier.size(24.dp)
-                            .background(if (action.note.value) Color.Gray else Color.White)
                     )
                     val str = stringResource(R.string.note)
                     Text(text = str)
