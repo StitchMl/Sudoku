@@ -24,7 +24,7 @@ import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.computation.toTime
 import com.example.sudoku.model.Game
 
-/** Insert difficulty, mistakes and timer*/
+/** Insert difficulty, mistakes and timer on the top of the grid*/
 @Composable
 fun CurrentInfoBar(g: Game, timer: MutableState<Long>) {
     CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.caption) {
