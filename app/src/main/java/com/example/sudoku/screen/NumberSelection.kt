@@ -73,37 +73,42 @@ fun NumberSelection(g: Game, context: Context, action: Action) {
 
 
 fun clickAction(str: String, s: String, it: Int, g: Game, context: Context, action: Action){
-
     if (action.note.value)
     {
-        if (g.iSelect != null && g.jSelect != null) {
-            g.sudoku[g.iSelect!!][g.jSelect!!].note?.value = it
-            //action.note.value = false
-        } else {
-            context.makeShortToast(s)
-        }
+        noteAction(g, s, it, context)
     }
     else {
-        if (g.iSelect != null && g.jSelect != null) {
-            oneIsSelect(str, it, g, context)
-        } else {
-            selectNumOnBar(it, g)
-            for (i in 0 until g.sudoku.size) {
-                for (j in 0 until g.sudoku[i].size) {
-                    if (g.sudoku[i][j].value?.value == it) {
-                        g.sudoku[i][j].click?.value = 2
-                    } else {
-                        g.sudoku[i][j].click?.value = 0
-                    }
-                }
-            }
-        }
+        insertNum(g, str, it, context)
         if (g.mistakes.value == 3) {
             g.counter.value = 0
         }
     }
 }
 
+fun insertNum(g: Game, str: String, it: Int, context: Context){
+    if (g.iSelect != null && g.jSelect != null) {
+        oneIsSelect(str, it, g, context)
+    } else {
+        selectNumOnBar(it, g)
+        for (i in 0 until g.sudoku.size) {
+            for (j in 0 until g.sudoku[i].size) {
+                if (g.sudoku[i][j].value?.value == it) {
+                    g.sudoku[i][j].click?.value = 2
+                } else {
+                    g.sudoku[i][j].click?.value = 0
+                }
+            }
+        }
+    }
+}
+
+fun noteAction(g: Game, s: String, it: Int, context: Context){
+    if (g.iSelect != null && g.jSelect != null) {
+        g.sudoku[g.iSelect!!][g.jSelect!!].note?.value = it
+    } else {
+        context.makeShortToast(s)
+    }
+}
 
 fun oneIsSelect(str: String, it: Int, g: Game, context: Context){
     if(g.sudoku[g.iSelect!!][g.jSelect!!].sol == it) {
