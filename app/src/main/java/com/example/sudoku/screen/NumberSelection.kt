@@ -22,13 +22,12 @@ import com.example.sudoku.R
 import com.example.sudoku.computation.Setting
 import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.computation.makeShortToast
-import com.example.sudoku.model.Action
 import com.example.sudoku.model.Game
 
 
 /** Create the board of number to insert **/
 @Composable
-fun NumberSelection(g: Game, context: Context, action: Action) {
+fun NumberSelection(g: Game, context: Context) {
     val tempVal = rememberSaveable { mutableStateOf(false) }
     val str = stringResource(R.string.wrong)
     val s = context.getString(R.string.select)
@@ -48,7 +47,7 @@ fun NumberSelection(g: Game, context: Context, action: Action) {
                     modifier = Modifier
                         .size(itemSize)
                         .background(if (clicked.value) Color.Gray else Color.White)
-                        .run { clickable { clickAction(str, s, it, g, context, action) } },
+                        .run { clickable { clickAction(str, s, it, g, context) } },
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -61,10 +60,10 @@ fun NumberSelection(g: Game, context: Context, action: Action) {
                 }
 
                 if(g.iSelect!= null) {
-                    action.r = g.iSelect!!
+                    g.note.r = g.iSelect!!
                 }
                 if(g.jSelect!= null) {
-                    action.c = g.jSelect!!
+                    g.note.c = g.jSelect!!
                 }
             }
         }
@@ -72,8 +71,8 @@ fun NumberSelection(g: Game, context: Context, action: Action) {
 }
 
 
-fun clickAction(str: String, s: String, it: Int, g: Game, context: Context, action: Action){
-    if (action.note.value)
+fun clickAction(str: String, s: String, it: Int, g: Game, context: Context){
+    if (g.note.note.value)
     {
         noteAction(g, s, it, context)
     }
@@ -146,6 +145,5 @@ fun ShowPreview() {
     set.setDifficult(diff.value, d)
     val s = Sudoku(9, d, diff)
     val game = s.getGame()
-    val note = rememberSaveable { mutableStateOf(false) }
-    NumberSelection(game, context, Action(note, 0, 0))
+    NumberSelection(game, context)
 }

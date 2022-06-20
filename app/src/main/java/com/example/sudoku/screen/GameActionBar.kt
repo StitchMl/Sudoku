@@ -21,12 +21,11 @@ import com.example.sudoku.R
 import com.example.sudoku.computation.Setting
 import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.computation.makeShortToast
-import com.example.sudoku.model.Action
 import com.example.sudoku.model.Game
 
 
 @Composable
-fun GameActionBar(game: Game, context: Context, action: Action) {
+fun GameActionBar(game: Game, context: Context) {
     CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.caption) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -46,8 +45,8 @@ fun GameActionBar(game: Game, context: Context, action: Action) {
             }
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
 
-            IconButton(onClick = { action.note.value = !action.note.value },
-            modifier = Modifier.background(if (action.note.value) Color.LightGray else Color.White)) {
+            IconButton(onClick = { game.note.note.value = !game.note.note.value },
+            modifier = Modifier.background(if (game.note.note.value) Color.LightGray else Color.White)) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         painter = painterResource(id = R.drawable.appunti),
@@ -71,7 +70,7 @@ fun GameActionBar(game: Game, context: Context, action: Action) {
                 }
             }
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
-            IconButton(onClick = { undoField(game, action) }) {
+            IconButton(onClick = { undoField(game) }) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         painter = painterResource(id = R.drawable.torna_indietro),
@@ -109,10 +108,10 @@ fun eraseField(g: Game){
     }
 }
 
-fun undoField(g: Game, u: Action) {
-    if( u.r != null && u.c != null)
+fun undoField(g: Game) {
+    if( g.note.r != 0 && g.note.c != 0)
     {
-        g.sudoku[u.r][u.c].value?.value = 0
+        g.sudoku[g.note.r][g.note.c].value?.value = 0
     }
 
 }
@@ -127,7 +126,6 @@ fun ButtonActionPreview(){
     val diff = rememberSaveable { mutableStateOf(set.DIFFICULTY[1]) }
     set.setDifficult(diff.value, k)
     val s = Sudoku(9, k, diff)
-    val note = rememberSaveable { mutableStateOf(false) }
 
-    GameActionBar(s.getGame(), context, Action(note, 0, 0))
+    GameActionBar(s.getGame(), context)
 }

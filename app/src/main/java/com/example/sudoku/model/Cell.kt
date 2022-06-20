@@ -8,7 +8,7 @@ data class Cell(
     var sol: Int,
     var value: MutableState<Int>?,
     var click: MutableState<Int>?,
-    var note: MutableState<Int>? = null
+    var note: MutableState<Int>?
     //val note: Set<Int> = emptySet()
     //var notes: MutableState<Int>
 )
