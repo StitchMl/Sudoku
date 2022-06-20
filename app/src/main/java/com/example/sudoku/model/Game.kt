@@ -6,6 +6,7 @@ data class Game(
     var difficult: String = "",
     var mistakes: MutableState<Int>,
     var elapsedTime: Long = 0L,
+  //  internal var subTimerState: ((Long) -> Unit)? = null,
     var sudoku: Array<Array<Cell>>,
     var bar: NumberBar,
     var counter: MutableState<Int>,
@@ -15,6 +16,11 @@ data class Game(
     var solution: Array<IntArray> = Array(9){IntArray(9)},
     var note : Action
 ) {
+  /*  internal fun updateTimerState(){
+        elapsedTime++
+        subTimerState?.invoke(elapsedTime)
+    }*/
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

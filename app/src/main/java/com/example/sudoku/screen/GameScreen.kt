@@ -22,10 +22,9 @@ import com.example.sudoku.computation.*
 import com.example.sudoku.database.ScoreViewModel
 import com.example.sudoku.model.Game
 import com.example.sudoku.model.Score
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.flow
+import java.time.LocalDateTime
 
 
 @Composable
@@ -76,8 +75,9 @@ fun setScreenGame(navController: Navigation, game: Game,
             }
         }
         start.value = true
-        val t = CoroutineScope(Dispatchers.IO).launchPeriodicAsync(6000, timer, start)
-        println(timer.value.toTime())
+
+        val t = CoroutineScope(Dispatchers.IO).launchPeriodicAsync(1000, timer, start)
+        println(game.elapsedTime)
         when (game.counter.value) {
             81 -> {
                 model.deleteScoreById(1)
@@ -104,12 +104,12 @@ fun setScreenGame(navController: Navigation, game: Game,
 }
 
 fun CoroutineScope.launchPeriodicAsync(
-    repeatMillis: Long,
+   repeatMillis: Long,
     timer: MutableState<Long>,
     start: MutableState<Boolean>
 ) = this.async {
-    if (repeatMillis > 0 && start.value) {
-        while (start.value) {
+    if (repeatMillis > 0 /*&& start.value*/) {
+        while (isActive) {
             //delay(1000)
             timer.value++
             delay(repeatMillis)
@@ -117,6 +117,7 @@ fun CoroutineScope.launchPeriodicAsync(
         }
     }
 }
+
 
 @Preview(device = Devices.DEFAULT, showBackground = true)
 @Composable
