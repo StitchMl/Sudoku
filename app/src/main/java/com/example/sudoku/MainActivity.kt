@@ -16,6 +16,9 @@ import com.example.sudoku.computation.Screen
 import com.example.sudoku.computation.makeShortToast
 import com.example.sudoku.database.ScoreViewModel
 import com.example.sudoku.ui.theme.SudokuEIlCaliceDiAndroidTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -4,12 +4,17 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import com.example.sudoku.R
 import com.example.sudoku.database.ScoreViewModel
 import com.example.sudoku.model.Game
 import com.example.sudoku.model.Score
 import com.example.sudoku.screen.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 
 class Navigation(
     private val empty: MutableState<Int>,
@@ -24,6 +29,7 @@ class Navigation(
     private var g: Game? = null
     private var s: Sudoku = Sudoku(9, empty, diff)
     private var allScore: List<Score>? = null
+    private var coroutine:  MutableState<CoroutineScope>? = null
 
     fun saveGame(){
         val game = g!!
@@ -31,6 +37,7 @@ class Navigation(
         val solution = toJson(game.solution)
         val mistakes = game.mistakes
         val temp = game.elapsedTime
+        coroutine?.value?.cancel()
         score.deleteScoreById(1)
         score.insertScore(Score(1, diff.value, mistakes.value, temp, sudoku, solution, game.counter.value))
         g = null
@@ -63,8 +70,9 @@ class Navigation(
         s.changeGame()
         g = s.getGame()
         timer.value = 0L
+        coroutine = remember{ mutableStateOf(CoroutineScope(Dispatchers.IO)) }
         if(g != null) {
-            GameScreen(this, g!!, timer, score, numberScore, context)
+            GameScreen(this, g!!, timer, coroutine!!.value, score, numberScore, context)
         }
     }
     @Composable
@@ -83,6 +91,7 @@ class Navigation(
         if (allScore.value.isNotEmpty()) {
             for (i in allScore.value.indices) {
                 if (allScore.value[i].id == 1) {
+                    coroutine = remember{ mutableStateOf(CoroutineScope(Dispatchers.IO)) }
                     g = s.setGame(allScore.value[i])
                     timer.value = g!!.elapsedTime
                     this.allScore = allScore.value
@@ -101,7 +110,7 @@ class Navigation(
     }
     @Composable
     fun OpenLoadGameScreen(){
-        GameScreen(this, g!!, timer, score, numberScore, context)
+        GameScreen(this, g!!, timer, coroutine!!.value, score, numberScore, context)
     }
     // Rules Screen
     @Composable

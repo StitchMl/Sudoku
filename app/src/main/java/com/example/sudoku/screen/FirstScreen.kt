@@ -31,6 +31,7 @@ import com.example.sudoku.database.ScoreViewModel
 import com.example.sudoku.ui.theme.ButtonColor
 import com.example.sudoku.ui.theme.textColorLight
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
@@ -220,9 +221,8 @@ fun FirstScreenPreview(){
     val diff = rememberSaveable { mutableStateOf("") }
     val timer = rememberSaveable{ mutableStateOf(0L) }
     val newRecord = rememberSaveable{ mutableStateOf(false) }
-    val start = rememberSaveable{ mutableStateOf(false) }
     val context = LocalContext.current
     val score = ScoreViewModel(LocalContext.current.applicationContext as Application)
     Screen(scope, empty, diff, Navigation(empty, diff, timer, newRecord, screen,
-        score, numberScore, start, context))
+        score, numberScore, context))
 }

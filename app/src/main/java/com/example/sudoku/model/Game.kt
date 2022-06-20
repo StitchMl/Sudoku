@@ -6,7 +6,6 @@ data class Game(
     var difficult: String = "",
     var mistakes: MutableState<Int>,
     var elapsedTime: Long = 0L,
-  //  internal var subTimerState: ((Long) -> Unit)? = null,
     var sudoku: Array<Array<Cell>>,
     var bar: NumberBar,
     var counter: MutableState<Int>,

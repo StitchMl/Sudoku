@@ -27,14 +27,14 @@ import kotlinx.coroutines.*
 
 @Composable
 fun GameScreen(
-    navController: Navigation, g: Game, timer: MutableState<Long>,
+    navController: Navigation, g: Game, timer: MutableState<Long>, coroutine: CoroutineScope,
     model: ScoreViewModel, numberScore: MutableState<Int>, context: Context
 ) {
-    setScreenGame(navController, g, timer, model, numberScore, context)
+    setScreenGame(navController, g, coroutine, timer, model, numberScore, context)
 }
 
 @Composable
-fun setScreenGame(navController: Navigation, game: Game,
+fun setScreenGame(navController: Navigation, game: Game, coroutine: CoroutineScope,
                   timer: MutableState<Long>, model: ScoreViewModel, numberScore: MutableState<Int>,
                   context: Context
 ){
@@ -72,7 +72,8 @@ fun setScreenGame(navController: Navigation, game: Game,
                 CurrentInfoBar(game, timer)
             }
         }
-        val t = CoroutineScope(Dispatchers.IO).launchPeriodicAsync(1000, timer)
+        //val t = CoroutineScope(Dispatchers.IO).launchPeriodicAsync(1000, timer)
+        val t = coroutine.launchPeriodicAsync(1000, timer)
         when (game.counter.value) {
             81 -> {
                 model.deleteScoreById(1)
@@ -121,13 +122,12 @@ fun NewGameScreenPreview(){
     val screen = rememberSaveable { mutableStateOf(Screen.SPLASH_SCREEN) }
     val timer = rememberSaveable{ mutableStateOf(0L) }
     val newRecord = rememberSaveable{ mutableStateOf(false) }
-    val start = rememberSaveable{ mutableStateOf(false) }
     val diff = rememberSaveable { mutableStateOf(set.DIFFICULTY[1]) }
     set.setDifficult(diff.value, k)
     val s = Sudoku(9, k, diff)
     val score = ScoreViewModel(LocalContext.current.applicationContext as Application)
     GameScreen(
         Navigation(empty, diff, timer, newRecord, screen,
-            score, numberScore, start, context), s.getGame(), t, score, numberScore, context
+            score, numberScore, context), s.getGame(), t, CoroutineScope(Dispatchers.IO), score, numberScore, context
     )
 }
