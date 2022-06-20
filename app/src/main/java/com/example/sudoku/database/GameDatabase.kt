@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.sudoku.model.Score
 
-@Database(entities = [(Score::class)], version = 2, exportSchema = false)
+@Database(entities = [(Score::class)], version = 1, exportSchema = false)
 abstract class GameDatabase: RoomDatabase() {
 
     abstract fun gameDao(): GameDao

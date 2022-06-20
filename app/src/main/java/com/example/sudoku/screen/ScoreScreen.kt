@@ -55,7 +55,7 @@ fun ScoreScreen(model: ScoreViewModel)
             }
         }
 
-        if (allScore.size < 2 && allScore[0].id==1){
+        if (allScore.size < 2 && (allScore.isEmpty() || allScore[0].id==1)){
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
