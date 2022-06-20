@@ -36,7 +36,8 @@ class Navigation(
         val sudoku = toJson(s.saveGame(game.sudoku))
         val solution = toJson(game.solution)
         val mistakes = game.mistakes
-        val temp = game.elapsedTime
+        println(timer.value)
+        val temp = timer.value
         coroutine?.value?.cancel()
         score.deleteScoreById(1)
         score.insertScore(Score(1, diff.value, mistakes.value, temp, sudoku, solution, game.counter.value))

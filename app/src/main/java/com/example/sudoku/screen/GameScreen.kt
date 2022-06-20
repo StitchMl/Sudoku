@@ -72,7 +72,6 @@ fun setScreenGame(navController: Navigation, game: Game, coroutine: CoroutineSco
                 CurrentInfoBar(game, timer)
             }
         }
-        //val t = CoroutineScope(Dispatchers.IO).launchPeriodicAsync(1000, timer)
         val t = coroutine.launchPeriodicAsync(1000, timer)
         when (game.counter.value) {
             81 -> {
