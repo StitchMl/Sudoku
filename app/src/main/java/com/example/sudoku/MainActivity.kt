@@ -25,17 +25,14 @@ class MainActivity : ComponentActivity() {
             val diff = rememberSaveable{ mutableStateOf("") }
             val timer = rememberSaveable{ mutableStateOf(0L) }
             val newRecord = rememberSaveable{ mutableStateOf(false) }
-            val start = rememberSaveable{ mutableStateOf(false) }
             val screen = rememberSaveable{ mutableStateOf(Screen.SPLASH_SCREEN) }
             val context = applicationContext
             val score = ScoreViewModel(context as Application)
             val numberScore = rememberSaveable{ mutableStateOf(2) }
-            val nav = Navigation(empty, diff, timer, newRecord, screen, score,
-                numberScore, start, context)
+            val nav = Navigation(empty, diff, timer, newRecord, screen, score, numberScore, context)
             onBackPressedDispatcher.addCallback(this) {
                 if(screen.value == Screen.NEW_GAME_SCREEN || screen.value == Screen.LOAD_GAME_SCREEN || screen.value == Screen.LOADED_GAME_SCREEN){
                     val str = getString(R.string.game_saved)
-                    start.value = false
                     makeShortToast(str)
                     nav.saveGame()
                 }

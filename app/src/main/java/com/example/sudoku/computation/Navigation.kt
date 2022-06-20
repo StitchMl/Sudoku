@@ -19,7 +19,6 @@ class Navigation(
     private val screen: MutableState<Screen>,
     private val score: ScoreViewModel,
     private val numberScore: MutableState<Int>,
-    private val start: MutableState<Boolean>,
     private val context: Context
 ) {
     private var g: Game? = null
