@@ -20,7 +20,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.sudoku.R
 import com.example.sudoku.computation.*
 import com.example.sudoku.database.ScoreViewModel
-import com.example.sudoku.model.Action
 import com.example.sudoku.model.Game
 import com.example.sudoku.model.Score
 import kotlinx.coroutines.CoroutineScope
@@ -31,16 +30,16 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun GameScreen(navController: Navigation, g: Game, timer: MutableState<Long>,
-               newRecord: MutableState<Boolean>, model: ScoreViewModel, numberScore:  MutableState<Int>,
-               start: MutableState<Boolean>, context: Context, action: Action
+    model: ScoreViewModel, numberScore: MutableState<Int>, start: MutableState<Boolean>,
+    context: Context
 ) {
-    setScreenGame(navController, g, timer, model, numberScore, start, context, action)
+    setScreenGame(navController, g, timer, model, numberScore, start, context)
 }
 
 @Composable
 fun setScreenGame(navController: Navigation, game: Game,
                   timer: MutableState<Long>, model: ScoreViewModel, numberScore: MutableState<Int>,
-                  start: MutableState<Boolean>, context: Context, action: Action
+                  start: MutableState<Boolean>, context: Context
 ){
     //TITLE
     Column(
@@ -63,12 +62,12 @@ fun setScreenGame(navController: Navigation, game: Game,
             Box(modifier = Modifier.constrainAs(actionBar) {
                 top.linkTo(number.bottom, margin = 10.dp)
             }) {
-                GameActionBar(game, context, action)
+                GameActionBar(game, context)
             }
             Box(modifier = Modifier.constrainAs(number) {
                 top.linkTo(sudoku.bottom, margin = 10.dp)
             }) {
-                NumberSelection(game, context, action)
+                NumberSelection(game, context)
             }
             Box(modifier = Modifier.constrainAs(infoBar) {
                 top.linkTo(parent.top, margin = 10.dp)
@@ -128,7 +127,6 @@ fun NewGameScreenPreview(){
     val empty = rememberSaveable { mutableStateOf(0) }
     val numberScore = rememberSaveable { mutableStateOf(1) }
     val t = rememberSaveable { mutableStateOf(0L) }
-    val b = rememberSaveable { mutableStateOf(false) }
     val screen = rememberSaveable { mutableStateOf(Screen.SPLASH_SCREEN) }
     val timer = rememberSaveable{ mutableStateOf(0L) }
     val newRecord = rememberSaveable{ mutableStateOf(false) }
@@ -136,10 +134,10 @@ fun NewGameScreenPreview(){
     val diff = rememberSaveable { mutableStateOf(set.DIFFICULTY[1]) }
     set.setDifficult(diff.value, k)
     val s = Sudoku(9, k, diff)
-    val noteBool = rememberSaveable { mutableStateOf(false) }
     val score = ScoreViewModel(LocalContext.current.applicationContext as Application)
-    GameScreen(Navigation(empty, diff, timer, newRecord, screen,
-        score, numberScore, start, context), s.getGame(), t, b, score, numberScore,
-        start, context, Action(noteBool, 0, 0)
+    GameScreen(
+        Navigation(empty, diff, timer, newRecord, screen,
+            score, numberScore, start, context), s.getGame(), t, score, numberScore, start,
+        context
     )
 }

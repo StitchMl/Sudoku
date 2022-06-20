@@ -69,7 +69,7 @@ class Navigation(
         timer.value = 0L
         val note = rememberSaveable { mutableStateOf(false) }
         if(g != null) {
-            GameScreen(this, g!!, timer, newRecord, score, numberScore, start, context, Action(note, 0,0))
+            GameScreen(this, g!!, timer, score, numberScore, start, context, Action(note, 0,0))
         }
     }
     @Composable
@@ -107,7 +107,7 @@ class Navigation(
     @Composable
     fun OpenLoadGameScreen(){
         val note = rememberSaveable { mutableStateOf(false) }
-        GameScreen(this, g!!, timer, newRecord, score, numberScore, start, context, Action(note, 0, 0))
+        GameScreen(this, g!!, timer, score, numberScore, start, context, Action(note, 0, 0))
     }
     // Rules Screen
     @Composable

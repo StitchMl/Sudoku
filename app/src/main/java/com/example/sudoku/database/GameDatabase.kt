@@ -31,9 +31,5 @@ abstract class GameDatabase: RoomDatabase() {
                 return instance
             }
         }
-
-        fun destroyInstance() {
-            INSTANCE = null
-        }
     }
 }

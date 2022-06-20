@@ -22,13 +22,12 @@ import com.example.sudoku.R
 import com.example.sudoku.computation.Setting
 import com.example.sudoku.computation.Sudoku
 import com.example.sudoku.computation.makeShortToast
-import com.example.sudoku.model.Action
 import com.example.sudoku.model.Game
 
 
 /** Create the board of number to insert **/
 @Composable
-fun NumberSelection(g: Game, context: Context, action: Action) {
+fun NumberSelection(g: Game, context: Context) {
     val tempVal = rememberSaveable { mutableStateOf(false) }
     val str = stringResource(R.string.wrong)
     val s = context.getString(R.string.select)
@@ -48,7 +47,7 @@ fun NumberSelection(g: Game, context: Context, action: Action) {
                     modifier = Modifier
                         .size(itemSize)
                         .background(if (clicked.value) Color.Gray else Color.White)
-                        .run { clickable { clickAction(str, s, it, g, context, action) } },
+                        .run { clickable { clickAction(str, s, it, g, context) } },
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -61,10 +60,10 @@ fun NumberSelection(g: Game, context: Context, action: Action) {
                 }
 
                 if(g.iSelect!= null) {
-                    action.r = g.iSelect!!
+                    g.note.r = g.iSelect!!
                 }
                 if(g.jSelect!= null) {
-                    action.c = g.jSelect!!
+                    g.note.c = g.jSelect!!
                 }
             }
         }
@@ -72,38 +71,43 @@ fun NumberSelection(g: Game, context: Context, action: Action) {
 }
 
 
-fun clickAction(str: String, s: String, it: Int, g: Game, context: Context, action: Action){
-
-    if (action.note.value)
+fun clickAction(str: String, s: String, it: Int, g: Game, context: Context){
+    if (g.note.note.value)
     {
-        if (g.iSelect != null && g.jSelect != null) {
-            g.sudoku[g.iSelect!!][g.jSelect!!].note?.value = it
-            //action.note.value = false
-        } else {
-            context.makeShortToast(s)
-        }
+        noteAction(g, s, it, context)
     }
     else {
-        if (g.iSelect != null && g.jSelect != null) {
-            oneIsSelect(str, it, g, context)
-        } else {
-            selectNumOnBar(it, g)
-            for (i in 0 until g.sudoku.size) {
-                for (j in 0 until g.sudoku[i].size) {
-                    if (g.sudoku[i][j].value?.value == it) {
-                        g.sudoku[i][j].click?.value = 2
-                    } else {
-                        g.sudoku[i][j].click?.value = 0
-                    }
-                }
-            }
-        }
+        insertNum(g, str, it, context)
         if (g.mistakes.value == 3) {
             g.counter.value = 0
         }
     }
 }
 
+fun insertNum(g: Game, str: String, it: Int, context: Context){
+    if (g.iSelect != null && g.jSelect != null) {
+        oneIsSelect(str, it, g, context)
+    } else {
+        selectNumOnBar(it, g)
+        for (i in 0 until g.sudoku.size) {
+            for (j in 0 until g.sudoku[i].size) {
+                if (g.sudoku[i][j].value?.value == it) {
+                    g.sudoku[i][j].click?.value = 2
+                } else {
+                    g.sudoku[i][j].click?.value = 0
+                }
+            }
+        }
+    }
+}
+
+fun noteAction(g: Game, s: String, it: Int, context: Context){
+    if (g.iSelect != null && g.jSelect != null) {
+        g.sudoku[g.iSelect!!][g.jSelect!!].note?.value = it
+    } else {
+        context.makeShortToast(s)
+    }
+}
 
 fun oneIsSelect(str: String, it: Int, g: Game, context: Context){
     if(g.sudoku[g.iSelect!!][g.jSelect!!].sol == it) {
@@ -141,6 +145,5 @@ fun ShowPreview() {
     set.setDifficult(diff.value, d)
     val s = Sudoku(9, d, diff)
     val game = s.getGame()
-    val note = rememberSaveable { mutableStateOf(false) }
-    NumberSelection(game, context, Action(note, 0, 0))
+    NumberSelection(game, context)
 }

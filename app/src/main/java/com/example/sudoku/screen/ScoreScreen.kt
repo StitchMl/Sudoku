@@ -55,15 +55,12 @@ fun ScoreScreen(model: ScoreViewModel)
             }
         }
 
-        if (allScore.size < 2) {
-        //if (allScore.isEmpty()) {
-            if (allScore[0].id==1){
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(text = "There's not any result yet")
-                }
+        if (allScore.size < 2 && allScore[0].id==1){
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(text = "There's not any result yet")
             }
         }
     }
