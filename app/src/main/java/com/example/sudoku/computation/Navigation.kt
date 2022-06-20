@@ -65,7 +65,7 @@ class Navigation(
         g = s.getGame()
         timer.value = 0L
         if(g != null) {
-            GameScreen(this, g!!, timer, score, numberScore, start, context)
+            GameScreen(this, g!!, timer, score, numberScore, context)
         }
     }
     @Composable
@@ -102,7 +102,7 @@ class Navigation(
     }
     @Composable
     fun OpenLoadGameScreen(){
-        GameScreen(this, g!!, timer, score, numberScore, start, context)
+        GameScreen(this, g!!, timer, score, numberScore, context)
     }
     // Rules Screen
     @Composable

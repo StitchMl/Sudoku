@@ -26,17 +26,17 @@ import kotlinx.coroutines.*
 
 
 @Composable
-fun GameScreen(navController: Navigation, g: Game, timer: MutableState<Long>,
-    model: ScoreViewModel, numberScore: MutableState<Int>, start: MutableState<Boolean>,
-    context: Context
+fun GameScreen(
+    navController: Navigation, g: Game, timer: MutableState<Long>,
+    model: ScoreViewModel, numberScore: MutableState<Int>, context: Context
 ) {
-    setScreenGame(navController, g, timer, model, numberScore, start, context)
+    setScreenGame(navController, g, timer, model, numberScore, context)
 }
 
 @Composable
 fun setScreenGame(navController: Navigation, game: Game,
                   timer: MutableState<Long>, model: ScoreViewModel, numberScore: MutableState<Int>,
-                  start: MutableState<Boolean>, context: Context
+                  context: Context
 ){
     //TITLE
     Column(
@@ -72,15 +72,11 @@ fun setScreenGame(navController: Navigation, game: Game,
                 CurrentInfoBar(game, timer)
             }
         }
-        start.value = true
-
         val t = CoroutineScope(Dispatchers.IO).launchPeriodicAsync(1000, timer)
-        println(game.elapsedTime)
         when (game.counter.value) {
             81 -> {
                 model.deleteScoreById(1)
                 t.cancel()
-                start.value = false
                 val str = stringResource(R.string.won)
                 game.elapsedTime = timer.value
                 context.makeShortToast(str)
@@ -91,7 +87,6 @@ fun setScreenGame(navController: Navigation, game: Game,
             0 -> {
                 model.deleteScoreById(1)
                 t.cancel()
-                start.value = false
                 val str = stringResource(R.string.game_over)
                 game.elapsedTime = timer.value
                 context.makeShortToast(str)
@@ -133,7 +128,6 @@ fun NewGameScreenPreview(){
     val score = ScoreViewModel(LocalContext.current.applicationContext as Application)
     GameScreen(
         Navigation(empty, diff, timer, newRecord, screen,
-            score, numberScore, start, context), s.getGame(), t, score, numberScore, start,
-        context
+            score, numberScore, start, context), s.getGame(), t, score, numberScore, context
     )
 }
