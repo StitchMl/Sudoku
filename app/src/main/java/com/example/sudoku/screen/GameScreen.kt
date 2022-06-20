@@ -77,7 +77,7 @@ fun setScreenGame(navController: Navigation, game: Game,
             }
         }
         start.value = true
-        val t = CoroutineScope(Dispatchers.IO).launchPeriodicAsync(1000, timer, start)
+        val t = CoroutineScope(Dispatchers.IO).launchPeriodicAsync(6000, timer, start)
         println(timer.value.toTime())
         when (game.counter.value) {
             81 -> {
@@ -111,8 +111,10 @@ fun CoroutineScope.launchPeriodicAsync(
 ) = this.async {
     if (repeatMillis > 0 && start.value) {
         while (start.value) {
+            //delay(1000)
             timer.value++
             delay(repeatMillis)
+            //delay(1000)
         }
     }
 }
