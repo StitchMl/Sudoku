@@ -8,6 +8,7 @@ import com.example.sudoku.model.Cell
 import com.example.sudoku.model.Game
 import com.example.sudoku.model.NumberBar
 import com.example.sudoku.model.Score
+import java.security.SecureRandom
 import kotlin.math.floor
 import kotlin.math.sqrt
 
@@ -78,7 +79,8 @@ class Sudoku internal constructor(
 
     /** Random generator **/
     private fun randomGenerator(num: Int): Int {
-        return floor(Math.random() * num + 1).toInt()
+        val random = SecureRandom() // Compliant
+        return floor(random.nextDouble() * num + 1).toInt()
     }
 
     /** Check if safe to put in cell **/
