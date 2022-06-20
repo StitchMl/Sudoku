@@ -23,8 +23,6 @@ import com.example.sudoku.database.ScoreViewModel
 import com.example.sudoku.model.Game
 import com.example.sudoku.model.Score
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.flow
-import java.time.LocalDateTime
 
 
 @Composable
@@ -76,7 +74,7 @@ fun setScreenGame(navController: Navigation, game: Game,
         }
         start.value = true
 
-        val t = CoroutineScope(Dispatchers.IO).launchPeriodicAsync(1000, timer, start)
+        val t = CoroutineScope(Dispatchers.IO).launchPeriodicAsync(1000, timer)
         println(game.elapsedTime)
         when (game.counter.value) {
             81 -> {
@@ -104,16 +102,13 @@ fun setScreenGame(navController: Navigation, game: Game,
 }
 
 fun CoroutineScope.launchPeriodicAsync(
-   repeatMillis: Long,
-    timer: MutableState<Long>,
-    start: MutableState<Boolean>
+    repeatMillis: Long,
+    timer: MutableState<Long>
 ) = this.async {
-    if (repeatMillis > 0 /*&& start.value*/) {
+    if (repeatMillis > 0) {
         while (isActive) {
-            //delay(1000)
             timer.value++
             delay(repeatMillis)
-            //delay(1000)
         }
     }
 }
