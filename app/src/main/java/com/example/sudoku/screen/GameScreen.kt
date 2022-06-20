@@ -31,8 +31,8 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun GameScreen(navController: Navigation, g: Game, timer: MutableState<Long>,
-               newRecord: MutableState<Boolean>, model: ScoreViewModel, numberScore:  MutableState<Int>,
-               start: MutableState<Boolean>, context: Context, action: Action
+    model: ScoreViewModel, numberScore: MutableState<Int>, start: MutableState<Boolean>,
+    context: Context, action: Action
 ) {
     setScreenGame(navController, g, timer, model, numberScore, start, context, action)
 }
@@ -126,7 +126,6 @@ fun NewGameScreenPreview(){
     val empty = rememberSaveable { mutableStateOf(0) }
     val numberScore = rememberSaveable { mutableStateOf(1) }
     val t = rememberSaveable { mutableStateOf(0L) }
-    val b = rememberSaveable { mutableStateOf(false) }
     val screen = rememberSaveable { mutableStateOf(Screen.SPLASH_SCREEN) }
     val timer = rememberSaveable{ mutableStateOf(0L) }
     val newRecord = rememberSaveable{ mutableStateOf(false) }
@@ -136,8 +135,9 @@ fun NewGameScreenPreview(){
     val s = Sudoku(9, k, diff)
     val noteBool = rememberSaveable { mutableStateOf(false) }
     val score = ScoreViewModel(LocalContext.current.applicationContext as Application)
-    GameScreen(Navigation(empty, diff, timer, newRecord, screen,
-        score, numberScore, start, context), s.getGame(), t, b, score, numberScore,
-        start, context, Action(noteBool, 0, 0)
+    GameScreen(
+        Navigation(empty, diff, timer, newRecord, screen,
+            score, numberScore, start, context), s.getGame(), t, score, numberScore, start,
+        context, Action(noteBool, 0, 0)
     )
 }
