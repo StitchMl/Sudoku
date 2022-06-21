@@ -30,15 +30,40 @@ fun GameScreen(
     navController: Navigation, g: Game, timer: MutableState<Long>, coroutine: CoroutineScope,
     model: ScoreViewModel, numberScore: MutableState<Int>, context: Context
 ) {
-    setScreenGame(navController, g, coroutine, timer, model, numberScore, context)
+    val t = coroutine.launchPeriodicAsync(1000, timer)
+    setScreenGame(navController, g, t, timer, model, numberScore, context)
 }
 
 @Composable
-fun setScreenGame(navController: Navigation, game: Game, coroutine: CoroutineScope,
+fun setScreenGame(navController: Navigation, game: Game, t: Deferred<Unit>,
                   timer: MutableState<Long>, model: ScoreViewModel, numberScore: MutableState<Int>,
                   context: Context
 ){
-    //TITLE
+    setScreen(game, timer, context)
+    when (game.counter.value) {
+        81 -> {
+            model.deleteScoreById(1)
+            t.cancel()
+            val str = stringResource(R.string.won)
+            game.elapsedTime = timer.value
+            context.makeShortToast(str)
+            model.insertScore(Score(numberScore.value, game.difficult, game.mistakes.value, game.elapsedTime))
+            numberScore.value++
+            navController.setScreen(Screen.VICTORY)
+        }
+        0 -> {
+            model.deleteScoreById(1)
+            t.cancel()
+            val str = stringResource(R.string.game_over)
+            game.elapsedTime = timer.value
+            context.makeShortToast(str)
+            navController.setScreen(Screen.FAIL)
+        }
+    }
+}
+
+@Composable
+fun setScreen(game: Game, timer: MutableState<Long>, context: Context){
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -70,27 +95,6 @@ fun setScreenGame(navController: Navigation, game: Game, coroutine: CoroutineSco
                 top.linkTo(parent.top, margin = 10.dp)
             }) {
                 CurrentInfoBar(game, timer)
-            }
-        }
-        val t = coroutine.launchPeriodicAsync(1000, timer)
-        when (game.counter.value) {
-            81 -> {
-                model.deleteScoreById(1)
-                t.cancel()
-                val str = stringResource(R.string.won)
-                game.elapsedTime = timer.value
-                context.makeShortToast(str)
-                model.insertScore(Score(numberScore.value, game.difficult, game.mistakes.value, game.elapsedTime))
-                numberScore.value++
-                navController.setScreen(Screen.VICTORY)
-            }
-            0 -> {
-                model.deleteScoreById(1)
-                t.cancel()
-                val str = stringResource(R.string.game_over)
-                game.elapsedTime = timer.value
-                context.makeShortToast(str)
-                navController.setScreen(Screen.FAIL)
             }
         }
     }
