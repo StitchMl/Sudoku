@@ -49,7 +49,7 @@ fun CurrentInfoBarPreview(){
     val set = Setting(context)
     val t = rememberSaveable { mutableStateOf(0L) }
     val k = rememberSaveable { mutableStateOf(0) }
-    val diff = rememberSaveable { mutableStateOf(set.DIFFICULTY[1]) }
+    val diff = rememberSaveable { mutableStateOf(set.difficulty[1]) }
     set.setDifficult(diff.value, k)
     val s = Sudoku(9, k, diff)
     CurrentInfoBar(s.getGame(), t)

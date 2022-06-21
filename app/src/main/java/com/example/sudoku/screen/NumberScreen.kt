@@ -29,7 +29,7 @@ private fun ShowNUmberSelection(){
     val d = rememberSaveable { mutableStateOf(0) }
     val context = LocalContext.current
     val set = Setting(context)
-    val diff = rememberSaveable { mutableStateOf(set.DIFFICULTY[0]) }
+    val diff = rememberSaveable { mutableStateOf(set.difficulty[0]) }
     set.setDifficult(diff.value, d)
     val s = Sudoku(9, d, diff)
     val game = s.getGame()

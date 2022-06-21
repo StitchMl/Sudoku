@@ -172,22 +172,22 @@ class Sudoku internal constructor(
     }
 
     /** Print solution **/
-    fun printSolution() {
+    /*fun printSolution() {
         for (i in 0 until n) {
             for (j in 0 until n) print(solution[i][j].toString() + " ")
             println()
         }
         println()
-    }
+    }*/
 
     /** Print sudoku **/
-    fun printSudoku() {
+    /*fun printSudoku() {
         for (i in 0 until n) {
             for (j in 0 until n) print(mat[i][j].value.toString() + " ")
             println()
         }
         println()
-    }
+    }*/
 
     /** Get Game Set **/
     @Composable

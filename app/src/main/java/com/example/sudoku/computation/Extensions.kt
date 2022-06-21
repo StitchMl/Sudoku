@@ -1,17 +1,16 @@
 package com.example.sudoku.computation
 
 import android.content.Context
-import android.os.CountDownTimer
 import android.widget.Toast
 
 
-internal fun Context.makeLongToast(message: String) {
+/*internal fun Context.makeLongToast(message: String) {
     Toast.makeText(
         this,
         message,
         Toast.LENGTH_LONG
     ).show()
-}
+}*/
 
 internal fun Context.makeShortToast(message: String) {
     Toast.makeText(

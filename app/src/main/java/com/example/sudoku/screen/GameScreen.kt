@@ -125,7 +125,7 @@ fun NewGameScreenPreview(){
     val screen = rememberSaveable { mutableStateOf(Screen.SPLASH_SCREEN) }
     val timer = rememberSaveable{ mutableStateOf(0L) }
     val newRecord = rememberSaveable{ mutableStateOf(false) }
-    val diff = rememberSaveable { mutableStateOf(set.DIFFICULTY[1]) }
+    val diff = rememberSaveable { mutableStateOf(set.difficulty[1]) }
     set.setDifficult(diff.value, k)
     val s = Sudoku(9, k, diff)
     val score = ScoreViewModel(LocalContext.current.applicationContext as Application)

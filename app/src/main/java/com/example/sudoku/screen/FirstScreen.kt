@@ -71,7 +71,7 @@ fun DrawerContent(
     e: MutableState<Int>, set: Setting, d: MutableState<String>,
     navController: Navigation
 ){
-    val diff: Array<String> = set.DIFFICULTY
+    val diff: Array<String> = set.difficulty
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
