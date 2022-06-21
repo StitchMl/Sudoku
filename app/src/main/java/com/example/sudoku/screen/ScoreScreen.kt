@@ -83,7 +83,7 @@ fun RealTimeUpdateItemCard(score: Score) {
     ) {
         Row {
             Text(
-                text = "$id",
+                text = "${id-1}",
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(5.dp),
                 color = Color.Black,

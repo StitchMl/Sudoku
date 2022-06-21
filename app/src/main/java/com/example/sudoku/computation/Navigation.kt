@@ -33,8 +33,8 @@ class Navigation(
 
     fun saveGame(){
         val game = g!!
-        val sudoku = toJson(s.saveGame(game.sudoku))
-        val solution = toJson(game.solution)
+        val sudoku = toStr(s.saveGame(game.sudoku))
+        val solution = toStr(game.solution)
         val mistakes = game.mistakes
         println(timer.value)
         val temp = timer.value
@@ -44,7 +44,7 @@ class Navigation(
         g = null
     }
 
-    private fun toJson(matrix: Array<IntArray>): String {
+    private fun toStr(matrix: Array<IntArray>): String {
         val sb = StringBuilder()
         matrix.forEachIndexed { i, row ->
             row.forEachIndexed{ j, value->
@@ -101,6 +101,7 @@ class Navigation(
                 } else {
                     val str = stringResource(R.string.no_game)
                     context.makeShortToast(str)
+                    MainScreen()
                 }
             }
         } else {
