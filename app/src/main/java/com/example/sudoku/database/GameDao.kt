@@ -18,4 +18,7 @@ interface GameDao {
 
     @Query("SELECT * FROM scores")
     fun getAllScore(): LiveData<List<Score>>
+
+    @Query("SELECT * FROM scores WHERE scoreId = :id")
+    fun findScoreById(id: Int): List<Score>
 }
