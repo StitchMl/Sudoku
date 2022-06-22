@@ -28,7 +28,8 @@ import com.example.sudoku.model.Game
 @Composable
 fun CurrentInfoBar(g: Game, timer: MutableState<Long>) {
     CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.caption) {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+        Row(Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween) {
             Text(text = g.difficult,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold)
