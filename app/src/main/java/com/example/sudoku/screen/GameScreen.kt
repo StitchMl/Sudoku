@@ -30,7 +30,6 @@ fun GameScreen(
     navController: Navigation, g: Game, timer: MutableState<Long>, coroutine: CoroutineScope,
     model: ScoreViewModel, numberScore: MutableState<Int>, context: Context
 ) {
-    println(timer.value)
     val t = coroutine.launchPeriodicAsync(1000, timer)
     setScreenGame(navController, g, t, timer, model, numberScore, context)
 }
@@ -40,7 +39,6 @@ fun setScreenGame(navController: Navigation, game: Game, t: Deferred<Unit>,
                   timer: MutableState<Long>, model: ScoreViewModel, numberScore: MutableState<Int>,
                   context: Context
 ){
-    println(timer.value)
     setScreen(game, timer, context)
     when (game.counter.value) {
         81 -> {
@@ -66,7 +64,6 @@ fun setScreenGame(navController: Navigation, game: Game, t: Deferred<Unit>,
 
 @Composable
 fun setScreen(game: Game, timer: MutableState<Long>, context: Context){
-    println(timer.value)
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -109,6 +106,7 @@ fun CoroutineScope.launchPeriodicAsync(
 ) = this.async {
     if (repeatMillis > 0) {
         while (isActive) {
+            println(timer.value)
             timer.value++
             delay(repeatMillis)
         }

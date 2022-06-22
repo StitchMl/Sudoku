@@ -67,9 +67,13 @@ class Navigation(
                 if (allScore.value[i].id == 1) {
                     coroutine = remember{ mutableStateOf(CoroutineScope(Dispatchers.IO)) }
                     g = s.setGame(allScore.value[i])
+                    println(g!!.elapsedTime)
                     timer.value = g!!.elapsedTime
+                    println(timer.value)
                     this.allScore = allScore.value
+                    println(timer.value)
                     score.deleteScore(allScore.value[i])
+                    println(timer.value)
                     screen.value = Screen.LOADED_GAME_SCREEN
                 } else {
                     val str = stringResource(R.string.no_game)
@@ -85,7 +89,6 @@ class Navigation(
     }
     @Composable
     fun OpenLoadGameScreen(){
-        println(timer.value)
         GameScreen(this, g!!, timer, coroutine!!.value, score, numberScore, context)
     }
     /** Rules Screen **/
