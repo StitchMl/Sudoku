@@ -28,9 +28,9 @@ import com.example.sudoku.model.Game
 fun GameActionBar(game: Game, context: Context) {
     CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.caption) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = 60.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             IconButton(onClick = { eraseField(game) }) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -70,18 +70,6 @@ fun GameActionBar(game: Game, context: Context) {
                 }
             }
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
-            IconButton(onClick = { undoField(game) }) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.torna_indietro),
-                        contentDescription = "Undo",
-                        modifier = Modifier.size(24.dp)
-                    )
-                    val str = stringResource(R.string.cancel)
-                    Text(text = str)
-                }
-            }
-            Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
         }
     }
 }
@@ -108,13 +96,6 @@ fun eraseField(g: Game){
     }
 }
 
-fun undoField(g: Game) {
-    if( g.note.r != 0 && g.note.c != 0)
-    {
-        g.sudoku[g.note.r][g.note.c].value?.value = 0
-    }
-
-}
 
 
 @Preview(device = Devices.DEFAULT, showBackground = true)
