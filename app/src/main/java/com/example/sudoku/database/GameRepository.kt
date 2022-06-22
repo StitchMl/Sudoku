@@ -34,7 +34,7 @@ class GameRepository(private val gameDao: GameDao, private val dispatcher: Corou
     }
 
     private fun findAsync(id: Int): Deferred<List<Score>?> =
-        coroutineScope.async(Dispatchers.IO) {
+        coroutineScope.async(dispatcher) {
             return@async gameDao.findScoreById(id)
         }
 }
