@@ -29,7 +29,7 @@ fun GameActionBar(game: Game, context: Context) {
     CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.caption) {
         Row(
             modifier = Modifier.fillMaxWidth()
-                .padding(horizontal = 60.dp),
+                .padding(horizontal = 85.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             IconButton(onClick = { eraseField(game) }) {
