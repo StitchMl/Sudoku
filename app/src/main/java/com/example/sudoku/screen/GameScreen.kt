@@ -106,7 +106,6 @@ fun CoroutineScope.launchPeriodicAsync(
 ) = this.async {
     if (repeatMillis > 0) {
         while (isActive) {
-            println(timer.value)
             timer.value++
             delay(repeatMillis)
         }
