@@ -1,20 +1,15 @@
 package com.example.sudoku.computation
 
 import android.content.Context
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import com.example.sudoku.R
 import com.example.sudoku.database.ScoreViewModel
 import com.example.sudoku.model.Game
 import com.example.sudoku.model.Score
 import com.example.sudoku.screen.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 
 class Navigation(
     private val empty: MutableState<Int>,
@@ -31,41 +26,19 @@ class Navigation(
     private var allScore: List<Score>? = null
     private var coroutine:  MutableState<CoroutineScope>? = null
 
-    fun saveGame(){
-        val game = g!!
-        val sudoku = toStr(s.saveGame(game.sudoku))
-        val solution = toStr(game.solution)
-        val mistakes = game.mistakes
-        println(timer.value)
-        val temp = timer.value
-        coroutine?.value?.cancel()
-        score.deleteScoreById(1)
-        score.insertScore(Score(1, diff.value, mistakes.value, temp, sudoku, solution, game.counter.value))
-        g = null
-    }
-
-    private fun toStr(matrix: Array<IntArray>): String {
-        val sb = StringBuilder()
-        matrix.forEachIndexed { i, row ->
-            row.forEachIndexed{ j, value->
-                sb.append("[$i;$j;$value],")
-            }
-        }
-        return "$sb"
-    }
-
+    /** Start **/
     @Composable
     fun Start(){
         SplashScreen(this)
     }
 
-    // Main Screen
+    /** Main Screen **/
     @Composable
     fun MainScreen() {
         timer.value = 0L
         FirstScreen(this, empty, diff)
     }
-    // Game Screen
+    /** Game Screen **/
     @Composable
     fun NewGameScreen() {
         s.changeGame()
@@ -112,19 +85,56 @@ class Navigation(
     }
     @Composable
     fun OpenLoadGameScreen(){
+        println(timer.value)
         GameScreen(this, g!!, timer, coroutine!!.value, score, numberScore, context)
     }
-    // Rules Screen
+    /** Rules Screen **/
     @Composable
     fun LoadRulesScreen(){
         RulesScreen()
     }
-    // Result Screen
+    /** Result Screen **/
     @Composable
     fun LoadScoreScreen() {
         ScoreScreen(score)
     }
+    /** Save Game **/
+    fun saveGame(){
+        val game = g!!
+        val sudoku = toStr(s.saveGame(game.sudoku))
+        val solution = toStr(game.solution)
+        val mistakes = game.mistakes
+        val temp = timer.value
+        coroutine?.value?.cancel()
+        score.deleteScoreById(1)
+        val scoreToSave = Score(1, diff.value, mistakes.value, temp, sudoku, solution, game.counter.value)
+        CoroutineScope(Dispatchers.IO).launchPeriodicAsync(1000, scoreToSave).start()
+        g = null
+    }
+    private fun CoroutineScope.launchPeriodicAsync(
+        repeatMillis: Long,
+        game: Score
+    ) = this.async {
+        if (repeatMillis > 0) {
+            while (score.searchResults.value == null) {
+                score.insertScore(game)
+                delay(repeatMillis)
+                async{ score.findScoreById(1) }.start()
+            }
+            this.cancel()
+        }
+    }
+    private fun toStr(matrix: Array<IntArray>): String {
+        val sb = StringBuilder()
+        matrix.forEachIndexed { i, row ->
+            row.forEachIndexed{ j, value->
+                sb.append("[$i;$j;$value],")
+            }
+        }
+        return "$sb"
+    }
 
+    /** Set Screen **/
     fun setScreen(n: Screen){
         screen.value = n
     }

@@ -249,7 +249,7 @@ class Sudoku internal constructor(
         diff.value = sudoku.diff
         val mistakes = rememberSaveable { mutableStateOf(sudoku.mistakes) }
         val note = rememberSaveable { mutableStateOf(false) }
-        return Game(diff.value, mistakes = mistakes, sudoku = getSudoku(), bar = NumberBar(), counter = counter, solution = getSolution(), note = Action(0, 0, note))
+        return Game(diff.value,  mistakes, sudoku.time, getSudoku(), NumberBar(), counter, solution = getSolution(), note = Action(0, 0, note))
     }
 
     /** Constructor **/
