@@ -24,7 +24,7 @@ class Navigation(
     private var g: Game? = null
     private var s: Sudoku = Sudoku(9, empty, diff)
     private var allScore: List<Score>? = null
-    private var coroutine:  MutableState<CoroutineScope>? = null
+    private var coroutine:  CoroutineScope? = null
 
     /** Start **/
     @Composable
@@ -40,12 +40,12 @@ class Navigation(
     /** Game Screen **/
     @Composable
     fun NewGameScreen() {
+        coroutine = rememberCoroutineScope()
         s.changeGame()
         g = s.getGame()
         timer.value = 0L
-        coroutine = remember{ mutableStateOf(CoroutineScope(Dispatchers.IO)) }
         if(g != null) {
-            GameScreen(this, g!!, timer, coroutine!!.value, score, numberScore, context)
+            GameScreen(this, g!!, timer, coroutine!!, score, numberScore, context)
         }
     }
     @Composable
@@ -64,7 +64,6 @@ class Navigation(
         if (allScore.value.isNotEmpty()) {
             for (i in allScore.value.indices) {
                 if (allScore.value[i].id == 1) {
-                    coroutine = remember{ mutableStateOf(CoroutineScope(Dispatchers.IO)) }
                     g = s.setGame(allScore.value[i])
                     timer.value = g!!.elapsedTime
                     this.allScore = allScore.value
@@ -84,7 +83,8 @@ class Navigation(
     }
     @Composable
     fun OpenLoadGameScreen(){
-        GameScreen(this, g!!, timer, coroutine!!.value, score, numberScore, context)
+        coroutine = rememberCoroutineScope()
+        GameScreen(this, g!!, timer, coroutine!!, score, numberScore, context)
     }
     /** Rules Screen **/
     @Composable
@@ -103,7 +103,7 @@ class Navigation(
         val solution = toStr(game.solution)
         val mistakes = game.mistakes
         val temp = timer.value
-        coroutine?.value?.cancel()
+        coroutine?.cancel()
         score.deleteScoreById(1)
         val scoreToSave = Score(1, diff.value, mistakes.value, temp, sudoku, solution, game.counter.value)
         CoroutineScope(Dispatchers.IO).launchPeriodicAsync(1000, scoreToSave).start()
