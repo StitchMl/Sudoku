@@ -71,11 +71,11 @@ class Navigation(
                     score.deleteScore(allScore.value[i])
                     screen.value = Screen.LOADED_GAME_SCREEN
                 } else {
-                    val str = stringResource(R.string.no_game)
-                    context.makeShortToast(str)
                     MainScreen()
                 }
             }
+            val str = stringResource(R.string.no_game)
+            context.makeShortToast(str)
         } else {
             val str = stringResource(R.string.no_game)
             context.makeShortToast(str)
