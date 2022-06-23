@@ -44,7 +44,13 @@ class Sudoku internal constructor(
 
     /** Returns false if given 3 x 3 block contains num. **/
     private fun unUsedInBox(rowStart: Int, colStart: Int, num: Int): Boolean {
-        for (i in 0 until srn) for (j in 0 until srn) if (solution[rowStart + i][colStart + j] == num) return false
+        for (i in 0 until srn) {
+            for (j in 0 until srn) {
+                if (solution[rowStart + i][colStart + j] == num) {
+                    return false
+                }
+            }
+        }
         return true
     }
 
@@ -71,7 +77,7 @@ class Sudoku internal constructor(
 
     /** Random generator **/
     private fun randomGenerator(num: Int): Int {
-        val random = SecureRandom() // Compliant
+        val random = SecureRandom()
         return floor(random.nextDouble() * num + 1).toInt()
     }
 
@@ -84,13 +90,21 @@ class Sudoku internal constructor(
 
     /** check in the row for existence **/
     private fun unUsedInRow(i: Int, num: Int): Boolean {
-        for (j in 0 until n) if (solution[i][j] == num) return false
+        for (j in 0 until n) {
+            if (solution[i][j] == num) {
+                return false
+            }
+        }
         return true
     }
 
     /** check in the row for existence **/
     private fun unUsedInCol(j: Int, num: Int): Boolean {
-        for (i in 0 until n) if (solution[i][j] == num) return false
+        for (i in 0 until n) {
+            if (solution[i][j] == num) {
+                return false
+            }
+        }
         return true
     }
 
@@ -147,7 +161,6 @@ class Sudoku internal constructor(
         return false
     }
 
-    // complete Game
     /** Remove the K no. of digits to **/
     private fun removeKDigits() {
         var count = k.value
@@ -181,7 +194,7 @@ class Sudoku internal constructor(
         return mat
     }
 
-    /** Get Sudoku **/
+    /** Get Solution **/
     private fun getSolution(): Array<IntArray> {
         return solution
     }
@@ -203,6 +216,7 @@ class Sudoku internal constructor(
         return savedSudoku
     }
 
+    /** Extract Game from Score **/
     @Composable
     fun setGame(sudoku: Score): Game {
         val counter = rememberSaveable { mutableStateOf(sudoku.counter) }
