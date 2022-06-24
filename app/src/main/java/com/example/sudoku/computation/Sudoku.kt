@@ -17,18 +17,21 @@ class Sudoku internal constructor(
     private var solution: Array<IntArray>
     private var mat: Array<Array<Cell>>
     private var srn: Int
+    private var bool = true
 
     /** Sudoku Generator **/
     @Composable
     fun FillValues() {
-        // Fill the diagonal of SRN x SRN matrices
-        FillDiagonal()
+        if (bool) {
+            // Fill the diagonal of SRN x SRN matrices
+            FillDiagonal()
 
-        // Fill remaining blocks
-        fillRemaining(0, srn)
+            // Fill remaining blocks
+            fillRemaining(0, srn)
 
-        // Remove Randomly K digits to make Game
-        removeKDigits()
+            // Remove Randomly K digits to make Game
+            removeKDigits()
+        }
     }
 
     /** Fill the diagonal SRN number of SRN x SRN matrices **/
@@ -179,10 +182,29 @@ class Sudoku internal constructor(
         }
     }
 
+    /** Print solution **/
+    /*fun printSolution() {
+        for (i in 0 until n) {
+            for (j in 0 until n) print(solution[i][j].toString() + " ")
+            println()
+        }
+        println()
+    }*/
+
+    /** Print sudoku **/
+    /*fun printSudoku() {
+        for (i in 0 until n) {
+            for (j in 0 until n) print(mat[i][j].value.toString() + " ")
+            println()
+        }
+        println()
+    }*/
+
     /** Get Game Set **/
     @Composable
     fun getGame(): Game {
         FillValues()
+        bool = false
         val counter = rememberSaveable { mutableStateOf((n * n) - k.value) }
         val mistakes = rememberSaveable { mutableStateOf(0) }
         val note = rememberSaveable { mutableStateOf(false) }
@@ -201,6 +223,7 @@ class Sudoku internal constructor(
 
     /** Activate change game **/
     fun changeGame(){
+        bool = true
         solution = Array(n) { IntArray(n) }
         mat = Array(n) { Array(n){Cell(0,0,0, null, null, null) }}
     }
@@ -219,6 +242,7 @@ class Sudoku internal constructor(
     /** Extract Game from Score **/
     @Composable
     fun setGame(sudoku: Score): Game {
+        bool = false
         val counter = rememberSaveable { mutableStateOf(sudoku.counter) }
         val sol = Array(9){IntArray(9)}
         val cellList = sudoku.sudoku.split(',')
