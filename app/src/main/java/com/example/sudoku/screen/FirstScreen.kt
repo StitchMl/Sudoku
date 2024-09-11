@@ -1,5 +1,6 @@
 package com.example.sudoku.screen
 
+import android.annotation.SuppressLint
 import android.app.Application
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -125,6 +126,7 @@ fun DrawerContent(
     }
 }
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PrincipalScreen(
