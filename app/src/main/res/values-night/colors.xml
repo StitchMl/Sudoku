@@ -6,5 +6,5 @@
     <color name="white">#000000</color>
     <color name="victoryColor">#FFffeb3b</color>
     <color name="primaryGreen">#FF00bc00</color>
-    <color name="ic_launcher_background">#000000</color>
+    <color name="ic_launcher_background">#FFFFFF</color>
 </resources>

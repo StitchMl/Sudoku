@@ -4,7 +4,7 @@
     <color name="buttonColor">#FF1979a9</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="ic_launcher_background">#FFFFFF</color>
     <color name="primaryGreen">#FF00bc00</color>
     <color name="victoryColor">#FFffeb3b</color>
+    <color name="ic_launcher_background">#FFFFFF</color>
 </resources>
