@@ -12,6 +12,7 @@ data class Game(
     var oneSelect: Boolean = false,
     var iSelect: Int? = null,
     var jSelect: Int? = null,
+    var numb: MutableState<IntArray>,
     var solution: Array<IntArray> = Array(9){IntArray(9)},
     var note : Action
 ) {

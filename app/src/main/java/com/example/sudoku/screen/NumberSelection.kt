@@ -1,17 +1,25 @@
 package com.example.sudoku.screen
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -44,6 +52,13 @@ fun NumberSelection(g: Game, context: Context) {
             (1..9).forEach {
                 val clicked = rememberSaveable { mutableStateOf(false) }
                 g.bar.bar[it-1] = clicked
+
+                val textColor = if (g.numb.value[it - 1] == 9) {
+                    MaterialTheme.colors.background // Colore di sfondo se il valore è 9
+                } else {
+                    MaterialTheme.colors.onBackground // Colore normale
+                }
+
                 Box(
                     modifier = Modifier
                         .size(itemSize)
@@ -53,6 +68,7 @@ fun NumberSelection(g: Game, context: Context) {
                 ) {
                     Text(
                         text = it.toString(),
+                        color = textColor,
                         style = TextStyle(
                             fontSize = 22.sp,
                             fontWeight = FontWeight.Medium
@@ -118,6 +134,8 @@ fun oneIsSelect(str: String, it: Int, g: Game, context: Context){
         g.iSelect = null
         g.jSelect = null
         g.counter.value += 1
+        g.numb.value[it-1]+=1
+        Log.d("Sudoku", "numb[$it] = ${g.numb.value[it - 1]}")
     } else {
         g.mistakes.value++
         context.makeShortToast(str)
@@ -139,7 +157,7 @@ fun selectNumOnBar(it: Int, g: Game){
 @Preview(showBackground = true)
 @Composable
 fun ShowPreview() {
-    val d = rememberSaveable { mutableStateOf(0) }
+    val d = rememberSaveable { mutableIntStateOf(0) }
     val context = LocalContext.current
     val set = Setting(context)
     val diff = rememberSaveable { mutableStateOf(set.difficulty[0]) }

@@ -2,6 +2,7 @@ package com.example.sudoku.computation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import com.example.sudoku.model.*
@@ -16,6 +17,7 @@ class Sudoku internal constructor(
 ) {
     private var solution: Array<IntArray>
     private var mat: Array<Array<Cell>>
+    private var numb = mutableStateOf(IntArray(n))
     private var srn: Int
     private var bool = true
 
@@ -28,6 +30,11 @@ class Sudoku internal constructor(
 
             // Fill remaining blocks
             fillRemaining(0, srn)
+
+            //Set numb
+            for(i in 0 until 9){
+                numb.value[i]=9
+            }
 
             // Remove Randomly K digits to make Game
             removeKDigits()
@@ -67,8 +74,8 @@ class Sudoku internal constructor(
                     num = randomGenerator(n)
                 } while (!unUsedInBox(row, col, num))
                 solution[row + i][col + j] = num
-                val value = rememberSaveable { mutableStateOf(num) }
-                val mutableNum = rememberSaveable { mutableStateOf(0) }
+                val value = rememberSaveable { mutableIntStateOf(num) }
+                val mutableNum = rememberSaveable { mutableIntStateOf(0) }
                 mat[row + i][col + j].row = i
                 mat[row + i][col + j].col = j
                 mat[row + i][col + j].sol = num
@@ -114,13 +121,13 @@ class Sudoku internal constructor(
     /** A recursive function to fill remaining **/
     @Composable
     private fun fillRemaining(n: Int, m: Int): Boolean {
-        val i = rememberSaveable { mutableStateOf(n) }
-        val j = rememberSaveable { mutableStateOf(m) }
-        if (j.value >= this.n && i.value < this.n - 1) {
-            i.value += 1
-            j.value = 0
+        val i = rememberSaveable { mutableIntStateOf(n) }
+        val j = rememberSaveable { mutableIntStateOf(m) }
+        if (j.intValue >= this.n && i.intValue < this.n - 1) {
+            i.intValue += 1
+            j.intValue = 0
         }
-        if (i.value >= this.n && j.value >= this.n) return true
+        if (i.intValue >= this.n && j.intValue >= this.n) return true
         if(checkNumInBox(i, j)) return true
         if(setNumInSudo(i, j)) return true
         return false
@@ -148,14 +155,14 @@ class Sudoku internal constructor(
             if (checkIfSafe(i.value, j.value, num)) {
                 mat[i.value][j.value].row = i.value
                 mat[i.value][j.value].col = j.value
-                val value = rememberSaveable { mutableStateOf(num) }
-                val mutableNum = rememberSaveable { mutableStateOf(0) }
+                val value = rememberSaveable { mutableIntStateOf(num) }
+                val mutableNum = rememberSaveable { mutableIntStateOf(0) }
                 solution[i.value][j.value] = num
                 mat[i.value][j.value].sol = num
                 mat[i.value][j.value].value = value
                 mat[i.value][j.value].note = mutableNum
                 if (fillRemaining(i.value, j.value + 1)) return true
-                val value1 = rememberSaveable { mutableStateOf(0) }
+                val value1 = rememberSaveable { mutableIntStateOf(0) }
                 solution[i.value][j.value] = 0
                 mat[i.value][j.value].sol = 0
                 mat[i.value][j.value].value = value1
@@ -177,6 +184,7 @@ class Sudoku internal constructor(
 
             if (mat[i][j].value?.value != 0) {
                 count--
+                numb.value[mat[i][j].value?.value!!-1] -= 1
                 mat[i][j].value?.value = 0
             }
         }
@@ -205,10 +213,10 @@ class Sudoku internal constructor(
     fun getGame(): Game {
         FillValues()
         bool = false
-        val counter = rememberSaveable { mutableStateOf((n * n) - k.value) }
-        val mistakes = rememberSaveable { mutableStateOf(0) }
+        val counter = rememberSaveable { mutableIntStateOf((n * n) - k.value) }
+        val mistakes = rememberSaveable { mutableIntStateOf(0) }
         val note = rememberSaveable { mutableStateOf(false) }
-        return Game(diff.value, sudoku = getSudoku(), bar = NumberBar(), counter = counter, solution = getSolution(), mistakes = mistakes, note = Action(0, 0, note))
+        return Game(diff.value, sudoku = getSudoku(), bar = NumberBar(), counter = counter, numb = getNumb(), solution = getSolution(), mistakes = mistakes, note = Action(0, 0, note))
     }
 
     /** Get Sudoku **/
@@ -228,6 +236,11 @@ class Sudoku internal constructor(
         mat = Array(n) { Array(n){Cell(0,0,0, null, null, null) }}
     }
 
+    /** Get Numb **/
+    private fun getNumb(): MutableState<IntArray> {
+        return numb
+    }
+
     /** Save Game **/
     fun saveGame(sudoku: Array<Array<Cell>>): Array<IntArray>{
         val savedSudoku = Array(9){IntArray(9)}
@@ -243,7 +256,7 @@ class Sudoku internal constructor(
     @Composable
     fun setGame(sudoku: Score): Game {
         bool = false
-        val counter = rememberSaveable { mutableStateOf(sudoku.counter) }
+        val counter = rememberSaveable { mutableIntStateOf(sudoku.counter) }
         val sol = Array(9){IntArray(9)}
         val cellList = sudoku.sudoku.split(',')
         val cellSolList = sudoku.solution.split(',')
@@ -252,16 +265,16 @@ class Sudoku internal constructor(
             val sSolCell = cellSolList[i].substring(1, cellSolList[i].length - 1)
             val lC = sCell.split(';')
             val lSC = sSolCell.split(';')
-            val value = rememberSaveable { mutableStateOf(lC[2].toInt()) }
-            val num = rememberSaveable { mutableStateOf(0) }
+            val value = rememberSaveable { mutableIntStateOf(lC[2].toInt()) }
+            val num = rememberSaveable { mutableIntStateOf(0) }
             mat[lC[0].toInt()][lC[1].toInt()] = Cell(lC[0].toInt(), lC[1].toInt(), lSC[2].toInt(), value, null, num)
             sol[lSC[0].toInt()][lSC[1].toInt()] = lSC[2].toInt()
         }
         solution = sol
         diff.value = sudoku.diff
-        val mistakes = rememberSaveable { mutableStateOf(sudoku.mistakes) }
+        val mistakes = rememberSaveable { mutableIntStateOf(sudoku.mistakes) }
         val note = rememberSaveable { mutableStateOf(false) }
-        return Game(diff.value,  mistakes, sudoku.time, getSudoku(), NumberBar(), counter, solution = getSolution(), note = Action(0, 0, note))
+        return Game(diff.value,  mistakes, sudoku.time, getSudoku(), NumberBar(), counter, numb = getNumb(), solution = getSolution(), note = Action(0, 0, note))
     }
 
     /** Constructor **/

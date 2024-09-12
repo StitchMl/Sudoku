@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -26,7 +27,7 @@ import com.example.sudoku.model.Game
 @Preview(device = Devices.DEFAULT, showBackground = true)
 @Composable
 private fun ShowNUmberSelection(){
-    val d = rememberSaveable { mutableStateOf(0) }
+    val d = rememberSaveable { mutableIntStateOf(0) }
     val context = LocalContext.current
     val set = Setting(context)
     val diff = rememberSaveable { mutableStateOf(set.difficulty[0]) }
@@ -104,7 +105,7 @@ fun cellSelect(i: Int, j: Int, g: Game){
 
 @Composable
 fun CreateCell(row:Int, col:Int, game:Game, itemSize: Dp){
-    val click = rememberSaveable { mutableStateOf(0) }
+    val click = rememberSaveable { mutableIntStateOf(0) }
     game.sudoku[row][col].click = click
     Box(
         modifier = Modifier

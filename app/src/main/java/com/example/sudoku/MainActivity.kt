@@ -8,6 +8,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -21,14 +23,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val empty = rememberSaveable{ mutableStateOf(0) }
+            val empty = rememberSaveable{ mutableIntStateOf(0) }
             val diff = rememberSaveable{ mutableStateOf("") }
-            val timer = rememberSaveable{ mutableStateOf(0L) }
+            val timer = rememberSaveable{ mutableLongStateOf(0L) }
             val newRecord = rememberSaveable{ mutableStateOf(false) }
             val screen = rememberSaveable{ mutableStateOf(Screen.SPLASH_SCREEN) }
             val context = applicationContext
             val score = ScoreViewModel(context as Application)
-            val numberScore = rememberSaveable{ mutableStateOf(2) }
+            val numberScore = rememberSaveable{ mutableIntStateOf(2) }
             val nav = Navigation(empty, diff, timer, newRecord, screen, score, numberScore, context)
             onBackPressedDispatcher.addCallback(this) {
                 if(screen.value == Screen.NEW_GAME_SCREEN || screen.value == Screen.LOAD_GAME_SCREEN || screen.value == Screen.LOADED_GAME_SCREEN){

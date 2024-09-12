@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -31,15 +33,15 @@ fun GameScreen(
     model: ScoreViewModel, numberScore: MutableState<Int>, context: Context
 ) {
     val t = coroutine.launchPeriodicAsync(1000, timer)
-    setScreenGame(navController, g, t, timer, model, numberScore, context)
+    SetScreenGame(navController, g, t, timer, model, numberScore, context)
 }
 
 @Composable
-fun setScreenGame(navController: Navigation, game: Game, t: Deferred<Unit>,
+fun SetScreenGame(navController: Navigation, game: Game, t: Deferred<Unit>,
                   timer: MutableState<Long>, model: ScoreViewModel, numberScore: MutableState<Int>,
                   context: Context
 ){
-    setScreen(game, timer, context)
+    SetScreen(game, timer, context)
     when (game.counter.value) {
         81 -> {
             model.deleteScoreById(1)
@@ -63,7 +65,7 @@ fun setScreenGame(navController: Navigation, game: Game, t: Deferred<Unit>,
 }
 
 @Composable
-fun setScreen(game: Game, timer: MutableState<Long>, context: Context){
+fun SetScreen(game: Game, timer: MutableState<Long>, context: Context){
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -118,12 +120,12 @@ fun CoroutineScope.launchPeriodicAsync(
 fun NewGameScreenPreview(){
     val context = LocalContext.current
     val set = Setting(context)
-    val k = rememberSaveable { mutableStateOf(0) }
-    val empty = rememberSaveable { mutableStateOf(0) }
-    val numberScore = rememberSaveable { mutableStateOf(1) }
-    val t = rememberSaveable { mutableStateOf(0L) }
+    val k = rememberSaveable { mutableIntStateOf(0) }
+    val empty = rememberSaveable { mutableIntStateOf(0) }
+    val numberScore = rememberSaveable { mutableIntStateOf(1) }
+    val t = rememberSaveable { mutableLongStateOf(0L) }
     val screen = rememberSaveable { mutableStateOf(Screen.SPLASH_SCREEN) }
-    val timer = rememberSaveable{ mutableStateOf(0L) }
+    val timer = rememberSaveable{ mutableLongStateOf(0L) }
     val newRecord = rememberSaveable{ mutableStateOf(false) }
     val diff = rememberSaveable { mutableStateOf(set.difficulty[1]) }
     set.setDifficult(diff.value, k)
