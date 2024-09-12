@@ -25,7 +25,6 @@
     <string name="delete">Delete</string>
     <string name="note">Note</string>
     <string name="clue">Clue</string>
-    <string name="cancel">Cancel</string>
     <string name="no_game">There\'s no game to load</string>
     <string name="game_saved">Game Saved</string>
     <string name="select">Select the cell first</string>

@@ -11,6 +11,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -219,11 +221,11 @@ fun PrincipalScreen(
 @Composable
 fun FirstScreenPreview(){
     val scope = rememberCoroutineScope()
-    val empty = rememberSaveable { mutableStateOf(0) }
-    val numberScore = rememberSaveable { mutableStateOf(0) }
+    val empty = rememberSaveable { mutableIntStateOf(0) }
+    val numberScore = rememberSaveable { mutableIntStateOf(0) }
     val screen = rememberSaveable { mutableStateOf(Screen.SPLASH_SCREEN) }
     val diff = rememberSaveable { mutableStateOf("") }
-    val timer = rememberSaveable{ mutableStateOf(0L) }
+    val timer = rememberSaveable{ mutableLongStateOf(0L) }
     val newRecord = rememberSaveable{ mutableStateOf(false) }
     val context = LocalContext.current
     val score = ScoreViewModel(LocalContext.current.applicationContext as Application)

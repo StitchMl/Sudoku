@@ -24,7 +24,4 @@ data class NumberBar(
         return result
     }
 
-    override fun toString(): String {
-        return super.toString()
-    }
 }

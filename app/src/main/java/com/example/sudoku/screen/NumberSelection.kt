@@ -1,7 +1,6 @@
 package com.example.sudoku.screen
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +15,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -135,7 +133,7 @@ fun oneIsSelect(str: String, it: Int, g: Game, context: Context){
         g.jSelect = null
         g.counter.value += 1
         g.numb.value[it-1]+=1
-        Log.d("Sudoku", "numb[$it] = ${g.numb.value[it - 1]}")
+        //Log.d("Sudoku", "numb[$it] = ${g.numb.value[it - 1]}")
     } else {
         g.mistakes.value++
         context.makeShortToast(str)

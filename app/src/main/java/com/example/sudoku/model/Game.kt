@@ -47,7 +47,4 @@ data class Game(
         return result
     }
 
-    override fun toString(): String {
-        return super.toString()
-    }
 }

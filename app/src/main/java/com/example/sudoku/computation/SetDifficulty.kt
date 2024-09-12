@@ -8,10 +8,10 @@ class Setting(context: Context) {
     val difficulty: Array<String> = getDifficult(context)
 
     private fun getDifficult(context: Context) : Array<String>{
-        val arr = Array(Difficulty.values().size){""}
+        val arr = Array(Difficulty.entries.size){""}
 
-        for (i in 0 until Difficulty.values().size){
-            arr[i] = context.getString(Difficulty.values()[i].s)
+        for (i in 0 until Difficulty.entries.size){
+            arr[i] = context.getString(Difficulty.entries[i].s)
         }
 
         return arr

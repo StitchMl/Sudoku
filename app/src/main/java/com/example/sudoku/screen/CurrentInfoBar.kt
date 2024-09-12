@@ -9,6 +9,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -48,8 +50,8 @@ fun CurrentInfoBar(g: Game, timer: MutableState<Long>) {
 fun CurrentInfoBarPreview(){
     val context = LocalContext.current
     val set = Setting(context)
-    val t = rememberSaveable { mutableStateOf(0L) }
-    val k = rememberSaveable { mutableStateOf(0) }
+    val t = rememberSaveable { mutableLongStateOf(0L) }
+    val k = rememberSaveable { mutableIntStateOf(0) }
     val diff = rememberSaveable { mutableStateOf(set.difficulty[1]) }
     set.setDifficult(diff.value, k)
     val s = Sudoku(9, k, diff)

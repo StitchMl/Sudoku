@@ -36,7 +36,7 @@ private fun ShowNUmberSelection(){
     val game = s.getGame()
     Column {
         Text(
-            "${diff.value} ${d.value}",
+            "${diff.value} ${d.intValue}",
             style = TextStyle(
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Medium,
@@ -110,7 +110,7 @@ fun CreateCell(row:Int, col:Int, game:Game, itemSize: Dp){
     Box(
         modifier = Modifier
             .border(1.dp, Color.LightGray)
-            .background(if (click.value == 1) Color.Gray else if (click.value == 2) Color.LightGray else Color.White)
+            .background(if (click.intValue == 1) Color.Gray else if (click.intValue == 2) Color.LightGray else Color.White)
             .size(itemSize)
             .run {
                 if (game.sudoku[row][col].value?.value == 0) clickable {
