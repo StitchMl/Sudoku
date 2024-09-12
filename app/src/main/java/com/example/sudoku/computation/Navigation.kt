@@ -100,12 +100,13 @@ class Navigation(
     fun saveGame(){
         val game = g!!
         val sudoku = toStr(s.saveGame(game.sudoku))
+        val numb = toStr(game.numb.value)
         val solution = toStr(game.solution)
         val mistakes = game.mistakes
         val temp = timer.value
         coroutine?.cancel()
         score.deleteScoreById(1)
-        val scoreToSave = Score(1, diff.value, mistakes.value, temp, sudoku, solution, game.counter.value)
+        val scoreToSave = Score(1, diff.value, mistakes.value, temp,  numb, sudoku, solution, game.counter.value)
         CoroutineScope(Dispatchers.IO).launchPeriodicAsync(1000, scoreToSave).start()
         g = null
     }
@@ -128,6 +129,14 @@ class Navigation(
             row.forEachIndexed{ j, value->
                 sb.append("[$i;$j;$value],")
             }
+        }
+        return "$sb"
+    }
+
+    private fun toStr(matrix: IntArray): String {
+        val sb = StringBuilder()
+        matrix.forEachIndexed { i, value ->
+                sb.append("[$i;$value],")
         }
         return "$sb"
     }

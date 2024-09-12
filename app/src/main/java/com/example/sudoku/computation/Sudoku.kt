@@ -5,7 +5,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import com.example.sudoku.model.*
+import com.example.sudoku.model.Action
+import com.example.sudoku.model.Cell
+import com.example.sudoku.model.Game
+import com.example.sudoku.model.NumberBar
+import com.example.sudoku.model.Score
 import java.security.SecureRandom
 import kotlin.math.floor
 import kotlin.math.sqrt
@@ -257,24 +261,62 @@ class Sudoku internal constructor(
     fun setGame(sudoku: Score): Game {
         bool = false
         val counter = rememberSaveable { mutableIntStateOf(sudoku.counter) }
+
+        // Array che rappresenta la soluzione di Sudoku.
         val sol = Array(9){IntArray(9)}
+
+        // Parsing delle stringhe per ottenere gli array di celle e soluzioni.
         val cellList = sudoku.sudoku.split(',')
         val cellSolList = sudoku.solution.split(',')
+        val cellNumbList = sudoku.numb.split(',')
+
+        // Creiamo un MutableState per la lista dei numeri del Sudoku.
+        val numbArray = IntArray(9)  // Creiamo un IntArray
+        for (i in 0 until 9) {
+            // Trasformiamo la lista in valori numerici.
+            val sNumbCell = cellNumbList[i].substring(1, cellNumbList[i].length - 1)
+            //Log.d("Sudoku", "numb = $sNumbCell")
+            val lN = sNumbCell.split(';')  // lN[0] = x, lN[1] = y, lN[2] = value
+            //Log.d("Sudoku", "numb = $lN")
+            numbArray[lN[0].toInt()] = lN[1].toInt()  // Assegniamo i valori
+        }
+
+        // Creiamo un MutableState per il numero.
+        val numbs = rememberSaveable { mutableStateOf(numbArray) }
+
+        // Creiamo una matrice di celle (mat) che contiene tutte le celle del Sudoku
         for (i in 0 until cellList.size-1){
+            // Otteniamo la cella e la sua soluzione dalla stringa.
             val sCell = cellList[i].substring(1, cellList[i].length - 1)
             val sSolCell = cellSolList[i].substring(1, cellSolList[i].length - 1)
+
+            // Splittiamo la stringa in base a `;` per ottenere le coordinate e i valori.
             val lC = sCell.split(';')
             val lSC = sSolCell.split(';')
+
+            // Creiamo dei MutableState per il valore della cella e il numero.
             val value = rememberSaveable { mutableIntStateOf(lC[2].toInt()) }
             val num = rememberSaveable { mutableIntStateOf(0) }
+
+            // Assegniamo i valori alla matrice di celle.
             mat[lC[0].toInt()][lC[1].toInt()] = Cell(lC[0].toInt(), lC[1].toInt(), lSC[2].toInt(), value, null, num)
+
+            // Assegniamo il valore della soluzione alla matrice `sol`.
             sol[lSC[0].toInt()][lSC[1].toInt()] = lSC[2].toInt()
         }
+
+        // Assegniamo la soluzione alla variabile globale `solution`.
         solution = sol
+
+        // Aggiorniamo la difficoltà del gioco.
         diff.value = sudoku.diff
+
+        // Gestiamo gli errori e lo stato delle note.
         val mistakes = rememberSaveable { mutableIntStateOf(sudoku.mistakes) }
         val note = rememberSaveable { mutableStateOf(false) }
-        return Game(diff.value,  mistakes, sudoku.time, getSudoku(), NumberBar(), counter, numb = getNumb(), solution = getSolution(), note = Action(0, 0, note))
+
+        // Restituiamo l'oggetto Game che rappresenta lo stato del gioco corrente.
+        return Game(diff.value,  mistakes, sudoku.time, getSudoku(), NumberBar(), counter, numb = numbs, solution = getSolution(), note = Action(0, 0, note))
     }
 
     /** Constructor **/
