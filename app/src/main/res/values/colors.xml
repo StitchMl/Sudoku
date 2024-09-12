@@ -1,25 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="Purple200">#FFBB86FC</color>
-    <color name="Purple500">#FF6200EE</color>
-    <color name="Purple700">#FF3700B3</color>
-    <color name="Teal200">#FF03DAC5</color>
+    <color name="textColor">#000000</color>
+    <color name="buttonColor">#FF1979a9</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="ic_launcher_background">#FFFFFF</color>
     <color name="primaryGreen">#FF00bc00</color>
-    <color name="primaryCharcoal">#FF2b2b2b</color>
-    <color name="accentAmber">#FFffe400</color>
-    <color name="textColorLight">#DCFFFFFF</color>
-    <color name="textColorDark">#FFf3f3f3</color>
-    <color name="gridLineColorLight">#000000</color>
-    <color name="lightGrey">#FFf3f3f3</color>
-    <color name="lightGreyAlpha">#DCf3f3f3</color>
-    <color name="userInputtedNumberLight">#FF629749</color>
-    <color name="userInputtedNumberDark">#FF629749</color>
     <color name="victoryColor">#FFffeb3b</color>
 </resources>

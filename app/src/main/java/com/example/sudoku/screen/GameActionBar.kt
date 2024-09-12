@@ -46,7 +46,7 @@ fun GameActionBar(game: Game, context: Context) {
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
 
             IconButton(onClick = { game.note.note.value = !game.note.note.value },
-            modifier = Modifier.background(if (game.note.note.value) Color.LightGray else Color.White)) {
+            modifier = Modifier.background(if (game.note.note.value) MaterialTheme.colors.primaryVariant else MaterialTheme.colors.background)) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         painter = painterResource(id = R.drawable.appunti),

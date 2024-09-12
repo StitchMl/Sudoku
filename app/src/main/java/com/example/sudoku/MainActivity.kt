@@ -6,11 +6,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.addCallback
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.example.sudoku.computation.Navigation
 import com.example.sudoku.computation.Screen
 import com.example.sudoku.computation.makeShortToast
@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                 screen.value = Screen.MAIN_SCREEN
             }
             SudokuEIlCaliceDiAndroidTheme {
-                Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
+                Surface(color = MaterialTheme.colors.surface, modifier = Modifier.fillMaxSize()) {
                     nav.GetScreen()
                 }
 

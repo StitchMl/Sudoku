@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -46,7 +47,7 @@ fun NumberSelection(g: Game, context: Context) {
                 Box(
                     modifier = Modifier
                         .size(itemSize)
-                        .background(if (clicked.value) Color.Gray else Color.White)
+                        .background(if (clicked.value) MaterialTheme.colors.primaryVariant else MaterialTheme.colors.background)
                         .run { clickable { clickAction(str, s, it, g, context) } },
                     contentAlignment = Alignment.Center
                 ) {
