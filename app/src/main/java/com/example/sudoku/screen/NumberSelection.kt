@@ -1,6 +1,7 @@
 package com.example.sudoku.screen
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -61,7 +62,10 @@ fun NumberSelection(g: Game, context: Context) {
                     modifier = Modifier
                         .size(itemSize)
                         .background(if (clicked.value) MaterialTheme.colors.primaryVariant else MaterialTheme.colors.background)
-                        .run { clickable { clickAction(str, s, it, g, context) } },
+                        .clickable {
+                            // Gestisce il click su un numero nella barra
+                            clickAction(str, s, it, g, context)
+                        } ,
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -87,11 +91,11 @@ fun NumberSelection(g: Game, context: Context) {
 
 
 fun clickAction(str: String, s: String, it: Int, g: Game, context: Context){
-    if (g.note.note.value)
-    {
+    // Se la modalità note è attiva
+    if (g.note.note.value) {
         noteAction(g, s, it, context)
-    }
-    else {
+    } else {
+        // Altrimenti si inserisce il numero
         insertNum(g, str, it, context)
         if (g.mistakes.value == 3) {
             g.counter.value = 0
@@ -99,15 +103,18 @@ fun clickAction(str: String, s: String, it: Int, g: Game, context: Context){
     }
 }
 
-fun insertNum(g: Game, str: String, it: Int, context: Context){
+fun insertNum(g: Game, str: String, it: Int, context: Context) {
     if (g.iSelect != null && g.jSelect != null) {
+        // Inserisce il numero nella cella selezionata
         oneIsSelect(str, it, g, context)
     } else {
+        // Se nessuna cella è selezionata, seleziona il numero dalla barra
         selectNumOnBar(it, g)
         for (i in 0 until g.sudoku.size) {
             for (j in 0 until g.sudoku[i].size) {
+                // Mostra solo le celle che hanno il valore selezionato
                 if (g.sudoku[i][j].value?.value == it) {
-                    g.sudoku[i][j].click?.value = 2
+                    g.sudoku[i][j].click?.value = 2 // Evidenzia le celle corrispondenti
                 } else {
                     g.sudoku[i][j].click?.value = 0
                 }
@@ -116,24 +123,31 @@ fun insertNum(g: Game, str: String, it: Int, context: Context){
     }
 }
 
-fun noteAction(g: Game, s: String, it: Int, context: Context){
+fun noteAction(g: Game, s: String, it: Int, context: Context) {
     if (g.iSelect != null && g.jSelect != null) {
-        g.sudoku[g.iSelect!!][g.jSelect!!].note?.value = it
+        val cell = g.sudoku[g.iSelect!!][g.jSelect!!]
+
+        // Aggiungi o rimuovi la nota e aggiorna immediatamente lo stato
+        if(cell.note?.intValue == it){
+            cell.note?.intValue = it+10
+        } else {
+            cell.note?.intValue = it
+        }
+        Log.d("noteAction", "cell.note = ${cell.note?.intValue}")
     } else {
         context.makeShortToast(s)
     }
 }
 
-fun oneIsSelect(str: String, it: Int, g: Game, context: Context){
-    if(g.sudoku[g.iSelect!!][g.jSelect!!].sol == it) {
+fun oneIsSelect(str: String, it: Int, g: Game, context: Context) {
+    if (g.sudoku[g.iSelect!!][g.jSelect!!].sol == it) {
         g.sudoku[g.iSelect!!][g.jSelect!!].value?.value = it
-        g.sudoku[g.iSelect!!][g.jSelect!!].click?.value = 0
+        g.sudoku[g.iSelect!!][g.jSelect!!].click?.value = 0 // Deseleziona la cella
         g.oneSelect = false
         g.iSelect = null
         g.jSelect = null
         g.counter.value += 1
-        g.numb.value[it-1]+=1
-        //Log.d("Sudoku", "numb[$it] = ${g.numb.value[it - 1]}")
+        g.numb.value[it - 1] += 1
     } else {
         g.mistakes.value++
         context.makeShortToast(str)
@@ -141,6 +155,7 @@ fun oneIsSelect(str: String, it: Int, g: Game, context: Context){
 }
 
 fun selectNumOnBar(it: Int, g: Game){
+    // Aggiorna lo stato del numero selezionato nella barra
     if (g.bar.select != 0) {
         g.bar.bar[g.bar.select-1]?.value = false
         g.bar.bar[it - 1]?.value = true
