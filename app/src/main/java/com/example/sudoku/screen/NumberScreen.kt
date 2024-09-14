@@ -136,15 +136,13 @@ fun CreateCell(row: Int, col: Int, game: Game, itemSize: Dp) {
     LaunchedEffect(cell.note?.intValue) {
         Log.d("CreateCell", "note = ${cell.note?.intValue}")
         val v = cell.note?.intValue
-        if (v != null) {
-            if(v>0) {
-                if (v>=10) {
-                    notesMatrix[v-10 - 1] = 0  // Imposta il valore corrispondente a 0
-                } else if (notesMatrix[v - 1] == v){
-                    notesMatrix[v - 1] = 0  // Imposta il valore corrispondente a 0
-                } else {
-                    notesMatrix[v - 1] = v // Imposta il valore corrispondente alla nota
-                }
+        if (v != null && v>0) {
+            if (v>=10) {
+                notesMatrix[v-10 - 1] = 0  // Imposta il valore corrispondente a 0
+            } else if (notesMatrix[v - 1] == v){
+                notesMatrix[v - 1] = 0  // Imposta il valore corrispondente a 0
+            } else {
+                notesMatrix[v - 1] = v // Imposta il valore corrispondente alla nota
             }
         }
     }
