@@ -103,7 +103,7 @@ fun getClue(g: Game, context: Context) {
 fun eraseField(g: Game){
     if(g.iSelect != null && g.jSelect != null)
     {
-        g.sudoku[g.iSelect!!][g.jSelect!!].note?.intValue = 0
+        g.sudoku[g.iSelect!!][g.jSelect!!].note?.intValue = -1
     }
 }
 

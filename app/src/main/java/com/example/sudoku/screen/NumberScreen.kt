@@ -144,6 +144,8 @@ fun CreateCell(row: Int, col: Int, game: Game, itemSize: Dp) {
             } else {
                 notesMatrix[v - 1] = v // Imposta il valore corrispondente alla nota
             }
+        } else {
+            notesMatrix.fill(0) //reset matrix
         }
     }
 
