@@ -10,6 +10,4 @@ data class Cell(
     var value: MutableState<Int>?,
     var click: MutableState<Int>?,
     var note: MutableIntState?
-    //val note: Set<Int> = emptySet()
-    //var notes: MutableState<Int>
 )

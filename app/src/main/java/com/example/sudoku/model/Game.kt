@@ -16,10 +16,6 @@ data class Game(
     var solution: Array<IntArray> = Array(9){IntArray(9)},
     var note : Action
 ) {
-  /*  internal fun updateTimerState(){
-        elapsedTime++
-        subTimerState?.invoke(elapsedTime)
-    }*/
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -108,21 +108,6 @@ fun RealTimeUpdateItemCard(score: Score) {
                 color = Color.Black,
                 textAlign = TextAlign.Center
             )
-            /*Box(
-                modifier = Modifier
-                    .height(56.dp)
-                    .padding(horizontal = 16.dp)
-                    .weight(1f)
-            ) {
-                CircularProgressIndicator(
-                    strokeWidth = 2.dp,
-                    modifier = Modifier
-                        .size(36.dp)
-                        .align(Alignment.CenterEnd),
-                    //progress = animatedProgress,
-                )
-
-            }*/
         }
     }
 }
