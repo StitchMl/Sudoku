@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -201,7 +202,7 @@ fun CreateCell(row: Int, col: Int, game: Game, itemSize: Dp) {
             .background(
                 // Gestione del colore di sfondo in base alla selezione
                 when (click.intValue) {
-                    1 -> Color.Gray // Riga selezionata
+                    1 -> MaterialTheme.colors.primary // Riga selezionata
                     2 -> Color.LightGray // Cella selezionata
                     else -> Color.White // Cella non selezionata
                 }
@@ -209,9 +210,9 @@ fun CreateCell(row: Int, col: Int, game: Game, itemSize: Dp) {
             .size(itemSize)
             .clickable {
                 // Se la cella è vuota, la selezione può essere modificata
-                if (cell.value?.value == 0) {
+                //if (cell.value?.value == 0) {
                     cellSelect(row, col, game) // Gestione della selezione della cella
-                }
+                //}
             },
         contentAlignment = Alignment.Center
     ) {

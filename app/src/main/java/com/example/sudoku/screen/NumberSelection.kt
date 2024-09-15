@@ -62,10 +62,13 @@ fun NumberSelection(g: Game, context: Context) {
                     modifier = Modifier
                         .size(itemSize)
                         .background(if (clicked.value) MaterialTheme.colors.primaryVariant else MaterialTheme.colors.background)
-                        .clickable {
-                            // Gestisce il click su un numero nella barra
-                            clickAction(str, s, it, g, context)
-                        } ,
+                        .clickable(
+                            enabled = g.numb.value[it - 1] != 9, // Disabilita il click se il valore è 9
+                            onClick = {
+                                // Gestisce il click su un numero nella barra
+                                clickAction(str, s, it, g, context)
+                            }
+                        ),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -108,7 +111,7 @@ fun clickAction(str: String, s: String, it: Int, g: Game, context: Context){
 }
 
 fun insertNum(g: Game, str: String, it: Int, context: Context) {
-    if (g.iSelect != null && g.jSelect != null) {
+    if (g.iSelect != null && g.jSelect != null && g.sudoku[g.iSelect!!][g.jSelect!!].value?.value==0) {
         // Inserisce il numero nella cella selezionata
         oneIsSelect(str, it, g, context)
     } else {

@@ -27,5 +27,6 @@
     <string name="no_game">There\'s no game to load</string>
     <string name="game_saved">Game Saved</string>
     <string name="select">Select the cell first</string>
+    <string name="clue_count">Clue is over</string>
     <string name="scores">SCORES</string>
 </resources>
