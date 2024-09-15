@@ -95,6 +95,13 @@ fun cellSelect(i: Int, j: Int, g: Game) {
         g.iSelect = null
         g.oneSelect = false
         g.sudoku[i][j].click?.value = 0
+
+        // Deseleziona tutte le celle
+        for (row in 0 until g.sudoku.size) {
+            for (col in 0 until g.sudoku[row].size) {
+                g.sudoku[row][col].click?.value = 0
+            }
+        }
     }
     // Caso in cui un'altra cella è già selezionata: cambia selezione
     else if (g.oneSelect) {
