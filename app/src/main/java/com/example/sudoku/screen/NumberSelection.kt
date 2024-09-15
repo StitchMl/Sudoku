@@ -78,14 +78,18 @@ fun NumberSelection(g: Game, context: Context) {
                     )
                 }
 
-                if(g.iSelect!= null) {
-                    g.note.r = g.iSelect!!
-                }
-                if(g.jSelect!= null) {
-                    g.note.c = g.jSelect!!
-                }
+                setNote(g)
             }
         }
+    }
+}
+
+fun setNote(g: Game) {
+    if(g.iSelect!= null) {
+        g.note.r = g.iSelect!!
+    }
+    if(g.jSelect!= null) {
+        g.note.c = g.jSelect!!
     }
 }
 
