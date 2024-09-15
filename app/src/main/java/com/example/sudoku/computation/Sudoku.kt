@@ -202,7 +202,7 @@ class Sudoku internal constructor(
         val counter = rememberSaveable { mutableIntStateOf((n * n) - k.value) }
         val mistakes = rememberSaveable { mutableIntStateOf(0) }
         val note = rememberSaveable { mutableStateOf(false) }
-        return Game(diff.value, sudoku = getSudoku(), bar = NumberBar(), counter = counter, numb = getNumb(), solution = getSolution(), mistakes = mistakes, note = Action(0, 0, note))
+        return Game(diff.value, sudoku = getSudoku(), bar = NumberBar(), counter = counter, numb = getNumb(), solution = solutionArray, mistakes = mistakes, note = Action(0, 0, note))
     }
 
     /** Get Sudoku **/
@@ -211,9 +211,9 @@ class Sudoku internal constructor(
     }
 
     /** Get Solution **/
-    private fun getSolution(): Array<IntArray> {
-        return solution
-    }
+    private val solutionArray: Array<IntArray>
+        get() = solution
+
 
     /** Activate change game **/
     fun changeGame(){
@@ -298,7 +298,7 @@ class Sudoku internal constructor(
         val note = rememberSaveable { mutableStateOf(false) }
 
         // Restituiamo l'oggetto Game che rappresenta lo stato del gioco corrente.
-        return Game(diff.value,  mistakes, sudoku.time, getSudoku(), NumberBar(), counter, numb = numbs, solution = getSolution(), note = Action(0, 0, note))
+        return Game(diff.value,  mistakes, sudoku.time, getSudoku(), NumberBar(), counter, numb = numbs, solution = solutionArray, note = Action(0, 0, note))
     }
 
     /** Constructor **/
