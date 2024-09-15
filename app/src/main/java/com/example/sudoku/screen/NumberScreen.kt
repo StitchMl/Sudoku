@@ -88,38 +88,73 @@ fun CreateBoard(
     }
 }
 
-fun cellSelect(i: Int, j: Int, g: Game){
+fun cellSelect(i: Int, j: Int, g: Game) {
     // Caso in cui la cella è già selezionata: deseleziona
-    if(g.sudoku[i][j].click?.value == 1){
+    if (g.sudoku[i][j].click?.value == 2) {
         g.jSelect = null
         g.iSelect = null
         g.oneSelect = false
         g.sudoku[i][j].click?.value = 0
     }
     // Caso in cui un'altra cella è già selezionata: cambia selezione
-    else if (g.oneSelect){
-        g.sudoku[g.iSelect!!][g.jSelect!!].click?.value = 0 // Deseleziona la cella precedente
-        g.iSelect = i // Aggiorna la selezione
+    else if (g.oneSelect) {
+        // Deseleziona la cella precedente
+        g.sudoku[g.iSelect!!][g.jSelect!!].click?.value = 0
+        // Aggiorna la selezione
+        g.iSelect = i
         g.jSelect = j
-        g.sudoku[i][j].click?.value = 1 // Seleziona la nuova cella
+
+        changeCell(i, j, g)
     }
     // Nessuna cella selezionata: seleziona la nuova
     else {
         g.oneSelect = true
         g.iSelect = i
         g.jSelect = j
-        // Deseleziona tutte le altre celle
-        for (row in 0 until g.sudoku.size){
-            for (col in 0 until g.sudoku[row].size){
-                    g.sudoku[row][col].click?.value = 0
-            }
+
+        changeCell(i, j, g)
+    }
+
+    // Resetta la selezione della barra numerica, se necessario
+    if (g.bar.select != 0) {
+        g.bar.bar[g.bar.select - 1]?.value = false
+        g.bar.select = 0
+    }
+}
+
+private fun changeCell(i: Int, j: Int, g: Game){
+    // Deseleziona tutte le celle
+    for (row in 0 until g.sudoku.size) {
+        for (col in 0 until g.sudoku[row].size) {
+            g.sudoku[row][col].click?.value = 0
         }
-        // Seleziona la nuova cella
-        g.sudoku[i][j].click?.value = 1
-        // Resetta la selezione della barra numerica, se necessario
-        if (g.bar.select != 0) {
-            g.bar.bar[g.bar.select-1]?.value = false
-            g.bar.select = 0
+    }
+
+    // Seleziona la nuova cella
+    g.sudoku[i][j].click?.value = 2
+
+    // Imposta click.value = 1 per tutte le celle nella stessa riga o colonna
+    for (k in 0 until g.sudoku.size) {
+        // Per la riga i (escludendo la cella [i, j])
+        if (k != j) {
+            g.sudoku[i][k].click?.value = 1
+        }
+        // Per la colonna j (escludendo la cella [i, j])
+        if (k != i) {
+            g.sudoku[k][j].click?.value = 1
+        }
+    }
+
+    // Individua il quadrato 3x3
+    val boxStartRow = (i / 3) * 3
+    val boxStartCol = (j / 3) * 3
+
+    // Imposta click.value = 1 per tutte le celle nel quadrato 3x3
+    for (row in boxStartRow until boxStartRow + 3) {
+        for (col in boxStartCol until boxStartCol + 3) {
+            if (row != i || col != j) { // Escludi la cella selezionata
+                g.sudoku[row][col].click?.value = 1
+            }
         }
     }
 }
@@ -159,8 +194,8 @@ fun CreateCell(row: Int, col: Int, game: Game, itemSize: Dp) {
             .background(
                 // Gestione del colore di sfondo in base alla selezione
                 when (click.intValue) {
-                    1 -> Color.Gray // Cella selezionata
-                    2 -> Color.LightGray
+                    1 -> Color.Gray // Riga selezionata
+                    2 -> Color.LightGray // Cella selezionata
                     else -> Color.White // Cella non selezionata
                 }
             )
