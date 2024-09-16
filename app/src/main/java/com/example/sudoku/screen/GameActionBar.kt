@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -96,11 +95,9 @@ fun GameActionBar(game: Game, context: Context) {
                             .size(12.dp)
                             .background(Color.Red, shape = CircleShape)
                             .align(Alignment.TopEnd), // Align the red dot to the top right of the Icon
-                            //.offset(x = 8.dp, y = (-8).dp), // Positioning the dot above and to the right of the icon
-                        contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            modifier = Modifier.offset(x = 0.dp, y = (-1).dp),
+                            modifier = Modifier.align(Alignment.TopCenter),
                             text = "${clue.intValue}",
                             color = Color.White,
                             fontSize = 10.sp,
