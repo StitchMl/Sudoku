@@ -100,7 +100,7 @@ fun GameActionBar(game: Game, context: Context) {
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            modifier = Modifier.offset(x = 0.dp, y = (-2).dp),
+                            modifier = Modifier.offset(x = 0.dp, y = (-1).dp),
                             text = "${clue.intValue}",
                             color = Color.White,
                             fontSize = 10.sp,
