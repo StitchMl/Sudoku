@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "scores")
 class Score (
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "scoreId")
-    var id: Int,
+    var id: Int = 0,
     @ColumnInfo(name = "difficulty")
     var diff: String,
     @ColumnInfo(name = "mistakes")

@@ -11,7 +11,9 @@
     <string name="won">Hai vinto!</string>
     <string name="game_complete">Gioco Completo!</string>
     <string name="total_time">"Tempo Totale: "</string>
+    <string name="time">"Tempo"</string>
     <string name="mistakes">"Errori: "</string>
+    <string name="mistake">"Errori"</string>
     <string name="rules01">La regola: mai lo stesso numero.</string>
     <string name="rules02">Esiste una sola regola per giocare a Sudoku: bisogna riempire la scacchiera in modo tale che ogni riga, ogni colonna e ogni riquadro contengano i numeri dall’1 al 9. La condizione è che nessuna riga, nessuna colonna o riquadro presentino due volte lo stesso numero.</string>
     <string name="rules03">Il consiglio: usare il ragionamento. Ogni numero inserito correttamente è un’informazione in più per trovare gli altri.</string>
@@ -30,4 +32,5 @@
     <string name="select">Prima seleziona la cella</string>
     <string name="clue_count">Indizi finiti</string>
     <string name="scores">PUNTEGGI</string>
+    <string name="score_value">Non ci sono ancora risultati</string>
 </resources>

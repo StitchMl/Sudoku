@@ -11,7 +11,9 @@
     <string name="won">You won!</string>
     <string name="game_complete">Game Complete!</string>
     <string name="total_time">"Total Time: "</string>
+    <string name="time">"Time"</string>
     <string name="mistakes">"Mistakes: "</string>
+    <string name="mistake">"Mistakes"</string>
     <string name="rules01">The rule: never the same number.</string>
     <string name="rules02">There is only one rule for playing Sudoku: you have to fill the board in such a way that each row, each column and each square contain the numbers from 1 to 9. The condition is that no row, no column or square has the same twice number.</string>
     <string name="rules03">The advice: use reasoning. Each number entered correctly is additional information to find the others.</string>
@@ -30,4 +32,5 @@
     <string name="select">Select the cell first</string>
     <string name="clue_count">Clue is over</string>
     <string name="scores">SCORES</string>
+    <string name="score_value">There\'s not any result yet</string>
 </resources>

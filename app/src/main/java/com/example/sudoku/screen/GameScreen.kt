@@ -37,28 +37,40 @@ fun GameScreen(
 }
 
 @Composable
-fun SetScreenGame(navController: Navigation, game: Game, t: Deferred<Unit>,
-                  timer: MutableState<Long>, model: ScoreViewModel, numberScore: MutableState<Int>,
-                  context: Context
-){
+fun SetScreenGame(
+    navController: Navigation, game: Game, t: Deferred<Unit>,
+    timer: MutableState<Long>, model: ScoreViewModel, numberScore: MutableState<Int>,
+    context: Context
+) {
     SetScreen(game, timer, context)
     when (game.counter.value) {
-        81 -> {
-            model.deleteScoreById(1)
-            t.cancel()
+        81 -> { // Il giocatore ha vinto
+            t.cancel() // Ferma il timer
             val str = stringResource(R.string.won)
-            game.elapsedTime = timer.value
+            game.elapsedTime = timer.value // Salva il tempo trascorso
             context.makeShortToast(str)
-            model.insertScore(Score(numberScore.value, game.difficult, game.mistakes.value, game.elapsedTime))
-            numberScore.value++
-            navController.setScreen(Screen.VICTORY)
+
+            // Salva il risultato finale con un ID autogenerato
+            model.insertScore(
+                Score(
+                    id = 0, // Lascialo generare automaticamente
+                    //numberScore.value,
+                    game.difficult,
+                    game.mistakes.value,
+                    game.elapsedTime
+                )
+            )
+
+            numberScore.value++ // Incrementa il numero dello score
+            navController.setScreen(Screen.VICTORY) // Vai alla schermata di vittoria
         }
-        0 -> {
-            model.deleteScoreById(1)
-            t.cancel()
+        0 -> { // Il giocatore ha perso
+            t.cancel() // Ferma il timer
             val str = stringResource(R.string.game_over)
             game.elapsedTime = timer.value
             context.makeShortToast(str)
+
+            // Non toccare il gioco interrotto (id = 1), salva solo il risultato finale
             navController.setScreen(Screen.FAIL)
         }
     }

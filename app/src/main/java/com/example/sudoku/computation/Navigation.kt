@@ -97,7 +97,7 @@ class Navigation(
         ScoreScreen(score)
     }
     /** Save Game **/
-    fun saveGame(){
+    fun saveGame() {
         val game = g!!
         val sudoku = toStr(s.saveGame(game.sudoku))
         val numb = toStr(game.numb.value)
@@ -105,11 +105,25 @@ class Navigation(
         val mistakes = game.mistakes
         val temp = timer.value
         coroutine?.cancel()
+
+        // Cancella il vecchio salvataggio con id = 1 e salva il gioco corrente
         score.deleteScoreById(1)
-        val scoreToSave = Score(1, diff.value, mistakes.value, temp,  numb, sudoku, solution, game.counter.value)
+        val scoreToSave = Score(
+            id = 1, // Salva con id fisso per il gioco interrotto
+            diff.value,
+            mistakes.value,
+            temp,
+            numb,
+            sudoku,
+            solution,
+            game.counter.value
+        )
+
         CoroutineScope(Dispatchers.IO).launchPeriodicAsync(1000, scoreToSave).start()
-        g = null
+
+        g = null // Libera il gioco attuale
     }
+
     private fun CoroutineScope.launchPeriodicAsync(
         repeatMillis: Long,
         game: Score
