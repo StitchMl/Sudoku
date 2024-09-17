@@ -1,6 +1,7 @@
 package com.example.sudoku.screen
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -115,6 +116,9 @@ fun GameActionBar(game: Game, context: Context) {
 fun getClue(g: Game, clue: MutableIntState, context: Context) {
     if(g.iSelect != null && g.jSelect != null && clue.intValue!=0){
         g.sudoku[g.iSelect!!][g.jSelect!!].value?.value = g.sudoku[g.iSelect!!][g.jSelect!!].sol
+        Log.d("getClue","Before: ${g.sudoku[g.iSelect!!][g.jSelect!!].sol} = ${g.numb.value[g.sudoku[g.iSelect!!][g.jSelect!!].sol]}")
+        g.numb.value[g.sudoku[g.iSelect!!][g.jSelect!!].sol-1] += 1
+        Log.d("getClue","After: ${g.sudoku[g.iSelect!!][g.jSelect!!].sol} = ${g.numb.value[g.sudoku[g.iSelect!!][g.jSelect!!].sol]}")
         g.sudoku[g.iSelect!!][g.jSelect!!].click?.value = 0
         g.oneSelect = false
         g.iSelect = null
