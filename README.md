@@ -1,6 +1,6 @@
 # Sudoku - Mobile Programming Project
 
-![Sudoku Game](https://github.com/StitchMl/Sudoku/blob/master/app/src/main/res/mipmap-hdpi/ic_launcher.png)
+![Sudoku Game](https://github.com/StitchMl/Sudoku/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
 
 ## Descrizione
 **Sudoku** is an application for playing Sudoku, a famous logic game with numbers. It offers an interactive platform for solving Sudoku grids, with features such as customisable difficulty levels and a pleasant user interface.
