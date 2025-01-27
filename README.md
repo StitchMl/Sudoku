@@ -34,4 +34,4 @@ This project was developed as part of the **Mobile Programming** course at the U
 
 ---
 
-**Buon divertimento con il Sudoku!**
+**Have fun with Sudoku!**
